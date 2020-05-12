@@ -1,0 +1,332 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="skin_css/input.css" rel="stylesheet" type="text/css" />
+
+<script>
+function popup(check, page, name, w, h, scroll) {
+	var win= null;
+	var winl = (screen.width-w)/2;
+	var wint = (screen.height-h)/3;
+	var settings = '';
+	if ( check == 'modal') {
+		settings ='dialogHeight: '+h+'px;';
+		settings +='dialogWidth: '+w+'px;';
+		settings +='dialogTop: '+wint+'px;';
+		settings +='dialogLeft: '+winl+'px;';
+		settings +='scrollbars: '+scroll+';';
+		settings +='resizable: no;';
+		settings +='status: no; help: no';
+		showModalDialog(page,name,settings);
+	}
+	else {
+		settings ='height='+h+',';
+		settings +='width='+w+',';
+		settings +='top='+wint+',';
+		settings +='left='+winl+',';
+		settings +='scrollbars='+scroll+',';
+		settings +='resizable=no,';
+		settings +='status=no';
+		win=window.open(page,name,settings);
+		if(parseInt(navigator.appVersion) >= 4) win.window.focus();
+	}
+}
+</script>
+
+<script language="javascript">
+//이미지 로딩에러시 이미지object 자체 안보이게 하기
+function imgError(obj) {
+	obj.style.display='none';
+}
+
+//이미지 폭이 특정 값 이상일때 폭 조정
+function imgFix(obj) {
+	var maxW = 600;  //조절한 특정 이미지 폭 값
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		obj.style.width = maxW;
+		obj.style.height = img.height * (maxW/img.width);
+		obj.style.cursor = 'url(images/magnify.cur),pointer';
+	}
+}
+function imgChkClick(obj) {
+	var maxW = 600;
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		picview(img.src,img.width,img.height);
+	}
+}
+
+//이미지 새 창에서 보기
+function picview(src,w,h) {
+
+	var iw = screen.width - 16;
+	var ih = screen.height - 68;
+	var s = 0;
+	var scroll = '';
+	if(w > iw) {
+		w = iw;
+		s += 1;
+	}
+	if(h > ih) {
+		h = ih;
+		s += 1;
+		if(w < iw) w += 20;
+	}
+	if(s > 0 ) {
+		scroll = ",scrollbars=1";
+	}
+	var opt_mo = "top=5,left=5,width="+w+",status=no,height="+h+",resizable=1"+scroll;
+	NFW = window.open("","newWin",opt_mo);
+	NFW.focus();
+	var string = "<html>" +
+	"<head><title>Photo</title></head>" +
+	"<body topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>" +
+	"<a href='javascript:window.close()'><img src='" + src + "' border=0></a>" +
+	"</body></html>";
+	NFW.document.open();
+	NFW.document.write(string);
+	NFW.document.close();
+}
+</script>
+<style type="text/css">
+<!--
+.style1 {
+	color: #444444;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+<?
+function format_rte($str) {
+	$search = array('@<script[^>]*?>.*?</script>@si',  //<script>태그없애기
+	'@onload=(.*?)@si',  //<img 태그내에 삽입된 불필요한 속성 없애기
+	'@onmouseover=(.*?)@si',
+	'@onclick=(.*?)@si',
+	'@onmousedown=(.*?)@si',
+	'@onmouseout=(.*?)@si'
+	);
+	$str = preg_replace($search,'', $str);
+	$str = eregi_replace("<IMG","<img border=\"0\" onLoad=\"imgFix(this)\" onClick=\"imgChkClick(this)\" onError=\"imgError(this)\"", $str);
+
+	return $str;
+
+}
+?>
+
+<body >
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+        <Td height="30"></Td>
+    </tr>
+    <tr>
+        <td bgcolor="fafafa">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr background="">
+                    <td width="80" background="skin_images/ti_bg02.gif" align="center"><img src="skin_images/t_subject.gif" /></td>
+                    <td width="841" height="30" align="left" background="skin_images/ti_bg02.gif" class="type"><font color="#FFFFFF"><?=$BDATA[title]?></font></td>
+                </tr>
+                <tr>
+                    <td width="80" bgcolor="ffffff"></td>
+                    <td height="32" align="right" bgcolor="ffffff"><?=$BDATA[name]?> / <?=$BDATA[wdate]?> / <?=$BDATA[view]?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr bgcolor="E2DED2">
+        <td height="1" bgcolor="fafafa"></td>
+    </tr>
+    <!--일반게시판-->
+    <? if($KIND_MODE != "counsel" || ($KIND_MODE == "counsel" && $BDATA[wmode] == "1")) { ?> <!-- MEDIPIX KIND->KIND_MODE 로 바뀜에 따라 수정 (08.05.02) / 공지기능 사용시 일반형식이 나오도록 수정 (08.05.19) -->
+    <tr align="center">
+        <td align="center" class="type" style="padding:15; word-break:break-all;">
+            <?
+            $maxwidth = 600;	// 이미지의 최대 넓이
+            if($IMG_STATE) if(is_array($FLIST)) {
+            		reset($FLIST);
+            	while(list($KEY, $FDATA)=each($FLIST)) {
+            		if($FDATA[width] > $maxwidth) $width = $maxwidth;
+            		else $width = $FDATA[width];
+            ?>
+            <?
+            		$filepathinfo = pathinfo($FDATA[name]);
+            		if(!strcasecmp($filepathinfo[extension], "avi") || !strcasecmp($filepathinfo[extension], "asf") || !strcasecmp($filepathinfo[extension], "mpg") || !strcasecmp($filepathinfo[extension], "mpeg") || !strcasecmp($filepathinfo[extension], "wmv")) {
+            ?>
+            <div align="center"><embed src="/<?=$INDIR?>/mpboard/upload/<?=$FDATA[rname]?>"  border=0 width="560" height="400"></embed></div><br>
+            <br>
+            <?
+            		}
+            		else
+            		{
+            ?>
+            <a style="cursor:hand" onClick="popupImageView('<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>','<?=$BDATA[title]?>')"><img src="<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>" width="<?=$width?>"></a><br><br>
+            <?
+            		}
+            ?>
+            <?
+            	}
+            }
+            ?>
+            <? if ($code =="intro06"){?>
+            <? if ($BDATA[etc1]) {?><img src="/bbs/<?=$BDATA[etc1]?>" border="0" /><?}?>
+            <? if ($BDATA[etc2]) {?><img src="/bbs/<?=$BDATA[etc2]?>" border="0" /><?}?>
+            <?}?>
+            <? if ($code =="community03"){?>
+            <? if ($BDATA[etc1]) {?><img src="/<?=$BDATA[etc1]?>" border="0" /><br><br><?}?>
+            <? if ($BDATA[etc2]) {?><img src="/bbs/<?=$BDATA[etc2]?>" border="0" /><?}?>
+            <?}?>
+            <?
+            $contents = format_rte($BDATA[contents]);
+            echo $contents;
+            ?>		
+        </td>
+    </tr>
+    <tr bgcolor="E2DED2">
+        <td height="1" bgcolor="fafafa"></td>
+    </tr>
+    <? } else { ?>
+    <!--상담게시판-->
+    <tr>
+        <td style="padding:15; word-break:break-all;" class="type">
+            <strong>[상담내용]</strong><br />
+            <br />
+            <?
+            $maxwidth = 600;	// 이미지의 최대 넓이
+            if($IMG_STATE) if(is_array($FLIST)) {
+            		reset($FLIST);
+            	while(list($KEY, $FDATA)=each($FLIST)) {
+            		if($FDATA[width] > $maxwidth) $width = $maxwidth;
+            		else $width = $FDATA[width];
+            ?>
+            <?
+            		$filepathinfo = pathinfo($FDATA[name]);
+            		if(!strcasecmp($filepathinfo[extension], "avi") || !strcasecmp($filepathinfo[extension], "asf") || !strcasecmp($filepathinfo[extension], "mpg") || !strcasecmp($filepathinfo[extension], "mpeg") || !strcasecmp($filepathinfo[extension], "wmv")) {
+            ?>
+            <embed src="/<?=$INDIR?>/board/upload/<?=$FDATA[rname]?>" width="300" height="280" border=0></embed><br>
+            <br>
+            <?
+            		}
+            		else
+            		{
+            ?>
+            <a style="cursor:hand" onClick="popupImageView('<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>','<?=$BDATA[title]?>')"><img src="<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>" width="<?=$width?>"></a><br><br>
+            <?
+            		}
+            ?>
+            <?
+            	}
+            }
+            ?>
+            <?//=$BDATA[contents]?>
+            <?
+            $contents = format_rte($BDATA[contents]);
+            echo $contents;
+            ?>		
+        </td>
+    </tr>
+    <tr bgcolor="E2DED2">
+        <td height="1" bgcolor="fafafa"></td>
+    </tr>
+    <? if($BDATA[recontents] != "") { ?>
+    <tr>
+        <td class="green_text" style="padding:15;  word-break:break-all;">
+            <span class="style1">[답변내용]</span><br />
+            <br />
+            <?
+            $recontents = format_rte($BDATA[recontents]);
+            echo $recontents;
+            ?>		
+        </td>
+    </tr>
+    <tr bgcolor="b1b1b1">
+        <td height="1"></td>
+    </tr>
+    <?
+            }
+            }
+    ?>
+    <?
+            if(is_array($FLIST)) {
+            if ($DOWNLOAD_STATE =="1") {
+    //	MEDIPIX 파일다운로드 사용여부 추가 (08.04.21)
+    ?>
+    <tr>
+        <Td height="10" colspan="2"></Td>
+    </tr>
+    <tr bgcolor="CEC9B8">
+        <td height="1" colspan="2"></td>
+    </tr>
+    <tr>
+        <td style="padding:5" class="type" colspan="2">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <?
+                reset($FLIST);
+                while(list($KEY, $FDATA)=each($FLIST)) {
+                ?>
+                <tr class="type2">
+                    <td>
+                        &nbsp;&nbsp;<a href="<?=$FDATA[downlink]?>&group=<?=$group?>&code=<?=$code?>" class="a1"><?=$FDATA[name]?></a>
+                    </td>
+                    <td>
+                        &nbsp;[<?=$FDATA[sizestr]?>]
+                    </td>
+                    <td>
+                        &nbsp;(download : <?=$FDATA[count]?>)
+                    </td>
+                </tr>
+                <?
+                }
+                ?>
+            </table>
+        </td>
+    </tr>
+    <tr bgcolor="CEC9B8">
+        <td height="1" colspan="2" bgcolor="#fafafa"></td>
+    </tr>
+    <?
+                }
+                }
+    ?>
+    <tr>
+        <Td height="15"></Td>
+    </tr>
+    <tr>
+        <Td height="35" bgcolor="efefef" align="right" style="padding-right:5">
+            <? if($AUTH[rewrite]) { ?>
+            <!-- MEDIPIX 상담게시판방식의 경우 답변이 수정으로 갈수 있도록 (08.05.02) -->
+            <?
+                if($KIND_MODE == "counsel") {
+                if($BDATA[wmode] != "1") {
+            ?>
+            <img src="skin_images/btn_reply.gif" border="0" style="cursor:hand" Onclick="javascript:board_pass_view('boardmodifypasswd')">
+            <?
+            }
+            }
+            else {
+            ?>
+            <a href="<?=$LINK[reply]?>"><img src="skin_images/btn_reply.gif" border="0" /></a>
+            <? } ?>
+            <!-- MEDIPIX 상담게시판방식의 경우 답변이 수정으로 갈수 있도록 (08.05.02) -->
+            <? } ?>
+            <!-- MEDIPIX KIND->KIND_MODE 로 바뀜에 따라 수정 (08.05.02) -->
+            <?if($AUTH[modify]){?><? if(!(($KIND_MODE == "counsel" && $BDATA[wmode] != "1") && $AUTH[manage])) { ?><img src="skin_images/btn_modify.gif" border="0" style="cursor:hand" Onclick="javascript:board_pass_view('boardmodifypasswd')" /><? } ?><?}?>
+            <!-- MEDIPIX KIND->KIND_MODE 로 바뀜에 따라 수정 (08.05.02) -->
+            <?if($AUTH[delete]){?><img src="skin_images/btn_del.gif" border="0" style="cursor:hand" Onclick="javascript:board_pass_view('boarddelpasswd')" /><?}?>
+            <a href="<?=$LINK[slist]?>"><img src="skin_images/btn_list.gif" border="0" /></a>		
+        </Td>
+    </tr>
+</table>
+
+</body>
+</html>
+
+<!-- 게시물 코멘트 출력 -->
+<?if($COMM_STATE) $bcommentobj->bprint();?>
+
+<!-- 게시물 점수주기 출력 -->
+<?if($POINT_STATE) $bpointobj->bprint();?>

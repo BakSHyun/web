@@ -1,0 +1,10 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+	<li>
+		<div class="fleft"><img src="../img/comm/thum_surgery.gif" alt="" /></div>
+		<div class="fright">
+			<h3><?=$LDATA[wdate]?></h3>
+			<h1><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[title]?></a></h1>
+			<h2><?=$LDATA[contents]?> </h2>
+		</div>
+	</li>
+<? }?>

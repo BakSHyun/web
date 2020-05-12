@@ -1,0 +1,4 @@
+<?
+   echo $sel;
+   echo $checkvalue;
+?>

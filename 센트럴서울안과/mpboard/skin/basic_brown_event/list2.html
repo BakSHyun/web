@@ -1,0 +1,213 @@
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="skin_css/input.css" rel="stylesheet" type="text/css">
+<script>
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		} else {
+			objCheck.checked='on';
+		}
+	} else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		} else {
+			objCheck.checked='';
+		}
+	}
+}
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	} else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	} else {
+		return;
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<table width="100%" border="0" bgcolor="e1decc" class="type2">
+  <tr>
+    <td>
+    	<?if($RSS_STATE) {?><a href="<?=$rsslink?>" target="_blank"><img src="skin_images/rss.gif" border="0" align="absmiddle"></a><?}?>
+    </td>
+    <td align="right" class="basic_color">
+	<?if($CATE_STATE) {?>
+	  분류 : 
+      <select name="category" class="type2" onChange="javascript:location.href=this.options[this.selectedIndex].value">
+        <option value="<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>">전체</option>
+        <option value="<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=0&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>" <?if($category=="0") echo "selected";?>>일반</option>
+        <?if(is_array($CALIST)) while(list($KEY, $CADATA)=each($CALIST)) {?>
+        <option value="<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$CADATA[no]?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>" <?if($category==$CADATA[no]) echo "selected";?>><?=$CADATA[cname]?></option>
+        <?}?>
+      </select>
+	<?}?>
+    </td>
+  </tr>
+</table>
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="e1decc">
+      <tr>
+        <td class="type2" align="center">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        
+        <form action="<?=$PHP_SELF?>" method="post" name="checkform">
+			<input type="hidden" name="group" value="<?=$group?>">
+			<input type="hidden" name="code" value="<?=$code?>">
+			<input type="hidden" name="category" value="<?=$category?>">
+			<input type="hidden" name="sno" value="<?=$sno?>">
+			<input type="hidden" name="abmode" value="deleteseldb">
+		    <input type="hidden" name="field" value="<?=$field?>">
+		    <input type="hidden" name="search" value="<?=$search?>">
+			<input type="hidden" name="checkvalue" value="">
+	 
+            <tr background="skin_images/title_bg.gif">
+              <?if($AUTH[userlevel] <= 2) {?>
+              <td width="30" align="center" background="skin_images/title_bg.gif"><input type="checkbox" name=allch onClick="allCheck(checkform);"></td>
+              <?}?>
+              <td width="60" height="32" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_no.gif"></td>
+              <?if($LIST_FILE_STATE) {?>
+              <td width="56" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_file.gif"></td>
+              <?}?>
+              <td width="80" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_senddate.gif"></td>
+              <td width="100" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_rsvdate.gif"></td>
+              <td align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_contents.gif"></td>
+              <!-- 지점 -->
+              <? if($KIND == "counsel") { ?>
+              <td width="40" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_ji.gif"></td>
+              <? } ?>
+              <!-- 지점 -->
+              <td width="100" align="center" background="skin_images/title_bg.gif"><img src="skin_images/t_rsvstatus.gif"></td>
+              <?if($AUTH[userlevel] > 2) {?>
+              <td width="40" align="center" background="skin_images/title_bg.gif">&nbsp;</td>
+              <?}?>
+            </tr>
+            <?
+            if(is_array($LIST)) foreach ($LIST as $LDATA) {
+            ?>
+            <tr class="type" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#F5F7F7'">
+              <?if($AUTH[userlevel] <= 2) {?>
+              <td align="center"><input type="checkbox" name="check" value="<?=$LDATA[no]?>"></td>
+              <?}?>
+              <td height="32" align="center"><?=$LDATA[listno]?></td>
+              <?if($LIST_FILE_STATE) {?>
+              <td align="center">n</td>
+              <?}?>
+              <td align="center"><?=$LDATA[wdate]?></td>
+              <td align="center"><a href="<?=$LDATA[modifyLink]?>"><?=$LDATA[wyear]?>-<?=$LDATA[wmonth]?>-<?=$LDATA[wday]?> <?=$LDATA[whour]?></a></td>
+              <td style="padding-left:10"><?=$LDATA[list_contents]?></td>
+              <!-- 지점 -->
+              <? if($KIND == "counsel") { ?>
+              <td align="center"><?=$LDATA[branch]?></td>
+              <? } ?>
+              <!-- 지점 -->
+              <td align="center"><?=$LDATA[result]?></td>
+              <?if($AUTH[userlevel] > 2) {?>
+              <td align="center"><a href="reserve_can.php?no=<?=$LDATA[no]?>&name=<?=$LDATA[name_r]?>&hphone1=<?=$LDATA[hphone1_r]?>&hphone2=<?=$LDATA[hphone2_r]?>&hphone3=<?=$LDATA[hphone3_r]?>"><font color="red">취소</font></a></td>
+              <?}?>
+              <?if($POINT_LISTVIEW) {?>
+              <td align="center">10</td>
+              <?}?>
+            </tr>
+            <?}?>
+		
+		</form>
+		
+        </table>
+        <br>
+        <?=$PAGEING[start]?> <?=$PAGEING[pregroup]?> <?=$PAGEING[pre]?>  <?=$PAGEING[page]?>  <?=$PAGEING[next]?>  <?=$PAGEING[nextgroup]?> <?=$PAGEING[end]?> &nbsp; 페이지 : <?=$PAGEING[now]?> 
+        </td>
+      </tr>
+     
+    </table>
+    
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr id="search_tr" style="display:<?=$search_tb_view?>" bgcolor="d0ceb9">
+		<td align="left" height="35" width="200">
+		<!--
+			<table width="60%"  border="0" cellspacing="0" cellpadding="0">
+				<form name="sform" action="<?=$PHP_SELF?>" method="post" style="border:0; margin:0;">
+				<input type="hidden" name="group2" value="<?=$group?>">
+				<input type="hidden" name="code2" value="<?=$code?>">
+				<input type="hidden" name="category2" value="<?=$category?>">
+				<input type="hidden" name="abmode2" value="list">
+				<input type="hidden" name="bsort" value="<?=$bsort?>">
+				<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+				<tr>
+					<td width="82" style="padding:0 5 0 5"><select NAME="field" class="input">
+					<option value="all" <?if($field=="all") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;전 체&nbsp;&nbsp; </option>
+					<option value="title" <?if($field=="title") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;제 목&nbsp;&nbsp; </option>
+					<option value="name" <?if($field=="name") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;글쓴이&nbsp;&nbsp; </option>
+					<option value="contents" <?if($field=="contents") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;글내용&nbsp;&nbsp; </option>
+				  </select></td>
+				  <td width="130"><input type="text"  name="search" class="input" value="<?=$search?>"></td>
+				  <td width="332" align="left" style="padding-left:5"><input name="image" type="image" src="skin_images/search_btn.gif"></td>
+				</tr>
+				</form>
+			</table>
+			-->
+		</td>
+		<td align="right" height="35" >
+			<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td align="right" style="padding-right:5">
+					<?if($AUTH[userlevel] <= 2) {?>
+            <?if($AUTH[delete]){?><img src="skin_images/btn_del.gif" border="0" style="cursor:hand" Onclick="javascript:checkDel(document.checkform)"><?}?>
+        	<?}?>
+        	<!--
+        	<a href="<?=$LINK[slist]?>"><img src="skin_images/btn_list.gif" border="0"></a>
+        	<?if($AUTH[write]){?><a href="<?=$LINK[write]?>"><img src="skin_images/btn_write.gif" border="0"></a><?}?>
+        	-->
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+    
+    </body>
+</html>

@@ -1,0 +1,65 @@
+#reserve_wrap {overflow:hidden;}
+.reserve_cal {float:right;width:39%;height:500px;}
+.reserve_info {float:left;width:59%;}
+
+.reserve_cal_box {padding:20px;border:1px solid #e4e4e4;border-top:2px solid #1D5578; background-color:#fafafa;}
+.reserve_cal_box .title {height:35px;border:1px solid #dadada;background:#fff;padding-left:10px;font:bold 12px/35px "dotum";color:#555;}
+.reserve_cal_box .title input {margin-left:7px;width:120px;height:22px;border:1px solid #eaeaea;}
+.reserve_cal_box .title select {margin-left:7px;height:24px;font: 13px 'NanumBarunGothic';border:1px solid #e1e1e1;}
+.reserve_cal_box .title #restime_add {margin-left:10px;}
+.reserve_cal_notice {color:#eb5556;}
+
+/*글쓰기*/
+.agreement_wrap {margin-bottom:10px;}
+.agreement_wrap h2 {font:bold 18px 'NanumGothic';color:#0b204e;margin-bottom:10px;}
+.agreement_wrap .agree {margin:7px 0;padding-right:3%;width:97%;text-align:right;font:normal 13px 'NanumGothic';color:#555;}
+#agree_form {padding:20px;border:1px solid #e4e4e4;border-top:2px solid #1D5578; background-color:#fafafa;}
+#agree_form textarea {padding:3%;font:normal 12px 'NanumGothic';width:94%;height:205px;border:1px solid #d9d9d9;color:#7d7d7d;}
+
+.bbs_write {width:100%;}
+.bbs_write thead {}
+.bbs_write thead th {height:45px;font:bold 15px "dotum";background:#4E4574;color:#fff;}
+.bbs_write thead td {padding-left:10px;background:#4E4574;color:#fff;}
+.bbs_write thead td input {color:#555;width:95%;padding-left:5px;line-height:30px;height:30px;border:0;}
+.bbs_write tbody th {height:35px;border-bottom:1px solid #d5d7d9;font:normal 13px "dotum";color:#212121;}
+.bbs_write tbody td {padding:5px 10px;height:45px;border-bottom:1px solid #d5d7d9;font:normal 13px "dotum";position:relative;}
+.bbs_write tbody td.agree {position:relative;}
+.bbs_write tbody td textarea.contents {width:510px; height:200px;}
+.bbs_write tbody td input.text {width:120px;padding-left:5px;line-height:30px;height:30px;border:1px solid #ced1d3;font:normal 13px "dotum";}
+.bbs_write tbody td input.text2 {width:90px;padding-left:5px;line-height:30px;height:30px;border:1px solid #ced1d3;font:normal 13px "dotum";}
+.bbs_write tbody td input.text3 {width:95%;padding-left:5px;line-height:30px;height:30px;border:1px solid #ced1d3;font:normal 13px "dotum";}
+.bbs_write tbody td select {height:30px;font:normal 13px "dotum";}
+.bbs_write tbody td textarea {width:95%;height:40px;font:normal 13px "dotum";border:1px solid #d9d9d9;color:#555;padding:3%;}
+
+#bbs_list_wrap {width:100%;margin:20px 0;}
+.bbs_list_table {width:100%;margin-bottom:30px;}
+.bbs_list_table a {font:normal 13px "dotum";text-decoration:none;color:#000;}
+.bbs_list_table a:hover {color:#0078c6;}
+.bbs_list_table thead {}
+.bbs_list_table thead th {font:bold 13px "dotum";height:45px;background:#1D5578;color:#fff;}
+.bbs_list_table tbody {}
+.bbs_list_table tbody th {padding:10px 5px;font:normal 13px "dotum";height:40px;border-bottom:1px solid #dfdfdf;}
+.bbs_list_table tbody th.titles {text-align:left;}
+.bbs_list_table tbody td {padding:5px;height:40px;border-bottom:1px solid #dfdfdf;font:bold 12px "dotum";text-align:center;color:#555;}
+.bbs_list_table tbody td span.status {background:#adb2af;color:#fff;padding:5px 10px;font-weight:bold;}
+.bbs_list_table tbody td span.wait {background:#adb2af;}
+.bbs_list_table tbody td span.finish {background:#1ba64c;}
+.bbs_list_table tbody td span.cancels {background:#ad1818;}
+.bbs_list_table tbody td span.categorys {background:#3861b4;color:#fff;padding:5px 10px;font-weight:bold;}
+
+/*예약완료*/
+.resresult_wrap {padding:15px 55px 30px 55px;border:5px solid #d4e1ef;}
+.resre_title {padding:20px;text-align:center;font-size:24px;color:#334782;letter-spacing:-1px;font-weight:bold;}
+
+.resre_info {border:1px solid #ddd;overflow:hidden;margin-bottom:12px;}
+.resre_info li {float:left;width:50%;background:#fcfcfc;position:relative;height:50px;padding-left:50px;text-align:center;line-height:50px;font-size:16px;color:#626262;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+.resre_info li strong {left:0;top:0;position:absolute;background:#3b75e1;color:#fff;width:120px;height:50px;} 
+
+.resre_me {overflow:hidden;margin-top:12px;}
+.resre_me li {float:left;}
+.resre_me li:last-child {float:right;}
+
+/*버튼*/
+.bbs_btns {width:100%;margin:10px 0;text-align:right;}
+.bbs_btns li {margin:0 2px;}
+

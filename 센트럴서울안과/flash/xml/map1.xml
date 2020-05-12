@@ -1,0 +1,59 @@
+﻿<map>
+  <metro>
+   <dep1 TEXT_URL="서울역" COL="0x4C71B7">
+     <dep2 TEXT_URL="4호선" COL="0x4C71B7" IMG_URL="../flash/img/map/metro/metro_1.jpg" WX="689" WY="307" WCOL="0x2771DA"/>
+   </dep1>
+   
+   <dep1 TEXT_URL="(신)용산역" COL="0x4C71B7"> 
+     <dep2 TEXT_URL="4호선" COL="0x4C71B7" IMG_URL="../flash/img/map/metro/metro_2.jpg" WX="603" WY="305" WCOL="0x33A5EB"/>
+	 <dep2 TEXT_URL="중앙선" COL="0x3E9FB0" IMG_URL="../flash/img/map/metro/metro_2_2.jpg" WX="603" WY="305" WCOL="0x239394"/>
+   </dep1>
+   
+   <dep1 TEXT_URL="옥수역" COL="0x3E9FB0"> 
+     <dep2 TEXT_URL="중앙선" COL="0x3E9FB0" IMG_URL="../flash/img/map/metro/metro_3.jpg" WX="603" WY="306" WCOL="0x249495"/>
+   </dep1>
+
+   <dep1 TEXT_URL="강남역" COL="0x36AD47"> 
+     <dep2 TEXT_URL="2호선" COL="0x36AD47" IMG_URL="../flash/img/map/metro/metro_4.jpg" WX="622" WY="306" WCOL="0x276FDB"/>
+   </dep1>
+
+   <dep1 TEXT_URL="인천부평역" COL="0x505279"> 
+     <dep2 TEXT_URL="1호선" COL="0x505279" IMG_URL="../flash/img/map/metro/metro_5.jpg" WX="485" WY="306" WCOL="0x286FD9"/>
+   </dep1>
+
+   <dep1 TEXT_URL="강남터미널" COL="0xCBA246"> 
+     <dep2 TEXT_URL="3호선" COL="0xCBA246" IMG_URL="../flash/img/map/metro/metro_6.jpg" WX="687" WY="305" WCOL="0x276FDB"/>
+   </dep1>
+
+   <dep1 TEXT_URL="남부터미널" COL="0xDF6745"> 
+     <dep2 TEXT_URL="3호선" COL="0xDF6745" IMG_URL="../flash/img/map/metro/metro_7.jpg" WX="603" WY="305" WCOL="0x276FDB"/>
+   </dep1>
+
+   <dep1 TEXT_URL="동서울터미널" COL="0x36AD47"> 
+     <dep2 TEXT_URL="2호선" COL="0x36AD47" IMG_URL="../flash/img/map/metro/metro_8.jpg" WX="622" WY="306" WCOL="0x249495"/>
+   </dep1>
+
+   <dep1 TEXT_URL="김포국제공항" COL="0x8B8B8B"> 
+     <dep2 TEXT_URL="공항철도" COL="0x8B8B8B" IMG_URL="../flash/img/map/metro/metro_9.jpg" WX="603" WY="305" WCOL="0x276FDB"/>
+   </dep1>
+
+   <dep1 TEXT_URL="인천국제공항" COL="0x8B8B8B"> 
+     <dep2 TEXT_URL="공항철도" COL="0x8B8B8B" IMG_URL="../flash/img/map/metro/metro_10.jpg" WX="445" WY="305" WCOL="0x276FDB"/>
+   </dep1>
+
+   <dep1 TEXT_URL="분당(오리역)" COL="0xD1AA27"> 
+     <dep2 TEXT_URL="분당선" COL="0xD1AA27" IMG_URL="../flash/img/map/metro/metro_11.jpg" WX="370" WY="306" WCOL="0x286FD9"/>
+   </dep1>
+  </metro>
+
+
+  <bus>
+   <ROW TEXT_URL1="149" TEXT_URL2="(이촌동한가람아파트 하차)" COL="0x4D70C2" IMG_URL="../flash/img/map/bus/bus_149.jpg" WX="561" WY="307" WCOL="0x276FDB"/>
+   <ROW TEXT_URL1="2016" TEXT_URL2="(이촌동한가람아파트 하차)" COL="0x33AC42" IMG_URL="../flash/img/map/bus/bus_2016.jpg" WX="463" WY="307" WCOL="0x43B102"/>
+   <ROW TEXT_URL1="6211" TEXT_URL2="(이촌동한가람아파트하차)" COL="0x33AC42" IMG_URL="../flash/img/map/bus/bus_6211.jpg" WX="463" WY="307" WCOL="0x43B102"/>
+   <ROW TEXT_URL1="502" TEXT_URL2="(이촌역 하차)" COL="0x4D70C2" IMG_URL="../flash/img/map/bus/bus_502.jpg" WX="545" WY="307" WCOL="0x276FDB"/>
+   <ROW TEXT_URL1="0018" TEXT_URL2="(이촌역 하차)" COL="0x33AC42" IMG_URL="../flash/img/map/bus/bus_0018.jpg" WX="545" WY="306" WCOL="0x43B102"/>
+   <ROW TEXT_URL1="8620" TEXT_URL2="(이촌역하차)" COL="0x33AC42" IMG_URL="../flash/img/map/bus/bus_8620.jpg" WX="545" WY="307" WCOL="0x43B102"/>
+  </bus>
+</map>
+ 

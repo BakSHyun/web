@@ -1,0 +1,77 @@
+<head>
+<title>
+::센트럴서울안과:: MMS 약도 전송하기
+</title>
+<style type="text/css">
+body { padding:0; margin:0;}	
+input.tel1 { width:60px; }
+</style>
+<script language="javascript">
+<!--
+function checkForm(cf) {
+
+	if(frm_mms_process.hphone2.value=="") {
+		alert("휴대전화번호를 입력하세요");
+		frm_mms_process.hphone2.focus();
+		return;
+	}
+
+	if(frm_mms_process.hphone3.value=="") {
+		alert("휴대전화번호를 입력하세요");
+		frm_mms_process.hphone3.focus();
+		return;
+	}
+
+	//frm_mms_process.submit();
+
+	frm_mms_process.action = "./mms_process.php";
+    frm_mms_process.submit();
+	//return true;
+}
+-->
+</script>
+</head>
+<body>
+<!-- 전체사이즈_ width:600px; height:500px; -->
+<table width="600" border="0" cellspacing="0" cellpadding="0" style="background:url(../images/mms/mms_bg.png) no-repeat right top;">
+    <tr>
+        <td width="300"><img src="../images/mms/mms_cell.png" /></td>
+        <td width="300" style="padding:180px 0 30px 0;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<form name="frm_mms_process" method="post" action="mms_process.php" enctype="multipart/form-data"  onSubmit="return checkForm(this)">
+				<input type="hidden" name="mms_title" size="20" value="센트럴서울안과 오시는길">
+				<input type="hidden" name="snd_number" size="12" maxlength="12" value="027922226">
+                <tr>
+                    <td><img src="../images/mms/mms_f_tp.png" /></td>
+                </tr>
+                <tr>
+                    <td style="background:url(../images/mms/mms_f_bg.png) repeat-y; padding:10px 40px 10px 30px; text-align:center;">
+                        <select name="hphone1">
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                        </select>
+                        -
+                        <input type="text" name="hphone2" class="tel1" />
+                        -
+                        <input type="text" name="hphone3" class="tel1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="../images/mms/mms_f_btn.png" border="0" usemap="#Map" /></td>
+                </tr>
+                <tr>
+                    <td><img src="../images/mms/mms_f_btm.png" /></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<map name="Map" id="Map">
+    <area shape="rect" coords="43,13,135,43" href="javascript:checkForm();"  title="전송하기" onfocus="blur()" />
+    <area shape="rect" coords="152,12,239,44" href="#" title="취소하기" onfocus="blur()" />
+</map>
+</body>

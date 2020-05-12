@@ -1,0 +1,20 @@
+@charset "utf-8";
+/*
+=============================================
+|  조성민    SungMin Jo                    |
+|  Cell: +82-10-8837-4565, 010-8837-4565    |
+|  Home: http://www.alitaz.com              |
+|  e-mail: miracle_runa@naver.com           |
+=============================================
+*/
+body {background:#363a43 !important;}
+#admin_login_wrap {padding-top:100px;width:600px;margin:0 auto;}
+#login_form {background:#fff;padding:95px 85px 85px 85px;}
+#login_form h2 {font:normal 24px 'NanumBarunGothicBold';color:#494949;letter-spacing:-1px;}
+#login_form h2 strong {color:#a7a9ac;}
+.login_box {padding:10px 0 15px 0;border-bottom:1px solid #e5e5e6;position:relative;}
+.login_box input.text {margin:5px 0;border:1px solid #b9b9b9;background:#f6f6f6;width:288px;height:42px;padding-left:10px;font:normal 14px 'NanumBarunGothic';color:#494949;}
+.login_box span {position:absolute;right:0;top:15px;}
+
+#login_form p {padding-top:20px;text-align:center;color:#828282;font:normal 11px/16px 'dotum';letter-spacing:-1px;}
+#login_form p strong {color:#222;}

@@ -1,0 +1,6 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+<div class="slide">
+	<h1><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[cuttitle]?></a></h1>
+	<h2><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[cutcontents]?></a></h2>
+</div>
+<? }?>

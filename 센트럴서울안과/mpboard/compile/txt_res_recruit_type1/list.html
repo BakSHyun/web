@@ -1,0 +1,372 @@
+<?if(!$AUTH[manage]){
+msgback("관리자 접근 페이지입니다. ");
+}?>
+<link href="/./mpboard/skin/txt_res_recruit_type1/skin_css/input.css" rel="stylesheet" type="text/css">
+<script>
+
+function init_tab(){
+	$('.tab_func').each(function(){
+		var wid = $(this).find('li').length;
+		$(this).find('li').css('width',($(this).width()*1)/wid);
+	});
+}
+init_tab();
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		}
+		else {
+			objCheck.checked='on';
+		}
+	}
+	else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		}
+		else {
+			objCheck.checked='';
+		}
+	}
+}
+
+//게시판 내용 복사
+function checkCopy(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('복사할 게시물을 선택하세요');
+		return;
+	}
+	checkCopycon(cform,checkvalue);
+}
+
+function checkCopycon(cform,checkvalue) {
+	if(confirm('정말로 복사하시겠습니까?')) {
+		cform.abmode.value = 'copy';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 내용 복사
+
+//게시판 이동
+function checkChange(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('이동 할 게시물을 선택하세요');
+		return;
+	}
+	checkChangecon(cform,checkvalue);
+}
+
+function checkChangecon(cform,checkvalue) {
+	if(confirm('정말로 이동하시겠습니까?')) {
+		cform.abmode.value = 'change';
+		cform.checkvalue.value = checkvalue;
+
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 이동 끝
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.abmode.value = 'deleteseldb';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+function logincheck() {
+	alert('로그인을 하셔야 작성하실수 있습니다.');
+	login();
+}
+
+function catesearch(catenum, val)
+{
+	var cateval;
+	if(catenum == "1")
+		cateval = "cate1="+val+"&cate2=<?=$cate2?>&cate3=<?=$cate3?>";
+	else if(catenum == "2")
+		cateval = "cate1=<?=$cate1?>&cate2="+val+"&cate3=<?=$cate3?>";
+	else if(catenum == "3")
+		cateval = "cate1=<?=$cate1?>&cate2=<?=$cate2?>&cate3="+val;
+	location.href = "<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$category?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>&"+cateval;
+}
+
+/* MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) */
+<?if($AUTH[userlevel] < "1") {
+	?>
+	function del_complete(){
+		if(confirm('숨겨진 삭제 데이터를 완전히 삭제하시겠습니까?')) {
+			checkform.abmode.value = "del_completedb";
+			checkform.submit();
+		}
+		else {
+			return;
+		}
+	}
+	<?}
+?>
+</script>
+<?
+function name_set($name){
+ $first=mb_substr($name,0,2,'utf-8');
+ $names=mb_strlen($name,'utf-8');
+ for($i=2;$i<$names;$i++){ $last .= '*'; }
+ return $first.$last;
+}
+
+function check_notice($wmodes){ if($wmodes){ return "<span class='notice'><i class='fa fa-bullhorn'></i></span>"; } }
+function check_secrets($secrets){  if($secrets == '1'){ return "<em class='secret'><i class='fa fa-lock'></i></em>";  }else{ return "<em class='secret'><i class='fa fa-unlock'></i></em>";  } }
+function check_device($device){  if($device == 'desk'){ return "<span class='device'><i class='fa fa-desktop'></i></span>";  }else{ return "<span class='device'><i class='fa fa-mobile'></i></span>";  } }
+function check_views($views){ if($views == '0'){ return "<span class='vstate'><i class='fa fa-eye-slash'></i></span>";  } }
+function check_dels($dels,$nos){ if($dels == 'Y'){ return "<span class='del_state'><i class='fa fa-trash'></i></span>";  }else{ return "<input type='checkbox' name='check' value='$nos'>"; } }
+?>
+
+<div id='bbs_list_wrap'>
+<form action="<?=$PHP_SELF?>" method="post" name="checkform" style="margin:0">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="sel" value="">
+
+	<div class='bbs_list_wrap'>
+
+		<table class='bbs_list_table'>
+			<colgroup>
+				<?if($AUTH[userlevel] <= 2) {?><col style="width:30px;" /><?}?>
+				<col style="width:60px;" />
+				<col style="width:*;" />
+				<col style="width:240px;" />
+				<col style="width:120px;" />
+				<col style="width:100px;" />
+				<col style="width:120px;" />
+			</colgroup>
+			<thead>
+				<? if($AUTH[manage]){ ?><tr><th colspan='9' class='del_trash'><a href="javascript:del_complete()"><i class="fa fa-times"></i> 삭제된 게시물 완전히 삭제하기 (복구 불가능)</a></th></tr><? } ?>
+				<tr>
+					<?if($AUTH[userlevel] <= 2) {?><th><input type="checkbox" name=allch onClick="allCheck(checkform);"></th><?}?>
+					<th>번호</th>
+					<th>제목</th>
+					<th>이메일</th>
+					<th>지원부서</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<? if($code == 'community1' || $code == 'community1_1'){ ?>
+					<th>조회수</th>
+					<? } ?>
+				</tr>
+			</thead>
+			<tbody>
+			<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+			<tr>
+				<?if($AUTH[userlevel] <= 2) {?><td class='manage'>
+					<?=check_dels($LDATA[del_state],$LDATA[no])?><?=check_views($LDATA[vstate])?>
+				</td><?}?>
+				<td style="font-size:13px"><?=$LDATA[listno]?></td>
+				<td class='titles'><a style="font-size:13px" href='<?$PHP_SELF?>?<?=$LDATA[viewlink]?>' ><?=$LDATA[title]?> <?=$LDATA[newimg]?></a></td>
+				<td style="font-size:13px"><?=$LDATA[email]?></td>
+				<? if($code != 'news'){ ?>
+				<td style="font-size:13px"><?=$LDATA[name]?></td>
+				<?}else{?>
+				<td></td>
+				<?}?>
+				<td style="font-size:13px"><?=$LDATA[etc1]?></td>
+				<td style="font-size:13px"><?=$LDATA[wdate]?></td>
+				<? if($code == 'community1' || $code == 'community1_1'){ ?>
+				<td style="font-size:13px"><?=$LDATA[view]?></td>
+				<? } ?>
+			</tr>
+			<? }else{ ?>
+			<tr>
+				<td colspan="5">
+					<p class='non_reg'>
+					<i class="fa fa-spinner fa-spin"></i> 등록된 게시물이 없습니다.
+					<?if($AUTH[write]){?><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>"> <i class="fa fa-pencil"></i> 게시물 작성하러 가기</a><?}?>
+					</p>
+				</td>
+			</tr>
+			<? } ?>
+			</tbody>
+		</table>
+	</div>
+
+</form>
+
+<form name="sform" action="<?=$PHP_SELF?>" method="post" id='sform'>
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="abmode" value="list">
+<input type="hidden" name="bsort" value="<?=$bsort?>">
+<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+<div class='bbs_search'><ul>
+	<li class='search_box1'>
+		<select name="field" class="search_select">
+			<option value="all" <?if($field=="all") echo "selected"?>>전체</option>
+			<option value="title" <?if($field=="title") echo "selected"?>>제목</option>
+			<option value="contents" <?if($field=="contents") echo "selected"?>>내용</option>
+			<option value="name" <?if($field=="name") echo "selected"?>>글쓴이</option>
+		</select>
+	</li>
+	<li class='search_box2'><input name="search" type="text" class="search_input" value='<?=$search?>'/><a class='btn_type2' onclick="document.getElementById('sform').submit(); return false;"><i class='fa fa-search'></i></a></li>
+</ul></div>
+</form>
+
+
+<? if(preg_match('/iphone|ipod|ios|blackberry|android|windows ce|lg|mot|samsung|sonyericsson|nokia/i', $_SERVER['HTTP_USER_AGENT'])){ ?>
+
+<style>
+			.bbs_search{margin:0px !important;}
+			.bbs_btns_mo {width:100%;margin:10px 0;text-align:center;overflow:hidden;}
+			.bbs_btns_mo li {width:50%;padding-right:2px;display:inline-block;*zoom:1;*display:inline;box-sizing:border-box;}
+			.bbs_btns_mo li:last-child {padding-left:2px;}
+			.bbs_paging2_mo {width:100%;height:33px;margin:20px auto 10px auto;border:1px solid #d8d8d8;border-right:0;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+			.bbs_paging2_mo li {width:25%;height:32px;line-height:32px;float:left;border-right:1px solid #d8d8d8;color:#999;background:#fff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align:center;}
+			.bbs_paging2_mo li a {color:#999;display:block;text-decoration:none;background:#fff;color:#4b87d1;font-weight:bold;font-size:20px;}
+			.bbs_paging2_mo li i {position:relative;top:0px;}
+			.bbs_paging2_mo {width:100%;height:33px;margin:20px auto 10px auto;border:1px solid #d8d8d8;border-right:0;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+			.bbs_paging2_mo li {width:25%;height:32px;line-height:32px;float:left;border-right:1px solid #d8d8d8;color:#999;background:#fff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align:center;}
+			.bbs_paging2_mo li a {color:#999;font-size:20px;display:block;text-decoration:none;background:#fff;color:#4b87d1;font-weight:bold;}
+			.bbs_paging2_mo li i {position:relative;top:0px;}
+			.bbs_paging_mo {width:100%;height:55px;margin:10px auto 10px auto;text-align:center;}
+			.bbs_paging_mo li {width:10%;height:30px;line-height:30px;display:inline-block;text-align:center;color:#7f7c78;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align:center;}
+			.bbs_paging_mo li:first-child a {border:1px solid #d8d8d8;}
+			.bbs_paging_mo li a {position:relative;font-size:20px;border:1px solid #d8d8d8;border-left:0;color:#7f7c78;display:block;text-decoration:none;}
+			.bbs_paging_mo li i {position:relative;top:1px;}
+			.bbs_paging_mo li.curr, .bbs_paging li.link a:hover {background:#fff;color:#4b87d1;font-weight:bold;}
+			.bbs_paging_mo li.link a {display:block;text-decoration:none;background:#fff;color:#999;}
+			/* 0115 보라 추가 */
+			.btn_type1.type1_1{font-size:25px;height: 60px;line-height: 60px;}
+			.bbs_list_table tbody td{height:60px;}
+			.bbs_list_table tbody td {    padding: 5px;    height:60px !important;    border-bottom: 1px solid #dfdfdf;    font: normal 19px "dotum" !important;    text-align: center;}
+			.bbs_list_table a{font-size:20px;text-decoration: none;    color: #000;    text-overflow: ellipsis;    white-space: nowrap;    width: 270px;    overflow: hidden;    display: block;}
+			.btn_type1.type2{font-size:20px;}
+			.bbs_paging > .paging_new{font-size:20px;}
+			/* 0120 보라 추가 */
+
+			.bbs_list_table tbody td > a{font: normal 19px "dotum" !important;}
+
+
+			.bbs_view .view_title {    font-size: 25px; }
+			.bbs_conts div{font: normal 22px/28px 'dotum';}
+			.btn_type1 {font-size:22px;line-height:25px;}
+			.bbs_view .bbs_conts p {font: normal 18px/24px "dotum";color: #000444;}
+			.bbs_btns3 li {line-height:25px;width:15%;}
+			</style>
+			<ul class='bbs_btns_mo'>
+				<li><a href="<?=$LINK[slist]?>" class='btn_type1 type2'>목록</a></li><?if($AUTH[write]){?><li><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>" class='btn_type1'>글쓰기</a></li><?}?>
+			</ul>
+
+			<ul class='bbs_paging2_mo'>
+				<li class="first"><?=$PAGEING[start]?></li>
+				<li><?=$PAGEING[pregroup]?></li>
+				<li><?=$PAGEING[nextgroup]?></li>
+				<li class="last"><?=$PAGEING[end]?></li>
+			</ul>
+
+			<ul class='bbs_paging_mo'>
+				<?=$PAGEING[page]?>
+			</ul>
+
+<? }else{ ?>
+
+<ul class='bbs_paging2'>
+
+
+</ul>
+
+<ul class='bbs_paging'>
+	<li class="paging_new first"><?=$PAGEING[start]?></li>
+	<li class="paging_new"><?=$PAGEING[pregroup]?></li>
+	<?=$PAGEING[page]?>
+	<li class="paging_new"><?=$PAGEING[nextgroup]?></li>
+	<li class="paging_new last"><?=$PAGEING[end]?></li>
+</ul>
+<ul class='bbs_btns'>
+	<li><a href="<?=$LINK[slist]?>" class='btn_type1 type2'>목록</a></li><?if($AUTH[write]){?><li><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>" class='btn_type1'>글쓰기</a></li><?}?>
+</ul>
+
+<? } ?>
+
+
+<? if($AUTH[manage]){ ?>
+<?if($AUTH[delete]) {?>
+<ul class='bbs_btns3'>
+	<?if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:checkDel(document.checkform)">삭제</a></li><?}?>
+</ul>
+<?}?>
+<?}?>
+
+</div>

@@ -1,0 +1,482 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css">
+<script>
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		}
+		else {
+			objCheck.checked='on';
+		}
+	}
+	else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		}
+		else {
+			objCheck.checked='';
+		}
+	}
+}
+
+//게시판 내용 복사
+function checkCopy(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('복사할 게시물을 선택하세요');
+		return;
+	}
+	checkCopycon(cform,checkvalue);
+}
+
+function checkCopycon(cform,checkvalue) {
+	if(confirm('정말로 복사하시겠습니까?')) {
+		cform.abmode.value = 'copy';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 내용 복사
+
+//게시판 이동
+function checkChange(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('이동 할 게시물을 선택하세요');
+		return;
+	}
+	checkChangecon(cform,checkvalue);
+}
+
+function checkChangecon(cform,checkvalue) {
+	if(confirm('정말로 이동하시겠습니까?')) {
+		cform.abmode.value = 'change';
+		cform.checkvalue.value = checkvalue;
+
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 이동 끝
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.abmode.value = 'deleteseldb';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+function logincheck() {
+	alert('로그인을 하셔야 작성하실수 있습니다.');
+	login();
+}
+
+function catesearch(catenum, val)
+{
+	var cateval;
+	if(catenum == "1")
+		cateval = "cate1="+val+"&cate2=<?=$cate2?>&cate3=<?=$cate3?>";
+	else if(catenum == "2")
+		cateval = "cate1=<?=$cate1?>&cate2="+val+"&cate3=<?=$cate3?>";
+	else if(catenum == "3")
+		cateval = "cate1=<?=$cate1?>&cate2=<?=$cate2?>&cate3="+val;
+	location.href = "<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$category?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>&"+cateval;
+}
+
+/* MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) */
+<?if($AUTH[userlevel] < "1") {
+	?>
+	function del_complete(){
+		if(confirm('숨겨진 삭제 데이터를 완전히 삭제하시겠습니까?')) {
+			checkform.abmode.value = "del_completedb";
+			checkform.submit();
+		}
+		else {
+			return;
+		}
+	}
+	<?}
+?>
+</script>
+<?
+	function check_notice($wmodes){ if($wmodes){ return "<span class='notice'><i class='fa fa-bullhorn'></i></span>"; } }
+	function check_views($views){ if($views == '0'){ return " | <span class='del_state'>비승인</span>";  } }
+	function check_dels($dels){ if($dels == 'Y'){ return "<span class='del_state'><i class='fa fa-trash'></i></span>";  } }
+?>
+
+<style>
+.prog_tab1_wrap{width:600px;margin:0 auto 20px auto;}
+.prog_tab1_wrap > ul {display: inline-block;background:#16687e ;}
+.prog_tab1_wrap > ul > li{float:left;width: 149px;padding-right:8px;text-align:center;box-sizing:border-box;border-right:1px solid #fff ;padding:10px 0;}
+.prog_tab1_wrap > ul > li > a{display:block;color:#fff;font-size:30px;letter-spacing:-0.6px;height:56px;line-height:56px;font-weight:500;width:149px;display: inline-block;font-family: 'NanumGothic';}
+/*.prog_tab1_wrap > ul > li{float:left;width: 140px;margin-right:8px;text-align:center;border:solid 4px #dadada;box-sizing:border-box;}
+.prog_tab1_wrap > ul > li > a{display:block;color:#a0a0a0;font-size:20px;letter-spacing:-0.6px;height:56px;line-height:56px;font-weight:500}*/
+.prog_tab1_wrap > ul > li:last-child{margin-right:0}
+.prog_tab1_wrap > ul > li.select{border-bottom:4px solid #bad6de ;}
+.prog_tab1_wrap > ul > li.select > a{color:#fff}
+.prog_tab1_wrap > ul.co4{width:650px;margin:0 auto}
+.prog_tab1_wrap > ul.co3{width:485px;margin:0 auto}
+.prog_tab1_wrap > ul.co2{width:325px;margin:0 auto}
+</style>
+
+<!-- <div class="nv_slider_warp">
+	<ul class="nv_slider">
+		<li><img src="./img/main/cs_sosic_bn01.jpg" alt=""  /></li>
+		<li><img src="./img/main/cs_sosic_bn02.jpg" alt=""  /></li>
+		<li><img src="./img/main/cs_sosic_bn03.jpg" alt=""  /></li>
+		<li><img src="./img/main/cs_sosic_bn04.jpg" alt=""  /></li>
+		<li><img src="./img/main/cs_sosic_bn05.jpg" alt=""  /></li>
+		<li><img src="./img/main/cs_sosic_bn07.jpg" alt=""  /></li>
+	</ul>
+</div>
+<br />
+<br /> -->
+<div class="prog_tab1_wrap" id="linkpo">
+	<ul>
+		<?
+			if($_GET[cate1] == ""){ $_GET[cate1] = "인터뷰";}
+		?>
+		<? if($CATE_NUM > 0){ ?>
+			<?for($i=1; $i<=$CATE_NUM; $i++){ $cate = "cate".$i; ?>
+				<!-- <li <? if($_GET[cate1] == "") { echo "class=\"select\""; } ?>><a href="<?=basename($_SERVER["PHP_SELF"]);?>">#전체</a></li> -->
+				<? foreach(${"CATE".$i."_ITEM"} as $cvalue) { ?>
+				<li <?if($cvalue == "병원소개"){echo "style='border-right:none;'";}?> <? if($_GET[cate1] == $cvalue) { echo "class=\"select\""; } ?>><?if($cvalue == "병원소개"){?><a href="https://www.cseye.net/2020news/intro.php?#linkpo"><?}else{?><a href="?cate1=<?=urlencode("$cvalue")?>&#linkpo"><?}?><?=$cvalue?></a></li>
+				<? } ?>
+			<? } ?>
+		<? } ?>
+	</ul>
+</div>
+
+<div id='bbs_list_wrap'>
+<form action="<?=$PHP_SELF?>" method="post" name="checkform" style="margin:0">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="sel" value="">
+
+	<ul class='bbs_list_wrap'>
+		<? if($AUTH[manage]){ ?><li class='del_trash'><a href="javascript:del_complete()"><i class="fa fa-times"></i> 삭제된 게시물 완전히 삭제하기 (복구 불가능)</a></li><? } ?>
+		<? if(is_array($LIST)) foreach ($LIST as $LDATA) {
+				$row1 = mysql_fetch_array(mysql_query("SELECT rname FROM amboard_basic_file WHERE fno = '$LDATA[no]' "));
+				$img1 = $row1[0];
+				if(!$img1){
+					$img1="skin_images/board_logo.jpg";
+				}else{
+					$img1="/mpboard/upload/".$img1;
+				}
+		?>
+		<li>
+
+
+
+			<? if($code == "community02") { ?>
+			<a href="<?=$LDATA[etc1]?>" target="_new">
+			<?} else {?>
+			<a href="<?=$PHP_SELF."?".$LDATA[viewlink]?>#cseylink">
+			<?}?>
+			<div class='thumb' ><img src='<?=$img1?>' alt=''></div>
+			<div class='titles'>
+				<strong class="ftud">
+					<?if(mb_strlen($LDATA[title], "UTF-8") > 36){
+						echo mb_substr($LDATA[title],0,36,'utf-8')."...";
+					} else {
+						echo mb_substr($LDATA[title],0,36,'utf-8');
+					}?>
+				</strong>
+				<!-- <em style="font-size: 24px;" class="ftud"><?=$LDATA[name]?></em> -->
+			</div>
+		</a>
+		<?if($AUTH[userlevel] <= 2) {?><div class='manage'>
+			<? if($LDATA[del_state]){ ?>이미 삭제된 글입니다<?}else{?><input type="checkbox" name="check" class='s_checkbox' value="<?=$LDATA[no]?>">삭제<?}?>
+			<a href='<?$PHP_SELF?>?<?=$LDATA[viewlink]?>'> | 수정 <i class="fa fa-wrench"></i></a><?=check_views($LDATA[vstate])?>
+		</div><?}?>
+		</li>
+		<? }else{ ?>
+		<li>
+			<div class='non_reg'>
+			<i class="fa fa-spinner fa-spin"></i> 등록된 게시물이 없습니다.
+			<?if($AUTH[write]){?><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>"> <i class="fa fa-pencil"></i> 게시물 작성하러 가기</a><?}?>
+			</div>
+		</li>
+		<? } ?>
+	</ul>
+
+</form>
+<script>
+function hongidong(hongvar){
+	switch (hongvar){
+		case "뉴스" :
+			location.href="/2020news/index.php?cate1="+encodeURI("에세이" , "UTF-8")+"&#linkpo";
+			break;
+		case "인터뷰" :
+			location.href="/2020news/index.php?cate1="+encodeURI("뉴스" , "UTF-8")+"&#linkpo";
+			break;
+		case "에세이" :
+			location.href="/2020news/intro.php?#linkpo";
+			break;
+		case "" :
+			location.href="/2020news/index.php?cate1="+encodeURI("인터뷰" , "UTF-8")+"&#linkpo";
+			break;
+		/*default :
+			위의 값 A ~ E 모두 아닐때 실행할 명령문;
+			*/
+	}
+
+}
+</script>
+
+<a style=";background:#16687e ;color: #fff;width: 100%;height: 60px;line-height: 60px;text-align: center;font-size: 20px;font-weight: bold;cursor: pointer;text-decoration: none;display: block;text-shadow: 0px 1px 0px #000;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;" href="javascript:hongidong('<?=$_GET[cate1]?>');">다음메뉴</a>
+
+<?if($AUTH[manage]) {?>
+
+
+	<form name="sform" action="<?=$PHP_SELF?>" method="post" id='sform'>
+	<input type="hidden" name="group" value="<?=$group?>">
+	<input type="hidden" name="code" value="<?=$code?>">
+	<input type="hidden" name="category" value="<?=$category?>">
+	<input type="hidden" name="abmode" value="list">
+	<input type="hidden" name="bsort" value="<?=$bsort?>">
+	<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+	<div class='bbs_search'><ul>
+		<li class='search_box1'>
+			<select name="field" class="search_select">
+				<option value="all" <?if($field=="all") echo "selected"?>>전체</option>
+				<option value="title" <?if($field=="title") echo "selected"?>>제목</option>
+				<option value="contents" <?if($field=="contents") echo "selected"?>>내용</option>
+				<option value="name" <?if($field=="name") echo "selected"?>>글쓴이</option>
+			</select>
+		</li>
+		<li class='search_box2'><input name="search" type="text" class="search_input" value='<?=$search?>'/><a class='btn_type2' onclick="document.getElementById('sform').submit(); return false;"><i class='fa fa-search'></i></a></li>
+	</ul></div>
+	</form>
+
+
+	<ul class='bbs_btns'>
+		<li><a href="<?=$LINK[slist]?>" class='btn_type1 type2'>목록</a></li><?if($AUTH[write]){?><li><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>" class='btn_type1' style="background:#4e4574 !important; border:1px solid #4e4574 !important;">글쓰기</a></li><?}?><?if($AUTH[userlevel] <= 2) {?><li><a class='btn_type1 type3' Onclick="javascript:checkDel(document.checkform)">삭제</a></li><?}?>
+	</ul>
+<!--
+	<ul class='bbs_paging2'>
+		<li class="first"><?=$PAGEING[start]?></li>
+		<li><?=$PAGEING[pregroup]?></li>
+		<li><?=$PAGEING[nextgroup]?></li>
+		<li class="last"><?=$PAGEING[end]?></li>
+	</ul>
+
+	<ul class='bbs_paging'>
+		<?=$PAGEING[page]?>
+	</ul>
+
+	<ul class='bbs_btns3'>
+		<?if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:checkDel(document.checkform)">삭제</a></li><?}?>
+	</ul> -->
+<?}?>
+
+
+<? if($AUTH[manage]){ ?>
+
+
+
+<!--
+<script>
+// 폰트사이즈 업,다움 클래스 ftud 첨부 필수
+function getSize() {
+  size = $( ".ftud" ).css( "font-size" );
+  size = parseInt(size, 10);
+  $( "#font-size" ).text(  size  );
+}
+// 폰트사이즈 업,다움 클래스 ftud 첨부 필수
+$(document).ready(function(){
+
+	// 폰트사이즈 업,다움 클래스 ftud 첨부 필수
+	getSize();
+
+	$( "#up" ).on( "click", function() {
+	  if ((size + 2) <= 40) {
+		$( ".ftud" ).css( "font-size", "+=2" );
+		$( ".ftudv" ).css( "font-size", "+=2" );
+		$( ".ftudv p" ).css( "font-size", "+=2" );
+		$( ".ftudv span" ).css( "font-size", "+=2" );
+
+		$( "#font-size" ).text(  size += 2 );
+	  }
+	});
+
+	$( "#down" ).on( "click", function() {
+	  if ((size - 2) >= 22) {
+		$( ".ftud" ).css( "font-size", "-=2" );
+		$( ".ftudv" ).css( "font-size", "-=2" );
+		$( ".ftudv p" ).css( "font-size", "-=2" );
+		$( ".ftudv span" ).css( "font-size", "-=2" );
+
+		$( "#font-size" ).text(  size -= 2  );
+	  }
+	});
+	// 폰트사이즈 업,다움 클래스 ftud 첨부 필수
+
+<? if($AUTH[manage]){ ?>
+	//sns 소셜 공유 스크립트 start
+	$("a[data-toggle='sns_share']").click(function(e){
+		e.preventDefault();
+		var current_url = $(location).attr('href');;
+		var _this = $(this);
+		var sns_type = _this.attr('data-service');
+		var href = current_url;
+		var title = _this.attr('data-title');
+		var loc = "";
+		var img = $("meta[name='og:image']").attr('content');
+
+		if( ! sns_type || !href || !title) return;
+
+		if( sns_type == 'facebook' ) {
+			loc = '//www.facebook.com/sharer/sharer.php?u='+href+'&t='+title;
+		}
+		else if ( sns_type == 'twitter' ) {
+			//일반메인
+			//loc = '//twitter.com/home?status='+encodeURIComponent(title)+' '+href;
+			//글등록
+			loc = '//twitter.com/intent/tweet?text=[%EA%B3%B5%EC%9C%A0]%20' +encodeURIComponent(href)+'%20-%20'+encodeURIComponent(title)
+		}
+		else if ( sns_type == 'google' ) {
+			loc = '//plus.google.com/share?url='+href+ "&t=" + encodeURIComponent(title);
+		}
+		else if ( sns_type == 'pinterest' ) {
+
+			loc = '//www.pinterest.com/pin/create/button/?url='+href+'&media='+img+'&description='+encodeURIComponent(title);
+		}
+		else if ( sns_type == 'kakaostory') {
+			//일반메인
+			//loc = 'https://story.kakao.com/share?url='+encodeURIComponent(href);
+			//??
+			loc = 'https://story.kakao.com/s/share?url=' +encodeURIComponent(href);
+		}
+		else if ( sns_type == 'band' ) {
+			loc = 'http://www.band.us/plugin/share?body='+encodeURIComponent(title)+'%0A'+encodeURIComponent(href);
+		}
+		else if ( sns_type == 'naver' ) {
+			//네이버 카페 타임스탬프
+			var htimes = new Date().getTime();
+
+			//네이버 카페 18개 난수 토큰생성
+			var hbtext = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			for( var i=0; i < 18; i++ ){
+				hbtext += possible.charAt(Math.floor(Math.random() * possible.length));
+			}
+			//네이버 일반메인
+			//loc = "http://share.naver.com/web/shareView.nhn?url="+encodeURIComponent(href)+"&title="+encodeURIComponent(title);
+			//네이버 카페바로
+			loc = "https://m.cafe.naver.com/ExternalScrapView.nhn?serviceCode=share&url="+encodeURIComponent(href)+"&title="+encodeURIComponent(title)+"&token="+hbtext+"&timestamp="+htimes;
+		}
+		else if ( sns_type == 'blog' ) {
+			loc = "http://blog.naver.com/openapi/share?url=" + encodeURIComponent(href) + "&title=" + encodeURIComponent(title);
+		}
+		else if ( sns_type == 'line' ) {
+			loc = "http://line.me/R/msg/text/?" + encodeURIComponent(title) + " " + encodeURIComponent(href);
+		}
+		else if ( sns_type == 'pholar' ) {
+			loc = "http://www.pholar.co/spi/rephol?url=" + encodeURIComponent(href) + "&title=" + encodeURIComponent(title)
+		}
+		else {
+			return false;
+		}
+
+		window.open(loc);
+		return false;
+	});
+	//sns 소셜 공유 스크립트 end
+<?}?>
+
+});
+</script>
+
+<div style="padding: 10px 0;">
+<a href="#" data-toggle="sns_share"  data-service="facebook" data-title="페이스북 SNS공유" style="height: 90px;display: inline-block;text-align: center;width:120px;color: #000;font-weight: bold;" class="btn btn-default"><img style="width:70px" src="/img/main/fb_icon.png" alt=""><br/>페이스북</a>
+<a href="#" data-toggle="sns_share"  data-service="band" data-title="네이버밴드 SNS공유" style="height: 90px;display: inline-block;text-align: center;width:120px;color: #000;font-weight: bold;" class="btn btn-default"><img style="width:70px" src="/img/main/naverb_icon.png" alt=""><br/>네이버밴드</a>
+<a href="#" data-toggle="sns_share"  data-service="kakaostory" data-title="카카오스토리 SNS공유" style="height: 90px;display: inline-block;text-align: center;width:120px;color: #000;font-weight: bold;" class="btn btn-default"><img  style="width:70px" src="/img/main/kas_icon.png" alt=""><br/>카카오스토리</a>
+</div>
+
+<a href="#" data-toggle="sns_share"  data-service="naver" data-title="네이버 SNS공유" class="btn btn-default">네이버 SNS 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="blog" data-title="네이버블로그 SNS공유" class="btn btn-default">네이버블로그 SNS 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="twitter" data-title="트위터 SNS공유" class="btn btn-default">트위터 SNS 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="google" data-title="구글 SNS공유" class="btn btn-default">구글 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="pinterest" data-title="핀터레스트 SNS공유" class="btn btn-default">핀터레스트 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="line" data-title="라인 SNS공유" class="btn btn-default">라인 공유하기</a>
+<a href="#" data-toggle="sns_share"  data-service="pholar" data-title="폴라 SNS공유" class="btn btn-default">폴라 공유하기</a>
+
+<div>
+ <button style="width:40px;height:40px;" id="up">+</button>
+  <button style="width:40px;height:40px;" id="down">-</button>
+</div>
+-->
+<?}?>
+</div>

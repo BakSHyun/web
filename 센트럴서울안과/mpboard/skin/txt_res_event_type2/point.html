@@ -1,0 +1,26 @@
+<form name="pointform" action="<?=$PHP_SELF?>" method="post">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="pointupdate">
+<input type="hidden" name="no" value="<?=$no?>">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="bsort" value="<?=$bsort?>">
+<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+<div class='bbs_point_wrap'>
+	<div class='point_title'>현재 점수 : <strong><?=$POINT_INT?></strong> 점</div>
+	<div class='point_btn'><input type='submit' class='btn_type1 type3' value='점수 주기'></div>
+	<div class='point_check'>
+		<select class='s_select' id="category_input" name='category_input'>
+			<option value="1" >1점</option>
+			<option value="2" >2점</option>
+			<option value="3" >3점</option>
+			<option value="4" >4점</option>
+			<option value="5" >5점</option>
+		</select>
+	</div>
+</div>
+</form>

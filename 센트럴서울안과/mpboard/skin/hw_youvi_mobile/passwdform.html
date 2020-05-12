@@ -1,0 +1,112 @@
+<script>
+function board_pass_view(mode) {
+	document.all.divBoardPass.style.display="none";
+	document.all.divBoardPass.style.display="";
+	document.all.pass_check_bg.style.display="none";
+	document.all.pass_check_bg.style.display="";
+	document.passwdform.abmode.value = mode;
+	document.passwdform.passwd.focus();
+	<?if($_SESSION[userid] != "") if($BDATA[userid] == $_SESSION[userid] || $_SESSION[userlevel] <= 2) {?>
+	document.all.divBoardPass.style.display="none";
+	document.passwdform.writeuserid.value="<?=$BDATA[userid]?>";
+	if(mode == "boarddelpasswd") {
+		if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+	} else {
+		document.passwdform.submit();
+	}
+
+	<?}?>
+}
+
+function comment_pass_view(mode,comment_no,userid) {
+
+	loginuserid = "<?=$_SESSION[userid]?>";
+	document.all.divBoardPass.style.display="none";
+	document.all.divBoardPass.style.display="";
+	document.all.pass_check_bg.style.display="none";
+	document.all.pass_check_bg.style.display="";
+	document.passwdform.cno.value = comment_no;
+	document.passwdform.abmode.value = mode;
+	document.passwdform.passwd.focus();
+	<?if($_SESSION[userid] != "") if($_SESSION[userlevel] <= 2) {?>
+	if(loginuserid == userid) {
+	document.all.divBoardPass.style.display="none";
+	document.all.pass_check_bg.style.display="none";
+	document.passwdform.writeuserid.value=userid;
+		if(mode == "commentdelpasswd") {
+			if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+		} else {
+			document.passwdform.submit();
+		}
+	}
+	<?} else {?>
+	if(loginuserid == userid) {
+	document.all.divBoardPass.style.display="none";
+	document.all.pass_check_bg.style.display="none";
+	document.passwdform.writeuserid.value=userid;
+		if(mode == "commentdelpasswd") {
+			if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+		} else {
+			document.passwdform.submit();
+		}
+	}
+	<?}?>
+}
+
+function board_pass_hide() {
+	$('#divBoardPass').hide();
+	$('#pass_check_bg').hide();
+}
+
+</script>
+<?
+$pass_view_state = "none";
+?>
+
+<style>
+#pass_check_bg {background:#000;opacity:0.8;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;}
+#divBoardPass {position:fixed;top:50%;left:50%;margin-left:-275px;margin-top:-150px;width:550px;padding:50px;box-sizing:border-box;background-color:#f1f1f1;border-radius:5px;z-index:99999;}
+.newb_passwd_input{border:1px solid #cfcfcf;box-sizing:border-box;width:100%;padding:15px;font-size:20px;}
+.newb_btn_type1{margin-top:10px;width:100%;padding:15px 0;border:0;box-sizing:border-box;font-size:20px;background-color:#646464;color:#fff;cursor:pointer;}
+/* .pass_close_btn{position:absolute;top:5px;right:5px;width:28px;height:28px;line-height:28px;text-align:center;background-color:#646464;color:#fff;box-sizing:border-box;border-radius:25px;cursor:pointer;} */
+.pass_close_btn{position:absolute;top:15px;right:15px;cursor:pointer;}
+.pw_form > h4{font-size:26px;margin-bottom:10px;}
+.pw_form > p{font-size:20px;margin-bottom:10px;}
+</style>
+
+<div id='pass_check_bg' style="display:<?=$pass_view_state?>;"></div>
+<div id="divBoardPass" style="display:<?=$pass_view_state?>;">
+    <? global $PHP_SELF; ?>
+    <form name="passwdform" method="post" action="<?=$PHP_SELF?>">
+    <input type="hidden" name="group" value="<?=$group?>">
+    <input type="hidden" name="code" value="<?=$code?>">
+    <input type="hidden" name="category" value="<?=$category?>">
+    <input type="hidden" name="sno" value="<?=$sno?>">
+    <input type="hidden" name="no" value="<?=$no?>">
+    <input type="hidden" name="cno" value="">
+    <input type="hidden" name="field" value="<?=$field?>">
+    <input type="hidden" name="search" value="<?=$search?>">
+    <input type="hidden" name="abmode" value="">
+    <input type="hidden" name="writeuserid" value="">
+	<input type="hidden" name="bsort" value="<?=$bsort?>">
+	<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+    <?
+    $linkarray = explode("&",$LINK[addpara]);
+    if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+    	$linkdataarray = explode("=",$linkdata);
+    ?>
+    <input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+    <? } ?>
+
+	<div class='pw_form'>
+		<h4>비밀번호 입력</h4>
+		<p>글 등록 시 등록한 비밀번호를 입력해주세요.</p>
+		<div class='il'>
+			<input type="password" id="passwd" name="passwd" maxlength="10" placeholder="비밀번호" class="newb_passwd_input" value="">
+			<input type="submit" class="newb_btn_type1" value="확인">
+		</div>
+		<!-- <a class="pass_close_btn" onclick="board_pass_hide()" />X</a> -->
+		<a class="pass_close_btn" onclick="board_pass_hide()" /><img src="skin_images/pass_close_btn.png" alt=""></a>
+	</div>
+    </form>
+</div>

@@ -1,0 +1,7 @@
+﻿<banner>
+   <ROW IMG_URL="../flash/img/top_banner/top_banner1.jpg" LINK_URL="../02_centre/centre01.php"/>
+   <ROW IMG_URL="../flash/img/top_banner/top_banner2.jpg" LINK_URL="../03_glaucoma/glaucoma02.php"/>
+   <!--<ROW IMG_URL="../flash/img/top_banner/top_banner3.jpg" LINK_URL="../05_eye/eye02.php"/>-->
+   <ROW IMG_URL="../flash/img/top_banner/top_banner4.jpg" LINK_URL="../04_clinic/clinic10.php"/>
+</banner>
+ 

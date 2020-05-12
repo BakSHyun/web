@@ -1,0 +1,70 @@
+<link href="/mpreserve/skin/basic_skin/skin_css/input.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function checkForm(cf) {
+if(cf.name.value == "") {
+	alert("성함을 입력하세요");
+	cf.name.focus();
+	return false;
+}
+
+if(cf.hphone1.value == "") {
+	alert("연락처를 입력하세요");
+	cf.hphone1.focus();
+	return false;
+}
+
+if(cf.hphone2.value == "") {
+	alert("연락처를 입력하세요");
+	cf.hphone2.focus();
+	return false;
+}
+
+if(cf.hphone3.value == "") {
+	alert("연락처를 입력하세요");
+	cf.hphone3.focus();
+	return false;
+}
+
+return true;
+
+}
+</script>
+
+
+<div class='agreement_wrap'>
+	<h2>온라인 예약 확인</h2>
+	* 예약할때 입력한 이름과 연락처를 정확히 입력해주시기 바랍니다.
+</div>
+
+<form action="<?=$PHP_SELF?>" method="post" enctype="multipart/form-data" name="rform" OnSubmit="return checkForm(this)">
+<input type="hidden" name="mode" value="confirmlist">
+	<table class='bbs_write'>
+		<colgroup>
+		<col style="width:100px;" />
+		<col style="width:*"; />
+		</colgroup>
+		<thead>
+			<tr>
+				<th>예약자</th>
+				<td><input name="name" type="text" class="text"></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr background="">
+				<th>휴대전화</th>
+				<td>
+					<input name="hphone1" type="text" class="text2" maxlength="3">
+					-
+					<input name="hphone2" type="text" class="text2" maxlength="4">
+					-
+					<input name="hphone3" type="text" class="text2" maxlength="4">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ul class='bbs_btns'>
+		<li><input type="image" src="/mpreserve/skin/basic_skin/skin_images/community2_2_img02.jpg" alt='확인'></li>
+	</ul>
+
+</form>

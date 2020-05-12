@@ -1,0 +1,188 @@
+@charset "utf-8";
+@font-face{
+	font-family: 'NanumBarunGothic';
+	src: url('../../font/NanumBarunGothic.eot');
+	src: url('../../font/NanumBarunGothic.eot?#iefix') format('embedded-opentype'),
+	     url('../../font/NanumBarunGothic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+	font-family: 'NanumBarunGothicBold';
+	src: url('../../font/NanumBarunGothicBold.eot');
+	src: url('../../font/NanumBarunGothicBold.eot?#iefix') format('embedded-opentype'),
+	     url('../../font/NanumBarunGothicBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+	font-family: 'NanumBarunGothicLight';
+	src: url('../../font/NanumBarunGothicLight.eot');
+	src: url('../../font/NanumBarunGothicLight.eot?#iefix') format('embedded-opentype'),
+	     url('../../font/NanumBarunGothicLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+	font-family: 'NanumMyeongjo';
+	src: url('../../font/NanumMyeongjo.eot');
+	src: url('../../font/NanumMyeongjo.eot?#iefix') format('embedded-opentype'),
+	     url('../../font/NanumMyeongjo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+/*
+=============================================
+|  조성민    SungMin Jo                    |
+|  Cell: +82-10-8837-4565, 010-8837-4565    |
+|  Home: http://www.alitaz.com              |
+|  e-mail: miracle_runa@naver.com           |
+=============================================
+*/
+
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, abbr, acronym, address, big, cite, code, ins, small, sub, sup
+{ font:normal 12px/22px 'NanumBarunGothic'; padding:0; margin:0; }
+
+div img, dl img, dt img, dd img, ul img, ol img, li img, h1 img, h2 img, h3 img, h4 img, h5 img, h6 img, pre img, form img, fieldset img, input img, textarea img, p img, blockquote img, th img, td img{ font-size:0; line-height:0; }
+
+table{ border-collapse:collapse; border-spacing:0; }
+
+ol, ul, li{ list-style:none; }
+
+h1, h2, h3, h4, h5, h6, th, td{ font-weight:normal; font-size:100%; }
+
+form, fieldset, a img{ border:0; }
+
+q:before,q:after { content:''; }
+
+abbr,acronym { border:0; }
+
+address, abbr, address, big, cite, code, ins, small, sub, sup, em{ font-weight:normal; font-style:normal; }
+
+blockquote, q{ quotes:none; }
+
+.accessibility, .skip, legend
+{ position:absolute !important; width:0 !important; height:0 !important; font-size:0 !important; line-height:0 !important; overflow:hidden !important; visibility:hidden !important; }
+caption{ display:none; }
+
+.null{ font-size:0; line-height:0; }
+
+a img, input, textarea, select, img{ vertical-align:middle; }
+
+
+time, progress, mark, output { display:inline; }
+
+
+.hide{ position:absolute; top:-9999px; left:-9999px; }
+.clr{ clear:both !important; float:none !important; width:0 !important; height:0 !important; padding:0 !important; font-size:0 !important; line-height:0 !important; overflow:hidden !important; visibility:hidden !important; }
+
+a {text-decoration:none;}
+a:hover {text-decoration:underline;}
+a img{ border:0; }
+img, input, select{ vertical-align:middle; }
+
+input{ font:13px 'NanumBarunGothic',"돋움", "Dutum", "Tahoma"; color:#000; vertical-align:middle; }
+select{ font-size:13px; border:1px solid #D0D0D0; background:#fff; }
+
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+
+.red {color:#e12b14 !important;}
+.blue {color:#1b64cd !important;}
+.green {color:#169a1e !important;}
+.dark_grey {color:#4e4e4e !important;}
+.dark_blue {color:#2b3b5f !important;}
+.bright_purple {color:#8b81df !important;}
+.scarlet {color:#d17379 !important;}
+.bright_yellow {color:#feff91 !important;}
+.seperater {color:#dadada !important;margin:0 7px !important;}
+
+body{ margin:0; padding:0; position:relative;overflow-x:hidden;}
+
+#document{ width:100%;margin:0 auto;}
+
+/*헤더*/
+#head_wrap {width:100%;height:60px;margin:0 auto;background:#232634;overflow:hidden;}
+
+#head_wrap .head_title {float:left;font:bold 32px/60px 'NanumMyeongjo', serif;color:#fff;margin-left:25px;}
+#head_wrap .head_title img {position:relative;top:-5px;}
+#head_wrap .head_title a {color:#fff;}
+#head_wrap .head_title strong {color:#eb63b3;}
+
+#head_wrap .log_out {float:right;width:50px;height:18px;background:url('../img/comm/admin_logout.gif') no-repeat;margin:25px 20px 0 0;}
+#head_wrap .log_out a {font:normal 11px/20px 'dotum';color:#9aa2ac;display:block;text-align:center;letter-spacing:-1px;}
+
+#head_wrap .site_link {float:right;overflow:hidden;}
+#head_wrap .site_link li {float:left;margin:25px 10px 0 0;font:normal 11px/20px 'dotum';color:#c3c4ca;}
+#head_wrap .site_link li a {font:normal 11px/20px 'dotum';color:#c3c4ca;}
+#head_wrap .site_link li a:hover {color:#fff;}
+#head_wrap .site_link li strong {color:#58f9ff;}
+#head_wrap .site_link li input {border:0;width:25px;margin:0 10px 0 3px;padding-right:5px;text-align:right;position:relative;top:-2px;height:12px;background:#fefefe;color:#ff0000;font:bold 11px/12px 'tahoma';}
+#head_wrap .site_link li.bar {color:#4b4d58;}
+#head_wrap .site_link li.as a {color:#c3c4ca;}
+#head_wrap .site_link li.as a strong {color:#ea5068;}
+
+/*헤드 메뉴*/
+#head_navi {width:100%;height:40px;background:url('../img/comm/navi_bg.png') repeat #41454e;overflow:hidden;}
+#head_navi li {float:left;position:relative;height:40px;border-right:1px solid #3b3e46;text-align:center;}
+#head_navi li.menu {padding:0 20px;font:bold 14px/40px 'NanumBarunGothic', sans-serif;color:#dedede;background:#363a43;}
+#head_navi li a {padding:0 30px;font:bold 14px/40px 'NanumBarunGothic', sans-serif;color:#fff;display:block;}
+#head_navi li a i {margin-right:7px;}
+#head_navi li a img {position:relative;top:-1px;}
+#head_navi li a:hover {color:#f78c9d;background:#363a43;}
+
+/*컨텐츠*/
+#admin_cont_wrap {width:100%;overflow:hidden;background:#fbfbfb;position:relative;}
+#admin_cont_left {position:absolute;left:0;right:0;padding:25px;width:230px;}
+#admin_cont_left h1 {font:700 14px/30px 'NanumBarunGothic', sans-serif;color:#414141;letter-spacing:-1px;}
+#admin_cont_left h1 i {margin-right:5px;color:#aaa;font-size:13px;}
+#admin_cont_right {margin-left:250px;background:#fff;border-left:1px solid #cfcfcf;}
+
+.admin_left_menu {padding:0 0 10px 0;margin-bottom:15px;border-bottom:1px solid #ebebeb;}
+.admin_left_menu li {height:18px;}
+.admin_left_menu li a {font:normal 12px/20px 'dotum';color:#7a7a7a;text-overflow: ellipsis;-o-text-overflow: ellipsis;-moz-binding: url('ellipsis.xml#ellipsis');white-space: nowrap;overflow:hidden;}
+.admin_left_menu li a i {margin-right:3px;color:#333;font-size:11px;}
+.admin_left_menu li a:hover i {color:#ff1e58;}
+
+.admin_left_menu1 {padding:0 0 12px 0;border-bottom:1px solid #ebebeb;margin-bottom:15px;}
+
+.wrap_menu {width:150px;height:200px;overflow-y:auto;overflow-x:hidden;position:relative;}
+.wrap_menu .admin_left_menu {position:absolute;width:150px !important;}
+
+.alm_dep1 {cursor:pointer;}
+
+/*푸터*/
+#foot_wrap {width:100%;height:45px;margin:0 auto;background:#fbfbfb;border-top:1px solid #d5d5d5;overflow:hidden;text-align:center;}
+#foot_wrap p {height:60px;font:normal 11px/45px 'tahoma';color:#424242;}
+#foot_wrap p a {font:bold 11px/45px 'dotum';color:#424242;}
+#foot_wrap p a:hover {color:#eb2d67;}
+#foot_wrap p img {position:relative;top:-1px;}
+
+/* 메뉴 */
+.sub_bg {width:100%;background:#fcfcfc;position:relative;top:-20px;}
+.subwrapper{width:1200px; margin:0 auto; overflow:hidden; padding-top:35px;}
+.lnbarea{width:212px; float:left;}
+.lnb_menu h1{font-size:26px; font-weight:bold;padding:0 0 15px 15px;color:#2a365c;}
+.lnb_menu ul {border-top:1px solid #e0e0e0;}
+.lnb_menu ul li {}
+.lnb_menu ul li a.dep1 {cursor:pointer;border-bottom:1px solid #e0e0e0;height:40px;color:#343434;display:block;padding-left:17px;font-size:16px;line-height:40px;text-decoration:none;position:relative;}
+.lnb_menu ul li a.dep1:hover, .lnb_menu ul li a.dep1.select, .lnb_menu ul li a.dep1.static {}
+.lnb_menu ul li a.dep1:hover span, .lnb_menu ul li a.dep1.select span {color:#1859bb;display:block;}
+.lnb_menu ul li a.dep1 span {position:absolute;right:10px;top:12px;display:none;}
+
+.lnb_menu ul li ul.dep2 {display:none;border:0;}
+.lnb_menu ul li ul {background:#f7f7f7;}
+.lnb_menu ul li ul li {}
+.lnb_menu ul li ul li a {display:block;display:block;font-size:13px;padding:5px 0 5px 17px;color:#8a8a8a;text-decoration:none;border-bottom:1px solid #e0e0e0;}
+.lnb_menu ul li ul li a:hover, .lnb_menu ul li ul li a.select {color:#215fbd;}
+
+
+input[type="text"] {width: 80%;height: 25px;border: 1px solid #c3c3c3;background: #fff;}
+input#url{width:250px;margin-left:5px;}

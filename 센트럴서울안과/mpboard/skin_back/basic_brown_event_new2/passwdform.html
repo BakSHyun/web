@@ -1,0 +1,118 @@
+<script>
+
+function board_pass_view(mode) {
+	document.all.divBoardPass.style.display="none";
+	document.all.divBoardPass.style.display="";
+	document.passwdform.abmode.value = mode;
+	document.passwdform.passwd.focus();
+	<?if($_SESSION[userid] != "") if($BDATA[userid] == $_SESSION[userid] || $AUTH[rewrite]) {?>
+	document.all.divBoardPass.style.display="none";
+	document.passwdform.writeuserid.value="<?=$BDATA[userid]?>";
+	if(mode == "boarddelpasswd") {
+		if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+	} else {
+		document.passwdform.submit();
+	}
+
+	<?}?>
+}
+
+function comment_pass_view(mode,comment_no,userid) {
+
+	loginuserid = "<?=$_SESSION[userid]?>";
+	document.all.divBoardPass.style.display="none";
+	document.all.divBoardPass.style.display="";
+	document.passwdform.cno.value = comment_no;
+	document.passwdform.abmode.value = mode;
+	document.passwdform.passwd.focus();
+	<?if($_SESSION[userid] != "") if($_SESSION[userlevel] <= 2) {?>
+	if(loginuserid == userid) {
+	document.all.divBoardPass.style.display="none";
+	document.passwdform.writeuserid.value=userid;
+		if(mode == "commentdelpasswd") {
+			if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+		} else {
+			document.passwdform.submit();
+		}
+	}
+	<?} else {?>
+	if(loginuserid == userid) {
+	document.all.divBoardPass.style.display="none";
+	document.passwdform.writeuserid.value=userid;
+		if(mode == "commentdelpasswd") {
+			if(confirm("삭제 하시겠습니까?")) document.passwdform.submit();
+		} else {
+			document.passwdform.submit();
+		}
+	}
+	<?}?>
+}
+
+function board_pass_hide() {
+	document.all.divBoardPass.style.display="none";
+}
+
+</script>
+<?
+$pass_view_state = "none";
+?>
+<div style='position:absolute;'>
+<div id="divBoardPass" style="display:<?=$pass_view_state?>;width:400px;position:relative;top:245px;left:210px;border:5px solid #46664F;">
+    <table width="400" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#E2E2E2">
+    <?
+    global $PHP_SELF;
+    ?>
+    <form name="passwdform" method="post" action="<?=$PHP_SELF?>">
+    <input type="hidden" name="group" value="<?=$group?>">
+    <input type="hidden" name="code" value="<?=$code?>">
+    <input type="hidden" name="category" value="<?=$category?>">
+    <input type="hidden" name="sno" value="<?=$sno?>">
+    <input type="hidden" name="no" value="<?=$no?>">		<?# 게시판 번호?>
+    <input type="hidden" name="cno" value="">				<?# 코멘트 번호?>
+    <input type="hidden" name="field" value="<?=$field?>">
+    <input type="hidden" name="search" value="<?=$search?>">
+    <input type="hidden" name="abmode" value="">
+    <input type="hidden" name="writeuserid" value="">
+	<input type="hidden" name="bsort" value="<?=$bsort?>">
+	<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+    <?
+    $linkarray = explode("&",$LINK[addpara]);
+    if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+    	$linkdataarray = explode("=",$linkdata);
+    ?>
+    <input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+    <?
+    }
+    ?>
+
+      <tr>
+        <td align="center" bgcolor="#FFFFFF">
+        <table width="380" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td height="2"></td>
+          </tr>
+          <tr>
+            <td align="right"><img src="skin_images/btn_close.gif" style="cursor:hand" onclick="board_pass_hide()" />&nbsp;&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center"><table width="300" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><img src="skin_images/view_t_pass.gif" width="68" height="19"></td>
+                <td><input name="passwd" type="password" class="input" size="15"></td>
+                <td><input type="image" src="skin_images/btn_submit.gif"></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+
+    </form>
+
+	</table>
+</div>
+</div>

@@ -1,0 +1,4 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+<a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><h2><?=$LDATA[title]?></h2>
+							<p style="white-space: normal;"><?=$LDATA[contents]?></p></a>
+<? }?>

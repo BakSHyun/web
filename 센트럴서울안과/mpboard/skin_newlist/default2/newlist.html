@@ -1,0 +1,4 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+	<strong><a href='<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>'><?=$LDATA[title]?></a></strong>
+	<a href='<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>'><?=$LDATA[name]?> / <?=date("y.m.d",strtotime($LDATA[wdate]))?></a>
+<? }?>

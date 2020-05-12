@@ -1,0 +1,32 @@
+function q_e : query_explode
+function e_c: encoding_check
+
+$u_c : $url_chk
+$r_q : $ref_query
+$rf : $refer
+
+$st_kw : $st_keyword
+$st_kw2 : $st_keyword2
+$st_n : $st_name
+$st_do : $st_domain
+$st_r_kw : $st_ref_keyword
+$st_de : $st_device
+$st_ty : $st_type
+
+$st_u_ca : $st_utm_campaign
+$st_u_m : $st_utm_medium
+$st_u_s : $st_utm_source
+$st_u_co : $st_utm_content
+
+echo '<br><br><br>';
+echo 'st_domain = '.$sqr[st_do].'<br>';
+echo 'st_name = '.$sqr[st_n].'<br>';
+echo 'st_ref_keyword = '.$sqr[st_r_kw].'<br>';
+echo 'st_keyword = '.$sqr[st_kw].'<br>';
+echo 'st_keyword2 = '.$sqr[st_kw2].'<br>';
+echo 'st_type = '.$sqr[st_ty].'<br>';
+echo 'st_utm_campaign = '.$sqr[st_u_ca].'<br>';
+echo 'st_utm_medium = '.$sqr[st_u_m].'<br>';
+echo 'st_utm_source = '.$sqr[st_u_s].'<br>';
+echo 'st_utm_content = '.$sqr[st_u_co].'<br>';
+echo 'st_device = '.$sqr[st_de].'<br>';

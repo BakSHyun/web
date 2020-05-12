@@ -1,0 +1,23 @@
+<?
+$i=0;
+if(is_array($LIST)) foreach ($LIST as $LDATA) {
+
+?>
+<tr>
+	<th><img src="../img/main/board_thum.jpg" alt="" /></th>
+	<td>
+		<h1><?=$LDATA[etc7]?></h1>
+		<h2>좌(L) <?=$LDATA[etc2]?> / 우(R) <?=$LDATA[etc1]?>  → <strong>좌(L) <?=$LDATA[etc6]?> / 우(R) <?=$LDATA[etc5]?></strong></h2>
+	</td>
+</tr>
+<? if($i==0){?>
+<tr>
+	<td colspan="2" height="20"></td>
+</tr>
+<?
+	}
+?>
+<?
+	$i++;
+}
+?>

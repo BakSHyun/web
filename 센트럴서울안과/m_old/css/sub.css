@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+/*
+=============================================
+|  조성민    SungMin Jo                    |
+|  Cell: +82-10-8837-4565, 010-8837-4565    |
+|  Home: http://www.alitaz.com              |
+|  e-mail: miracle_runa@naver.com           |
+=============================================
+*/
+
+#home_wrap {position:relative; width:100%; height:68px; background:url('../img/common/home_bg.gif') repeat-x;}
+#back_btn {position:absolute;left:0px;top:0px;}
+#home_btn {position:absolute;right:0px;top:0px;}
+#home_wrap h1 {width:640px;height:25px;padding:20px 0;margin:0 auto;text-align:center;font:bold 30px/20px 'Apple SD Gothic Neo','나눔고딕','NanumGothic';color:#112553;}
+
+#sub_cont_wrap {width:580px;padding:30px 30px 100px 30px; background:#fff;margin:0 auto;}
+
+#sub_portal {width:100%;padding:25px 0;background:url('../img/common/portal_bg.gif') repeat;}
+#sub_portal h2 {text-align:center;margin-bottom:20px;font:bold 30px/35px 'Apple SD Gothic Neo','나눔고딕','NanumGothic','돋움';color:#fff;}
+#sub_portal p {text-align:center;width:70%;margin:0 auto;}
+#sub_portal p .select_wrap {width:100%;display:block;height:40px;border:1px solid #aaaaaa;border-radius:5px;background:-webkit-gradient(linear,left top,left bottom,color-stop(1%,rgba(255,255,255,1)),color-stop(100%,rgba(239,239,239,1)));background:-webkit-linear-gradient(top,rgba(255,255,255,1) 1%,rgba(239,239,239,1) 100%)}
+#sub_portal p .select_wrap select {font-size:25px;width:100%;height:40px;padding:0 0 0 25px;border:0;background:transparent url(../img/common/bg_select.gif) no-repeat 100% 0;background-size:36px 40px;-webkit-background-size:36px 40px;-webkit-appearance:none}
+
+#title_img {width:100%;text-align:center;
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWRlZGVkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2FhYWFhYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(-45deg,  rgba(237,237,237,1) 0%, rgba(170,170,170,1) 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(237,237,237,1)), color-stop(100%,rgba(170,170,170,1)));
+background: -webkit-linear-gradient(-45deg,  rgba(237,237,237,1) 0%,rgba(170,170,170,1) 100%);
+background: -o-linear-gradient(-45deg,  rgba(237,237,237,1) 0%,rgba(170,170,170,1) 100%);
+background: -ms-linear-gradient(-45deg,  rgba(237,237,237,1) 0%,rgba(170,170,170,1) 100%);
+background: linear-gradient(135deg,  rgba(237,237,237,1) 0%,rgba(170,170,170,1) 100%); }
+
+#index_menu {border-top:1px solid #d0d0d0;}
+#index_menu li {height:65px;border-bottom:1px solid #b2b3b3;
+box-shadow:inset 0px 0px 1px rgba(255,255,255,.9);
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VjZWNlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjOWNhY2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  rgba(236,236,236,1) 0%, rgba(201,202,202,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(236,236,236,1)), color-stop(100%,rgba(201,202,202,1)));
+background: -webkit-linear-gradient(top,  rgba(236,236,236,1) 0%,rgba(201,202,202,1) 100%);
+background: -o-linear-gradient(top,  rgba(236,236,236,1) 0%,rgba(201,202,202,1) 100%);
+background: -ms-linear-gradient(top,  rgba(236,236,236,1) 0%,rgba(201,202,202,1) 100%);
+background: linear-gradient(to bottom,  rgba(236,236,236,1) 0%,rgba(201,202,202,1) 100%); }
+#index_menu li a {position:relative;display:block;font:bold 25px/65px 'Apple SD Gothic Neo','나눔고딕','NanumGothic','돋움';color:#222;padding-left:70px;background:url('../img/comm/list_blt.gif') 44px center no-repeat;}
+#index_menu li a span {position:absolute;right:40px;top:0px;}
+
+/*회원*/
+.member_wrap {border-top:1px solid #e2e2e2;border-bottom:1px solid #e2e2e2;background:#fafafa;width:100%;}
+
+/*로그인*/
+.login_box {width:495px;height:120px; margin:30px auto;position:relative;}
+.login_box div {position:relative;}
+.login_box div {top:10px;}
+.login_box p {position:absolute;right:0;top:10px;}
+          
+.member_links {width:100%;text-align:center;background:#fafafa;}
+.member_links p {margin:20px;font:normal 20px 'NanumGothicWEB';color:#454544;}
+.member_links div {text-align:center;margin-bottom:40px;}
+
+/*가입*/
+.join_box {margin:5px 0 0 0;padding:5px 3%;}
+.join_box h4 {margin:20px 0 7px 0;height:25px;font:bold 18px 'NanumGothicWEB';color:#454544;}
+
+.il {width:100%;height:40px;margin:10px 0;position:relative;box-shadow:0 1px 0 #FFF;-webkit-box-shadow: 0 1px 0 #FFF;padding:1px;border-radius:4px;background:-webkit-linear-gradient(top,rgba(174,174,175,1) 0%,rgba(199,199,199,1) 100%);}
+.noj {margin:0;}
+.j2 {margin-bottom:15px;}
+.j3 {width:68%;}
+.il label {display:block;font:normal 20px/40px 'NanumGothicWEB';color:#999;}
+.il span {display: block;height:40px;padding: 0 6px;border-radius: 3px;background:#FFF;box-shadow: inset 1px 1px 0 #F0F0F0;-webkit-box-shadow: inset 1px 1px 0 #F0F0F0;}
+.il input {position:absolute;width:99%;padding-left:1%;height:40px;border:0;background: transparent;font-size:20px;vertical-align:top;-webkit-appearance: none;top:0;left:0;z-index:1;}
+.il textarea {position:absolute;width:99%;padding-left:1%;height:120px;border:0;background: transparent;font-size:20px;vertical-align:top;-webkit-appearance: none;top:0;left:0;z-index:1;}
+
+.il2 {width:100%;height:120px;margin:10px 0;position:relative;box-shadow:0 1px 0 #FFF;-webkit-box-shadow: 0 1px 0 #FFF;padding:1px;border-radius:4px;background:-webkit-linear-gradient(top,rgba(174,174,175,1) 0%,rgba(199,199,199,1) 100%);}
+.il2 label {display:block;font:normal 20px/40px 'NanumGothicWEB';color:#999;}
+.il2 span {display: block;height:120px;padding: 0 6px;border-radius: 3px;background:#FFF;box-shadow: inset 1px 1px 0 #F0F0F0;-webkit-box-shadow: inset 1px 1px 0 #F0F0F0;}
+.il2 textarea {position:absolute;width:98%;padding:10px 1%;height:100px;border:0;background: transparent;font-size:20px;vertical-align:top;-webkit-appearance: none;top:0;left:0;z-index:1;}
+
+.select_wrap {width:100%;display:block;position:relative;height:40px;border:1px solid #aaaaaa;border-radius:5px;background:-webkit-gradient(linear,left top,left bottom,color-stop(1%,rgba(255,255,255,1)),color-stop(100%,rgba(239,239,239,1)));background:-webkit-linear-gradient(top,rgba(255,255,255,1) 1%,rgba(239,239,239,1) 100%);}
+.select_wrap select {font-size:25px;width:100%;height:40px;padding:0 0 0 10px;border:0;background:transparent url(../img/common/bg_select.gif) no-repeat 100% 0;background-size:36px 40px;-webkit-background-size:36px 40px;-webkit-appearance:none}
+
+.ic {width:100%;margin:10px 0;display:inline-block;}
+.ic li {width:32%;float:left;}
+.ic li.ic_num {margin-left:2%;}
+.ic li.ic_mail {width:48%;margin-right:2%;}
+.ic li.ic_mail2 {width:50%;}
+.ic .select_wrap {width:100%;}
+#mail_dir {display:none;}
+
+.form_btn {text-align:center;margin:20px 0;}
+
+.doc_res_code {overflow:hidden;}
+.doc_res_code li {float:left;width:50%;height:50px;text-align:center;}
+.doc_res_code li a {display:block;background:#f4f4f3;color:#333;font:bold 14px/50px 'dotum';}
+.doc_res_code li a:hover, .doc_res_code li a.select {background:#5762a2;color:#fff;}
+
+/*게시판*/
+.board_wrap {width:98%;padding:0 1%;}
+
+.blank20 {margin:7px 0;height:5px;}
+.blank40 {margin:17px 0;height:5px;}
+
+.checklist_wrap1 {margin:10px 0;}
+.checklist_wrap1 li {border-bottom:1px solid #e1e1e6;background:url('/img/sub/checklist_type1_blt.png') 5px 17px no-repeat;padding:10px 10px 10px 37px;font:normal 27px/37px 'dotum';color:#4d534d;}
+.checklist_wrap1 li.even {background:url('/img/sub/checklist_type1_blt.png') 5px 17px no-repeat #fafafe;}
+
+.checklist_wrap2 {margin:10px 0;}
+.checklist_wrap2 li {border-bottom:1px solid #e1e1e6;background:url('/img/sub/checklist_type2_blt.png') 5px 17px no-repeat;padding:10px 10px 10px 37px;font:normal 27px/37px 'dotum';color:#4d534d;}
+.checklist_wrap2 li.even {background:url('/img/sub/checklist_type2_blt.png') 5px 17px no-repeat #fafafe;}
+
+.checklist_wrap3 {margin:10px 0;}
+.checklist_wrap3 li {border-bottom:1px solid #e1e1e6;background:url('/img/sub/checklist_type3_blt.png') 5px 17px no-repeat;padding:10px 10px 10px 37px;font:normal 27px/37px 'dotum';color:#4d534d;}
+.checklist_wrap3 li.even {background:url('/img/sub/checklist_type3_blt.png') 5px 17px no-repeat #fafafe;}
+
+/*둘러보기*/
+.gallery_wrap {position:relative; width:640px; height:417px; background: #7581ba; margin:0 auto;}
+.gallery_wrap .prev {position:absolute; width:87px; height:87px; bottom:0px; left:0px;  z-index:99995;}
+.gallery_wrap .next {position:absolute; width:87px; height:87px; bottom:0px; right:0px;  z-index:99995;}
+.gallery_wrap .gall {width:100%; height:417px; overflow:hidden;}
+.gallery_wrap .gall .slider {width:100%; height:417px;}
+.gallery_wrap .gall .slider .item {width:100%; height:100%; float:left;}
+.gallery_wrap .gall .slider .item img {width:100%; height:100%;}
+
+/*추가 템플릿*/
+#sub_content {width:100%; background:#fff;}
+#sub_content #content {width:640px; position:relative; margin:0 auto;}
+.content{width:546px; margin:0 auto; padding:40px 47px;)
+
+#tap_btn {width:560px; margin:25px auto;}
+#tap_btn li {float:left; margin-left:1px; background:#99aac6; border:1px solid #7c8aa1; text-align:center; padding:20px 0 20px 0;}
+#tap_btn li.first {margin:0;}
+#tap_btn li.off {background:#99aac6; border:1px solid #7c8aa1;}
+#tap_btn li.on {background:#659ae5; border:1px solid #527dba;}
+#tap_btn li a {display:block; font:bold 20px/30px 'NanumGothicWEB';color:#fff;}
+

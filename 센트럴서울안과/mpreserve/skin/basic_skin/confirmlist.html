@@ -1,0 +1,91 @@
+
+<link href="/mpreserve/skin/basic_skin/skin_css/input.css" rel="stylesheet" type="text/css">
+<script language="javascript">
+
+function conreserve(){
+	if(confirm("예약을 취소하시겠습니까?"))
+		return true;
+	else
+		return false;
+}
+</script>
+
+
+<div class='agreement_wrap'>
+	<h2>온라인 예약자 정보</h2>
+</div>
+<table class='bbs_list_table'>
+	<colgroup>
+		<col style="width:100px;" />
+		<col style="width:100px;" />
+		<col style="width:100px;" />
+		<col style="width:100px;" />
+		<col style="width:100px;" />
+		<col style="width:100px;" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th>예약자</th>
+			<th>연락처</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><?=$name?></td>
+			<td><?=$hphone1?>-<?=$hphone2?>-<?=$hphone3?></td>
+
+		</tr>
+	</tbody>
+</table>
+
+<div class='agreement_wrap'>
+	<h2>온라인 예약 현황</h2>
+</div>
+
+<table class='bbs_list_table'>
+	<colgroup>
+		<col style="width:140px;" />
+		<col style="width:*;" />
+		<col style="width:140px;" />
+		<col style="width:100px;" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th>예약상태</th>
+			<th>예약일</th>
+			<th>진료과목</th>
+			<th>취소하기</th>
+			<!--<th>지점</th>-->
+			<!-- <th>예약시간</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		<?
+		if(is_array($reslist)){
+			foreach ($reslist as $LDATA) {
+				$branch = mysql_result(mysql_query("select name from mpreserve_config where code= '$LDATA[code]'",$connect),0,0);
+				if($LDATA[resstate] == "1") $resstate = "<span class='status finish'>예약확인</span>";
+				else if($LDATA[resstate] == "2") $resstate = "<span class='status finish'>진료완료</span>";
+				else if($LDATA[resstate] == "9") $resstate = "<span class='status cancels'>예약취소</span>";
+				else $resstate = "<span class='status wait'>예약대기</span>";
+
+				if($LDATA[resstate] == "" || $LDATA[resstate] == "1") $rescancel = "<a href='$PHP_SELF?mode=rescancel&no=$LDATA[no]&name=$name&hphone1=$hphone1&hphone2=$hphone2&hphone3=$hphone3' onclick='return conreserve()'><span style='color:#cc0000;'><i class='fa fa-times'></i></span></a>";
+				else $rescancel = "·";
+		?>
+		<tr>
+			<td><?=$resstate?></td>
+			<td><i class="fa fa-calendar"></i> <?=$LDATA[resdate]?> <i class="fa fa-clock-o"></i> <?=$LDATA[restime]?></td>
+			<td><span class='categorys'><?=$LDATA[etc1]?></span></td>
+			<td><?=$rescancel?></td>
+			<!--<td><a href="#none" onclick="view_con('<?=$LDATA[no]?>')"><?=$branch?></a></td>-->
+			<!-- <td><a href="#none" onclick="view_con('<?=$LDATA[no]?>')"><?=$LDATA[restime]?></a></td> -->
+		</tr>
+		<?}}else{?>
+		<tr><td colspan='6'>본원에 예약된 기록이 없습니다. 온라인예약 페이지를 방문하여 예약하시기 바랍니다.</td></tr>
+		<?}?>
+	</tbody>
+</table>
+
+<div style='text-align:center;'>
+	<a href='http://dental2.dentalsalon.co.kr/06_community/community2_2.php'><img src="/mpreserve/skin/basic_skin/skin_images/community2_2_img09.jpg" alt="처음으로 돌아가기"/></a>
+</div>

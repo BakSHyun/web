@@ -1,0 +1,27 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+	<?if($LDATA[code] == "eye_after"){?>
+		<?
+			$query1 = "SELECT * FROM amboard_basic_file WHERE fno = $LDATA[no] and vname = 'file1' order by vname asc";
+			$result1 = mysql_query($query1);
+			unset($img1);
+			$i=0;
+			//이미지없을경우
+			$img[0] = "/mpboard/skin/res_webzine_2img_type1/skin_images/no_img.gif";
+			$img[1] = "/mpboard/skin/res_webzine_2img_type1/skin_images/no_img.gif";
+			while($row1 = mysql_fetch_array($result1)){
+				$img[$i] = "/mpboard/upload/".$row1[rname];
+				$vname[$i] = $row1[vname];
+				$i++;
+			}
+			?>
+		<li ><img style="width:414px;height:155px;" src="<?=$img[0]?>" alt="<?=$vname[0]?>" /></li>
+	<?}else{?>
+		<tr>
+			<td class="num"><?=$LDATA[no]?></td>
+			<td><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[title]?></a></td>
+			<?if($LDATA[code] == "qna"){?>
+			<td class="q_btn"><?if($LDATA[recontents]){?><span class="rq_btn">답변</span><?}?></td>
+			<?}?>
+		</tr>
+	<?}?>
+<? }?>

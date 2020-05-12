@@ -1,0 +1,31 @@
+﻿<main>
+   
+   <mlba>
+     <ROW IMG_URL="../flash/img/m_banner/lba1.png" LINK_URL="../02_centre/centre01.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/lba2.png" LINK_URL="../03_glaucoma/glaucoma01.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/lba3.png" LINK_URL="../04_clinic/clinic01.php"/>
+   </mlba>
+
+   <mrba>
+     <ROW IMG_URL="../flash/img/m_banner/rba1.png" LINK_URL="../01_intro/intro05.php#intro05_01_img01"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba2.png" LINK_URL="../01_intro/intro05.php#intro05_01_img02"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba3.png" LINK_URL="../01_intro/intro05.php#intro05_01_img03"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba4.png" LINK_URL="../01_intro/intro05.php#intro05_01_img04"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba5.png" LINK_URL="../01_intro/intro05.php#intro05_01_img05"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba6.png" LINK_URL="../01_intro/intro05.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba7.png" LINK_URL="../01_intro/intro05.php"/>
+   </mrba>
+
+   <quick>
+     <ROW TEXT_URL="백내장센터" LINK_URL="../02_centre/centre01.php"/>
+	 <ROW TEXT_URL="녹내장센터" LINK_URL="../03_glaucoma/glaucoma01.php"/>
+	 <ROW TEXT_URL="망막센터" LINK_URL="../04_clinic/clinic01.php"/>
+   </quick>
+
+   <qmo>
+     <ROW IMG_URL="../flash/img/quick_fa.png" LINK_URL="http://www.facebook.com/pages/%EC%84%BC%ED%8A%B8%EB%9F%B4%EC%84%9C%EC%9A%B8%EC%95%88%EA%B3%BC-Central-Seoul-Eye-Center/139705122734212"/>
+	 <ROW IMG_URL="../flash/img/quick_naver.png" LINK_URL="http://blog.naver.com/deskshot"/>
+   </qmo>
+
+</main>
+ 

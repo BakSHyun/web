@@ -1,0 +1,231 @@
+<link href="/./mpboard/skin/hw_youvi/skin_css/hw_css.css" rel="stylesheet" type="text/css">
+
+<script>
+function popup(check, page, name, w, h, scroll) {
+	var win= null;
+	var winl = (screen.width-w)/2;
+	var wint = (screen.height-h)/3;
+	var settings = '';
+	if ( check == 'modal') {
+		settings ='dialogHeight: '+h+'px;';
+		settings +='dialogWidth: '+w+'px;';
+		settings +='dialogTop: '+wint+'px;';
+		settings +='dialogLeft: '+winl+'px;';
+		settings +='scrollbars: '+scroll+';';
+		settings +='resizable: no;';
+		settings +='status: no; help: no';
+		showModalDialog(page,name,settings);
+	}
+	else {
+		settings ='height='+h+',';
+		settings +='width='+w+',';
+		settings +='top='+wint+',';
+		settings +='left='+winl+',';
+		settings +='scrollbars='+scroll+',';
+		settings +='resizable=no,';
+		settings +='status=no';
+		win=window.open(page,name,settings);
+		if(parseInt(navigator.appVersion) >= 4) win.window.focus();
+	}
+}
+</script>
+
+<script language="javascript">
+//이미지 로딩에러시 이미지object 자체 안보이게 하기
+function imgError(obj) {
+	obj.style.display='none';
+}
+
+//이미지 폭이 특정 값 이상일때 폭 조정
+function imgFix(obj) {
+	var maxW = 800;  //조절한 특정 이미지 폭 값
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		obj.style.width = maxW;
+		obj.style.height = img.height * (maxW/img.width);
+		obj.style.cursor = 'url(images/magnify.cur),pointer';
+	}
+}
+function imgChkClick(obj) {
+	var maxW = 800;
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		picview(img.src,img.width,img.height);
+	}
+}
+
+//이미지 새 창에서 보기
+function picview(src,w,h) {
+
+	var iw = screen.width - 16;
+	var ih = screen.height - 68;
+	var s = 0;
+	var scroll = '';
+	if(w > iw) {
+		w = iw;
+		s += 1;
+	}
+	if(h > ih) {
+		h = ih;
+		s += 1;
+		if(w < iw) w += 20;
+	}
+	if(s > 0 ) {
+		scroll = ",scrollbars=1";
+	}
+	var opt_mo = "top=5,left=5,width="+w+",status=no,height="+h+",resizable=1"+scroll;
+	NFW = window.open("","newWin",opt_mo);
+	NFW.focus();
+	var string = "<html>" +
+	"<head><title>Photo</title></head>" +
+	"<body topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>" +
+	"<a href='javascript:window.close()'><img src='" + src + "' border=0></a>" +
+	"</body></html>";
+	NFW.document.open();
+	NFW.document.write(string);
+	NFW.document.close();
+}
+</script>
+
+<?
+function format_rte($str) {
+	$search = array('@<script[^>]*?>.*?</script>@si',  //<script>태그없애기
+	'@onload=(.*?)@si',  //<img 태그내에 삽입된 불필요한 속성 없애기
+	'@onmouseover=(.*?)@si',
+	'@onclick=(.*?)@si',
+	'@onmousedown=(.*?)@si',
+	'@onmouseout=(.*?)@si'
+	);
+	$str = preg_replace($search,'', $str);
+	$str = eregi_replace("<IMG","<img border=\"0\" onLoad=\"imgFix(this)\" onClick=\"imgChkClick(this)\" onError=\"imgError(this)\"", $str);
+
+	return $str;
+
+}
+?>
+
+<div class="media_gallery2_wrap">
+
+	<div class="media_gallery2_view_wrap">
+		<table border="0" cellpadding="0" cellspacing="0" class="media_gallery2_view_table">
+			<caption>이 표는 상세 내용에 대한 리스트로 제목, 작성일에 대한 내용을 포함하고 있습니다.</caption>
+			<tbody>
+				<?if($BDATA[cate1]){?>
+				<tr>
+					<th>카테고리</th>
+					<td><?=$BDATA[cate1]?></td>
+				</tr>
+				<?}?>
+				<tr>
+					<th>제목</th>
+					<td class="view_title"><?=$BDATA[title]?></td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td><?=$BDATA[name]?></td>
+				</tr>
+				<tr>
+					<th>작성일</th>
+					<td><?=$BDATA[wdate]?></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="media_gallery2_view_area">
+
+
+
+
+							<?
+							if($BDATA[etc3]){
+								$pageArray = explode("/", $BDATA[etc3]);
+								$curPage = $pageArray[count($pageArray)-1];
+								if(strpos($BDATA[etc3],"vimeo.com") !== false){
+							?>
+									<iframe src="https://player.vimeo.com/video/<?=$curPage?>" width="100%" height="520px" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+							<?
+								} else if((strpos($BDATA[etc3],"youtube.com") !== false) ||(strpos($BDATA[etc3],"youtu.be") !== false)){
+									/* 유튜브 키값 구하기 */
+									$curPage = str_replace("|","",$curPage);
+									$curPage = str_replace("watch?v=","",$curPage);
+									$curPage = substr($curPage,0,11);
+							?>
+									<iframe width="100%" height="520px" src="https://www.youtube.com/embed/<?=$curPage?>" frameborder="0" allowfullscreen></iframe>
+							<?
+								}
+							} else{
+								$maxwidth = 900;	// 이미지의 최대 넓이
+								if($IMG_STATE) if(is_array($FLIST)) {
+									reset($FLIST);
+									while(list($KEY, $FDATA)=each($FLIST)) {
+										if($FDATA[width] > $maxwidth) $width = $maxwidth;
+										else $width = $FDATA[width];
+
+										$filepathinfo = pathinfo($FDATA[name]);
+										if(!strcasecmp($filepathinfo[extension], "avi") || !strcasecmp($filepathinfo[extension], "asf") || !strcasecmp($filepathinfo[extension], "mpg") || !strcasecmp($filepathinfo[extension], "mpeg") || !strcasecmp($filepathinfo[extension], "wmv")) {
+										?>
+										<embed src="/<?=$INDIR?>/mpboard/upload/<?=$FDATA[rname]?>" width="300" height="280" border=0></embed><br>
+										<br>
+										<? }else{ ?>
+										<img src="<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>" width="<?=$width?>"><br><br>
+										<? }
+									}
+								}
+
+							}
+								if($BDATA[code] == 'movie'){
+								$contents = str_replace( "\\","", $BDATA[contents] );
+								}else{
+								$contents = format_rte($BDATA[contents]);
+								}
+								str_replace("<br>","",$contents);
+								echo $contents;
+							?>
+
+
+
+						</div>
+					</td>
+				</tr>
+
+				<?
+				if(is_array($FLIST)) { if ($DOWNLOAD_STATE =="1") {
+					echo "<tr><td colspan='2'>";
+					reset($FLIST);
+					while(list($KEY, $FDATA)=each($FLIST)) {
+				?>
+					<div class="media_gallery2_file_download">
+						<i class="nbi nbi-clip"></i>
+						<a href="<?=$FDATA[downlink]?>&group=<?=$group?>&code=<?=$code?>"><?=$FDATA[name]?></a> [<?=$FDATA[sizestr]?>] (download:<?=$FDATA[count]?>)
+					</div>
+				<? } echo "</td></tr>"; } } ?>
+
+
+				<? if($BDATA[recontents]){?>
+				<tr>
+					<td colspan="2">
+						<div class="media_gallery2_view_area">
+							<p class="media_gallery2_reply">Re :)</p>
+								<? if($BDATA[recontents] != "") { $recontents = format_rte($BDATA[recontents]); echo $recontents; } ?>
+						</div>
+					</td>
+				</tr>
+				<?}?>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="media_gallery2_btn_wrap">
+		<a href="<?=$LINK[slist]?>">목록</a>
+
+		<? if($AUTH[rewrite]) { if($KIND_MODE == "counsel") { if($BDATA[wmode] != "1") { ?>
+		<a href="javascript:board_pass_view('boardmodifypasswd')">답변</a>
+		<? } } }?>
+		<? if($AUTH[modify]){  if(!(($KIND_MODE == "counsel" && $BDATA[wmode] != "1") && $AUTH[manage])) { ?>
+		<a href="javascript:board_pass_view('boardmodifypasswd')">수정</a>
+		<? } }?>
+		<? if($AUTH[delete]){?><a href="javascript:board_pass_view('boarddelpasswd')">삭제</a><?}?>
+	</div>
+
+</div>

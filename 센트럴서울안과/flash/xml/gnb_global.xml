@@ -1,0 +1,122 @@
+<global>
+	<gnb>
+		<depth0 name="왜 센트럴서울안과인가?" tum="5" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="../01_intro/intro01.php">
+			<depth1 name="개원이념" link="../01_intro/intro01.php"></depth1>
+			<depth1 name="센트럴서울안과 연혁" link="../01_intro/intro11.php"></depth1>
+			<depth1 name="의료진 소개" link="../01_intro/doc03.php"></depth1>
+
+			<!--
+			<depth1 name="CI/비전과 미션" link="../01_intro/intro03.php"></depth1>
+			-->
+
+			<depth1 name="고객과의 약속" link="../01_intro/intro03.php"></depth1>
+			<depth1 name="핵심역량" link="../01_intro/intro04.php"></depth1>
+			<depth1 name="본원의료장비" link="../01_intro/intro05.php"></depth1>
+			<depth1 name="환자의뢰체계" link="../01_intro/intro07.php"></depth1>
+			<depth1 name="병원둘러보기" link="../01_intro/intro08.php"></depth1>
+			<depth1 name="진료시간" link="../01_intro/intro09.php"></depth1>
+			<depth1 name="찾아오시는길" link="../01_intro/intro10.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="노안·백내장클리닉" tum="6" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="../02_centre_new/centre01.php">
+			 <depth1 name="백내장이란?" link="../02_centre_new/centre01.php"></depth1>
+			 
+			 <depth1 name="노안·백내장 클리닉 소개" link="../02_centre_new/centre02.php">
+				<depth2 name="CS 프레스티지 케어" link="../02_centre_new/centre02.php"/> 
+				<!--<depth2 name="백내장수술의 본질" link="../02_centre_new/centre02.php"/>-->
+				<!--<depth2 name="맞춤형 수술 상담" link="../02_centre_new/centre03.php"/>-->
+				<depth2 name="콘스텔레이션" link="../02_centre_new/centre04.php"/>
+				<depth2 name="프리미엄급 인공수정체" link="../02_centre_new/centre05.php"/>
+				<depth2 name="수술이력서 발급" link="../02_centre_new/centre06.php"/>
+			</depth1>
+			
+			<depth1 name="백내장 수술 선택가이드" link="../02_centre_new/centre14.php"></depth1>
+			<depth1 name="아트 렌즈" link="../02_centre_new/centre08.php"></depth1>
+			<depth1 name="레스토 렌즈" link="../02_centre_new/centre09.php"></depth1>
+			<depth1 name="토릭 렌즈" link="../02_centre_new/centre10.php"></depth1>
+			<depth1 name="렌티스 컴포트 렌즈" link="../02_centre_new/centre11.php"></depth1>
+			<!--<depth1 name="난치성 백내장 수술" link="../02_centre_new/centre12.php"></depth1> -->
+			<depth1 name="사후관리&해피콜" link="../02_centre_new/centre13.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="초고도근시 클리닉" tum="0" txta="서울대 출신 전문의료진" txtb="가장 안전한 치료를 고집하는 각막, 백내장, 굴절교정수술의 권위자" link="../03_myopic/myopic01.php">
+			<depth1 name="Dr. 김균형" link="../03_myopic/myopic01.php"></depth1>
+			<depth1 name="CS초고도근시 클리닉" link="../03_myopic/myopic02.php"></depth1>
+			<depth1 name="안전한 안내렌즈삽입술이란?" link="../03_myopic/myopic03.php"></depth1>
+			<depth1 name="초고도근시와 백내장" link="../03_myopic/myopic04.php"></depth1>
+			<depth1 name="초고도근시와 녹내장" link="../03_myopic/myopic05.php"></depth1>
+			<depth1 name="초고도근시와 망막질환" link="../03_myopic/myopic06.php"></depth1>
+		</depth0>
+		
+
+		<depth0 name="녹내장 클리닉" tum="0" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="../03_glaucoma/glaucoma00.php">
+			<depth1 name="Dr. 최재완" link="../03_glaucoma/glaucoma00.php"></depth1>
+			<depth1 name="CS 녹내장 정밀 진단 프로그램" link="../03_glaucoma/glaucoma02.php"></depth1>
+			<depth1 name="녹내장이란?" link="../03_glaucoma/glaucoma03.php"></depth1>
+			<depth1 name="SLT섬유주성형술" link="../03_glaucoma/glaucoma18.php"></depth1>
+			<depth1 name="녹내장의 증상과 분류" link="../03_glaucoma/glaucoma04.php"></depth1>
+            <depth1 name="녹내장 위험인자 및 유전성" link="../03_glaucoma/glaucoma05.php"></depth1>
+			<depth1 name="녹내장의 치료와 관리" link="../03_glaucoma/glaucoma06.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="망막 클리닉" tum="0" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="../04_clinic/clinic09.php">
+			<depth1 name="Dr.황종욱" link="../04_clinic/clinic09.php"></depth1>
+			<depth1 name="CS 원스톱 망막치료시스템" link="../04_clinic/clinic10.php"></depth1>
+			<depth1 name="황반변성 클리닉" link="../04_clinic/clinic02.php"></depth1>
+			<depth1 name="당뇨망막 클리닉" link="../04_clinic/clinic03.php"></depth1>
+			<depth1 name="Constellation 유리체절제술" link="../04_clinic/clinic08.php"></depth1>
+			<depth1 name="안구내 항체 주입술" link="../04_clinic/clinic06.php"></depth1>			
+			<depth1 name="범망막 광응고술(PRP)" link="../04_clinic/clinic07.php"></depth1>
+			<depth1 name="Spectralis OCT 망막검사" link="../04_clinic/clinic05.php"></depth1>
+			<depth1 name="형광안저촬영" link="../04_clinic/clinic04.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="드림렌즈" tum="0" txta="서울대 출신 전문의료진" txtb="자는 동안 편평해진 각막에 의해 낮 동안 좋은 시력을 유지할 수 있는 시력교정 방법입니다." link="../09_dream/dream01.php">
+			<depth1 name="드림렌즈" link="../09_dream/dream01.php"></depth1>
+			<depth1 name="드림렌즈 교정원리" link="../09_dream/dream01.php#dream01_1"></depth1>
+			<depth1 name="장점 및 단점" link="../09_dream/dream01.php#dream01_2"></depth1>
+			<depth1 name="시술대상" link="../09_dream/dream01.php#dream01_3"></depth1>
+			<depth1 name="검사과정" link="../09_dream/dream01.php#dream01_4"></depth1>
+			<depth1 name="정기검진" link="../09_dream/dream01.php#dream01_5"></depth1>
+			<depth1 name="드림렌즈 체험기" link="../07_community/community08.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="상담및예약/커뮤니티" tum="0" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="../06_counsel/counsel02.php">
+			<depth1 name="온라인 예약" link="../06_counsel/counsel01_1.php?code=counsel01"></depth1>
+			<depth1 name="온라인 상담" link="../06_counsel/counsel02.php"></depth1>
+			<depth1 name="언론속의 센트럴서울안과" link="../07_community/community02.php"></depth1>
+			<depth1 name="CS EYE 소식" link="../07_community/community03.php"></depth1>
+			<depth1 name="진료 체험기" link="../07_community/community07.php"></depth1>
+			<depth1 name="채용 안내" link="../07_community/community04.php"></depth1>
+
+		</depth0>
+		
+				
+		<depth0 name="MEMBER" tum="0" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="">
+			<depth1 name="로그인" lang="kor" link="../08_member/login.php"></depth1>
+			<depth1 name="회원가입" lang="kor" link="../08_member/join.php"></depth1>
+			<depth1 name="회원정보수정" lang="kor" link="../08_member/edit.php"></depth1>
+			<depth1 name="아이디/패스워드찾기" lang="kor" link="../08_member/idpw.php"></depth1>
+			<depth1 name="개인정보 보호정책" lang="kor" link="../08_member/privacy.php"></depth1>
+			<depth1 name="환자권리장전" lang="kor" link="../08_member/right.php"></depth1>
+			<depth1 name="사이트맵" lang="kor" link="../08_member/sitemap.php"></depth1>
+		</depth0>
+		
+		
+		<depth0 name="MEMBER" tum="0" txta="서울대 출신 전문의료진" txtb="실명의 3대 원인질환들인 백내장,녹내장 및 망막 질환을 집중적으로 치료 하는 프레스티지급 안과입니다." link="">
+			<depth1 name="로그아웃" lang="kor" link="/ammember/logout_session.php?return_url=/"></depth1>
+			<depth1 name="회원가입" lang="kor" link="../08_member/join.php"></depth1>
+			<depth1 name="회원정보수정" lang="kor" link="../08_member/edit.php"></depth1>
+			<depth1 name="아이디/패스워드찾기" lang="kor" link="../08_member/idpw.php"></depth1>
+			<depth1 name="개인정보 보호정책" lang="kor" link="../08_member/privacy.php"></depth1>
+			<depth1 name="환자권리장전" lang="kor" link="../08_member/right.php"></depth1>
+			<depth1 name="사이트맵" lang="kor" link="../08_member/sitemap.php"></depth1>
+			
+		</depth0>
+	</gnb>
+</global>

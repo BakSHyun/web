@@ -1,0 +1,80 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css" />
+
+<?
+function format_rte($str) {
+	$search = array('@<script[^>]*?>.*?</script>@si',  //<script>태그없애기
+	'@onload=(.*?)@si',  //<img 태그내에 삽입된 불필요한 속성 없애기
+	'@onmouseover=(.*?)@si',
+	'@onclick=(.*?)@si',
+	'@onmousedown=(.*?)@si',
+	'@onmouseout=(.*?)@si'
+	);
+	$str = preg_replace($search,'', $str);
+	$str = eregi_replace("<IMG","<img border=\"0\" onLoad=\"imgFix(this)\" onClick=\"imgChkClick(this)\" onError=\"imgError(this)\"", $str);
+
+	return $str;
+
+}
+
+	if(!$BDATA[etc1]){ $BDATA[etc1]='TV출연'; }
+	if(!$BDATA[etc2]){ $BDATA[etc2]=$BDATA[wdate]; }
+
+	global $platform;
+
+?>
+<? if($platform!='mobile'){?>
+<ul class='tab_type1 tab_func mb_link'>
+	<li class='selects' style='width:50%;'><a>방송보도</a></li>
+	<li class='off' style='width:50%;'><a href='/06_community/community3_3_2.php'>보도자료</a></li>
+</ul>
+<?}else{?>
+<ul class='tab_type1 tab_func mb_link'>
+	<li class='selects' style='width:50%;'><a>방송보도</a></li>
+	<li class='off' style='width:50%;'><a href='intro6_2.php'>보도자료</a></li>
+</ul>
+<?}?>
+
+<div class='bbs_view'>
+
+	<div class='bbs_conts'>
+		<? if($BDATA[etc3]){?>
+		<? $youtube_url=end(explode('/',$BDATA[etc3])); ?>
+		<div class='youtube_view'>
+			<iframe src="https://www.youtube.com/embed/<?=$youtube_url?>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<?}?>
+
+		<div class='view_top_wrap'>
+			<div class='view_title'><span><?=$BDATA[etc1]?></span> <?=$BDATA[title]?></div>
+			<div class='date_auth'><?=$BDATA[etc2]?></div>
+		</div>
+
+		<div class='view_content'>
+			<?
+				//$contents = format_rte($BDATA[contents]);
+				//echo $contents;
+				echo $BDATA[contents];
+			?>
+		</div>
+
+	</div>
+
+	<ul class='bbs_btns3'>
+		<? if($AUTH[rewrite]) { if($KIND_MODE == "counsel") { if($BDATA[wmode] != "1") { ?>
+		<li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boardmodifypasswd')">답변</a></li>
+		<? } }else {?>
+		<li><a class='btn_type1 type3' href='<?=$LINK[reply]?>'>댓글</a></li>
+		<? } } ?>
+		<? if($AUTH[modify]){
+				if(!(($KIND_MODE == "counsel" && $BDATA[wmode] != "1") && $AUTH[manage])) { ?>
+		<li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boardmodifypasswd')">수정</a></li>
+		<? }
+		}?>
+		<? if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boarddelpasswd')">삭제</a></li><?}?>
+		<li><a class='btn_type1 type3' href='<?=$LINK[slist]?>'>목록</a></li>
+	</ul>
+
+</div>
+
+<!-- 게시물 코멘트 출력 -->
+<?if($COMM_STATE) $bcommentobj->bprint();?>

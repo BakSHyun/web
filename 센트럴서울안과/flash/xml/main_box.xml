@@ -1,0 +1,43 @@
+﻿<main>
+   
+   <mlba>
+     <ROW IMG_URL="../flash/img/m_banner/lba1.png" LINK_URL="http://www.cseye.net/02_centre_new/centre02.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/lba2.png" LINK_URL="http://www.cseye.net/03_glaucoma/glaucoma02.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/lba3.png" LINK_URL="http://www.cseye.net/04_clinic/clinic10.php"/>
+   </mlba>
+
+   <mrba>
+	 <ROW IMG_URL="../flash/img/m_banner/rba0.png" LINK_URL="../01_intro/intro05.php#intro05_01_img00"/>
+	 <ROW IMG_URL="../flash/img/m_banner/rba8.png" LINK_URL="http://www.cseye.net/03_glaucoma/glaucoma18.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba1.png" LINK_URL="../01_intro/intro05.php#intro05_01_img01"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba2.png" LINK_URL="../01_intro/intro05.php#intro05_01_img02"/>
+    <!--2011년형 iol master  <ROW IMG_URL="../flash/img/m_banner/rba3.png" LINK_URL="../01_intro/intro05.php#intro05_01_img03"/> -->
+     <ROW IMG_URL="../flash/img/m_banner/rba4.png" LINK_URL="../01_intro/intro05.php#intro05_01_img04"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba5.png" LINK_URL="../01_intro/intro05.php#intro05_01_img05"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba6.png" LINK_URL="../01_intro/intro05.php"/>
+     <ROW IMG_URL="../flash/img/m_banner/rba7.png" LINK_URL="../01_intro/intro05.php"/>
+   </mrba>
+
+   <quick>
+     <ROW TEXT_URL="백내장센터" LINK_URL="http://www.cseye.net/02_centre_new/centre02.php"/>
+	 <ROW TEXT_URL="녹내장센터" LINK_URL="../03_glaucoma/glaucoma00.php"/>
+	 <ROW TEXT_URL="망막센터" LINK_URL="../04_clinic/clinic09.php"/>
+   </quick>
+
+   <qmo>
+     <ROW IMG_URL="../flash/img/quick_fa.png" LINK_URL="http://www.facebook.com/pages/%EC%84%BC%ED%8A%B8%EB%9F%B4%EC%84%9C%EC%9A%B8%EC%95%88%EA%B3%BC-Central-Seoul-Eye-Center/139705122734212"/>
+	 <ROW IMG_URL="../flash/img/quick_naver1.gif" LINK_URL="http://blog.naver.com/bluestarys"/>
+	 <ROW IMG_URL="../flash/img/quick_naver2.gif" LINK_URL="http://blog.naver.com/deskshot"/>
+	
+   </qmo>
+   
+   <!--추가배너----------------------------->
+   <banner>
+      <ROW IMG_URL="../flash/img/review/review1.jpg" LINK_URL="http://tv.ichannela.com/culture/sisatalk/interview/3/0401000001/20130315/53738306/1" FRAME="_blank"/>
+	  <ROW IMG_URL="../flash/img/review/review2.jpg" LINK_URL="http://www.edaily.co.kr/news/NewsRead.edy?SCD=DI11&newsid=01849926599428552&DCD=&OutLnkChk=Y" FRAME="_blank"/>
+	  <ROW IMG_URL="../flash/img/review/review3.jpg" LINK_URL="http://www.cseye.net/07_community/community03.php?sno=0&group=basic&code=community03&category=&&cate1=&cate2=&cate3=&abmode=view&no=891&bsort=&bfsort=" FRAME="_self"/>
+	  <ROW IMG_URL="../flash/img/review/review4.jpg" LINK_URL="http://news.kukinews.com/article/view.asp?page=1&gCode=cul&arcid=0006575846&cp=nv" FRAME="_blank"/>
+   </banner>
+
+</main>
+ 

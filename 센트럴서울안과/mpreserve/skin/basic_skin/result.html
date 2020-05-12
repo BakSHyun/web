@@ -1,0 +1,42 @@
+<div class="tab_section01">
+	<h1 class="tab_section01_tit community_tit">예약완료</h1>
+	<div class="online_ok">
+		<div class="online_gray">
+			<?=$name?> 고객님의 <br/> 예약이 접수되었습니다.
+		</div>
+		<ul>
+			<li>- 선택 예약일 : <?=$resdate?> <?=$restime?></li>
+		</ul><br>
+
+	</div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+	$('.exam_pop').click(function(){
+		$('#reserve_modal_wrap').show();
+		$('.'+$(this).attr('id')).show();
+	});
+	$('.me_pop_close').click(function(){
+		//$('#reserve_modal_wrap').hide();
+		//$('.exam_implant').hide();
+		//$('.exam_ortho').hide();
+		window.location.reload();
+	});
+});
+function mod_open(names){
+	$('.mod_box').hide();
+	$('#'+names).show();
+
+}
+</script>
+<?
+	$resinfo=mysql_fetch_array(mysql_query("select * from mpreserve where no='$mn' "));
+?>
+<div id='reserve_modal_wrap'>
+	<div class='reserve_modal_cont'>
+		<div class='exam_implant' style='display:none;'><? include "../inc/examination_implant.php"; ?></div>
+		<div class='exam_ortho' style='display:none;'><? include "../inc/examination_orthodontic.php"; ?></div>
+	</div>
+</div>

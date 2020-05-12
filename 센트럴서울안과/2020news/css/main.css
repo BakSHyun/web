@@ -1,0 +1,32 @@
+@charset "utf-8";
+#main_visual {width:640px; position:relative; margin:0 auto; overflow:hidden;}
+#main_visual .bx-wrapper .bx-prev{background:url('../img/main/mainbtnleft.png') no-repeat left top ;height: 67px;left: 0;}
+#main_visual .bx-wrapper .bx-next{background:url('../img/main/mainbtnright.png') no-repeat left top ;height: 67px;right: 0;}
+#main_visual .bx-wrapper .bx-controls-direction a{bottom:50%;margin-bottom:-32px; }
+
+#main_visual01 {width:640px; position:relative; margin:0 auto; overflow:hidden;}
+#main_visual01 .bx-wrapper .bx-prev{background:url('../img/main/mainbtnleft.png') no-repeat left top ;height: 67px;left: 0;}
+#main_visual01 .bx-wrapper .bx-next{background:url('../img/main/mainbtnright.png') no-repeat left top ;height: 67px;right: 0;}
+#main_visual01 .bx-wrapper .bx-controls-direction a{bottom:50%;margin-bottom:-32px; }
+
+
+
+.mb01{width:640px; margin:0 auto;overflow: hidden;}
+.mb01 img{float:left;}
+.main_cnt{width:640px;background:#fff; margin:0 auto;padding:13px;box-sizing:border-box;}
+.mv02 {width:614px; position:relative; margin:0 auto 13px auto; overflow:hidden;}
+.mv02 .bx-pager-item a{background: #9c9c9c;display: inline-block;margin: 3px;width: 15px;height: 15px;border-radius: 17px;text-indent: -99999px;}
+.mv02 .bx-pager-item a.active{background: #505050;}
+
+.main_board{overflow:hidden;margin-top:13px; }
+.main_board .box01{float:left;margin-right:9px;border:1px solid #f1f1f1; width:300px; box-sizing:border-box;position:relative;  }
+.main_board .box01.last{float:left;margin-right:0px;  }
+.main_board .box01 h1 a{font-size:22px;color:#606060; font-family:'NanumGothic';}
+.main_board .box01 h2{font-size:17px;color:#959595 ;font-family:'NanumGothic';}
+.main_board .box01 h2 a{font-size:16px;color:#959595 ;font-family:'NanumGothic';}
+
+.slide_wrap{padding: 0px 17px 30px;box-sizing: border-box;position: relative;margin-top: 50px;}
+.slide_wrap .bx-wrapper{text-align:left;}
+.slide_wrap .bx-wrapper .bx-prev {top: -34px;left:167px;background: url('../img/main/box_btn01.jpg') no-repeat;width:23px;height:23px;}
+.slide_wrap .bx-wrapper .bx-next {top: -34px;right: 47px;background: url('../img/main/box_btn02.jpg') no-repeat;width:23px;height:23px;}
+.btngo{position:absolute;right: 20px;top: 170px; }

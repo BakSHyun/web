@@ -1,0 +1,391 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/new/js/jquery.bxslider.min.js"></script>
+<script>
+
+function init_tab(){
+	$('.tab_func').each(function(){
+		var wid = $(this).find('li').length;
+		$(this).find('li').css('width',($(this).width()*1)/wid);
+	});
+}
+init_tab();
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		}
+		else {
+			objCheck.checked='on';
+		}
+	}
+	else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		}
+		else {
+			objCheck.checked='';
+		}
+	}
+}
+
+//게시판 내용 복사
+function checkCopy(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('복사할 게시물을 선택하세요');
+		return;
+	}
+	checkCopycon(cform,checkvalue);
+}
+
+function checkCopycon(cform,checkvalue) {
+	if(confirm('정말로 복사하시겠습니까?')) {
+		cform.abmode.value = 'copy';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 내용 복사
+
+//게시판 이동
+function checkChange(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('이동 할 게시물을 선택하세요');
+		return;
+	}
+	checkChangecon(cform,checkvalue);
+}
+
+function checkChangecon(cform,checkvalue) {
+	if(confirm('정말로 이동하시겠습니까?')) {
+		cform.abmode.value = 'change';
+		cform.checkvalue.value = checkvalue;
+
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 이동 끝
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.abmode.value = 'deleteseldb';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+function logincheck() {
+	alert('로그인을 하셔야 작성하실수 있습니다.');
+	login();
+}
+
+function catesearch(catenum, val)
+{
+	var cateval;
+	if(catenum == "1")
+		cateval = "cate1="+val+"&cate2=<?=$cate2?>&cate3=<?=$cate3?>";
+	else if(catenum == "2")
+		cateval = "cate1=<?=$cate1?>&cate2="+val+"&cate3=<?=$cate3?>";
+	else if(catenum == "3")
+		cateval = "cate1=<?=$cate1?>&cate2=<?=$cate2?>&cate3="+val;
+	location.href = "<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$category?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>&"+cateval;
+}
+
+/* MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) */
+<?if($AUTH[userlevel] < "1") {
+	?>
+	function del_complete(){
+		if(confirm('숨겨진 삭제 데이터를 완전히 삭제하시겠습니까?')) {
+			checkform.abmode.value = "del_completedb";
+			checkform.submit();
+		}
+		else {
+			return;
+		}
+	}
+	<?}
+?>
+
+
+
+
+
+
+$(document).ready(function (){
+/*전후사진*/
+$('.bfaf_inner').bxSlider({
+		 mode: 'fade',
+		 speed:1000,
+		 captions: true,
+		 pagerCustom: '.bx-pager'
+	});
+});
+
+
+</script>
+<style>
+/*.on img{border:#5488de 4px solid; width:386px};*/
+.on {border:#5488de 2px solid;}
+/*전후사진*/
+.bfaf_wrap{position:relative;}
+.roll_wrap{position:relative;}
+.roll_wrap h1{text-align:center; font-size:25px; background:#2F363E;color:#fff;padding:20px 0;}
+.roll_wrap p{font-size: 16px;text-align: center;background: rgba(255, 255, 255, 0.68);position: absolute;bottom: 0;width: 100%;padding: 15px 0px;display:block;z-index:999}
+.bfaf_wrap .bx-wrapper .bx-next{display:none;}
+.bfaf_inner{display:block;}
+.bfaf_wrap .bx-pager{position: absolute;bottom: 48px;left: 50%;z-index: 9999;margin-left:-140px}
+.bfaf_wrap .icon5{margin-left: -141px;}
+.bfaf_wrap .icon3{margin-left:  -83px;}
+.bfaf_wrap .icon2{margin-left: -55px;}
+.bfaf_wrap .bx-pager a{padding:15px;display:inline-block; background:#969696; color:#fff; }
+.bfaf_wrap .bx-pager a.active{padding:15px;display:inline-block; background:#3A4974; color:#fff; }
+.roll_thum{overflow:hidden;margin-top:60px}
+.roll_thum li{width:25%; text-align:center; float:left; }
+.roll_thum li img{width:290px;}
+.paging{overflow:hidden;padding: 10px;}
+.paging ul{display:inline-block; overflow:hidden; position:relative; left:50%; margin-left:-70px;}
+.paging ul li{float:left;padding-left:3px;color:#666}
+.paging ul li a{color:#666}
+.bbs_btns:after{content:"";display:block;clear:both;}
+.bbs_btns li {float:left;}
+
+/* 페이징 */
+.bbs_paging2 {width:100%;height:33px;margin:20px auto 10px auto;border:1px solid #d8d8d8;border-right:0;overflow:hidden;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+.bbs_paging2 li {width:25%;height:32px;line-height:32px;float:left;border-right:1px solid #d8d8d8;color:#999;background:#fff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align:center;}
+.bbs_paging2 li a {color:#999;display:block;text-decoration:none;background:#fff;color:#4b87d1;font-weight:bold;}
+.bbs_paging2 li i {position:relative;top:0px;}
+
+.bbs_paging {width:100%;height:30px;margin:10px auto 10px auto;text-align:center;}
+.bbs_paging li {width:10%;height:30px;line-height:30px;display:inline-block;text-align:center;color:#7f7c78;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align:center;}
+.bbs_paging li:first-child a {border:1px solid #d8d8d8;}
+.bbs_paging li a {position:relative;border:1px solid #d8d8d8;border-left:0;color:#7f7c78;display:block;text-decoration:none;}
+.bbs_paging li i {position:relative;top:1px;}
+.bbs_paging li.curr, .bbs_paging li.link a:hover {background:#fff;color:#4b87d1;font-weight:bold;}
+.bbs_paging li.link a {display:block;text-decoration:none;background:#fff;color:#999;}
+
+</style>
+
+<script>
+
+
+
+
+function as (i){
+	$(".roll_wrap").css("visibility","hidden");
+	$(".hongjji > li > a > img").removeClass("on");
+	switch (i) {
+	  case 1    : $(".rollcnt0").css("visibility","visible");
+					$(".roll_wrap").css("height","0");
+					$(".rollcnt0").css("height","747px");
+					$(".rollcntmenu0").css("height","22px");
+					$(".rollcntmenu0").css("visibility","visible");
+					 $(".hongjji > .t1 > a > img").addClass("on");
+				   break;
+	  case 2   :  $(".rollcnt1").css("visibility","visible");
+					$(".roll_wrap").css("height","0");
+					$(".rollcnt1").css("height","747px");
+					$(".rollcntmenu1").css("height","22px");
+					$(".rollcntmenu1").css("visibility","visible");
+					 $(".hongjji > .t2 > a > img").addClass("on");
+				   break;
+	  case 3   :  $(".rollcnt2").css("visibility","visible");
+					$(".roll_wrap").css("height","0");
+					$(".rollcnt2").css("height","747px");
+					$(".rollcntmenu2").css("height","22px");
+					$(".rollcntmenu2").css("visibility","visible");
+					 $(".hongjji > .t3 > a > img").addClass("on");
+				   break;
+	  case 4   :  $(".rollcnt3").css("visibility","visible");
+					$(".roll_wrap").css("height","0");
+					$(".rollcnt3").css("height","747px");
+					$(".rollcntmenu3").css("height","22px");
+					$(".rollcntmenu3").css("visibility","visible");
+					 $(".hongjji > .t4 > a > img").addClass("on");
+				   break;
+	}
+}
+
+</script>
+<?
+function name_set($name){
+ $first=mb_substr($name,0,2,'utf-8');
+ $names=mb_strlen($name,'utf-8');
+ for($i=2;$i<$names;$i++){ $last .= '*'; }
+ return $first.$last;
+}
+
+function check_notice($wmodes){ if($wmodes){ return "<span class='notice'><i class='fa fa-bullhorn'></i></span>"; } }
+function check_secrets($secrets){  if($secrets == '1'){ return "<em class='secret'><i class='fa fa-lock'></i></em>";  }else{ return "<em class='secret'><i class='fa fa-unlock'></i></em>";  } }
+function check_device($device){  if($device == 'desk'){ return "<span class='device'><i class='fa fa-desktop'></i></span>";  }else{ return "<span class='device'><i class='fa fa-mobile'></i></span>";  } }
+function check_views($views){ if($views == '0'){ return "<span class='vstate'><i class='fa fa-eye-slash'></i></span>";  } }
+function check_dels($dels,$nos){ if($dels == 'Y'){ return "<span class='del_state'><i class='fa fa-trash'></i></span>";  }else{ return "<input type='checkbox' name='check' value='$nos'>"; } }
+?>
+
+
+		<? if($AUTH[manage]){ ?><a href="javascript:del_complete()"><i class="fa fa-times"></i> 삭제된 게시물 완전히 삭제하기 (복구 불가능)</a>
+		<? } ?>
+		<form action="<?=$PHP_SELF?>" method="post" name="checkform" style="margin:0">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="sel" value="">
+		<div class="bfaf_wrap">
+		<?
+			$icont=0;
+			if(is_array($LIST)) foreach ($LIST as $LDATA) {
+				$query1 = "SELECT * FROM amboard_basic_file WHERE fno = $LDATA[no] and (vname = 'file1' or vname = 'file2' or vname = 'file3' or vname = 'file4' or vname = 'file5') order by vname asc";
+				$result1 = mysql_query($query1);
+				unset($img1);
+				$i=0;
+				//이미지없을경우
+				$img[0] = "/mpboard/skin/res_webzine_2img_type1/skin_images/no_img.gif";
+				$img[1] = "/mpboard/skin/res_webzine_2img_type1/skin_images/no_img.gif";
+				while($row1 = mysql_fetch_array($result1)){
+					$img[$i] = "/mpboard/upload/".$row1[rname];
+					$vname[$i] = $row1[vname];
+					$i++;
+				}
+				?>
+			<?if($AUTH[userlevel] <= 2) {?><p class='roll_wrap rollcntmenu<?=$icont?>' <?if('rollcntmenu'.$icont != 'rollcntmenu0'){?> style='visibility: hidden;height:0;' <?}?>>
+				<?=check_dels($LDATA[del_state])?>
+				<? if($LDATA[del_state]){ ?>이미 삭제된 글입니다<?}else{?><input type="checkbox" name="check" class='s_checkbox' value="<?=$LDATA[no]?>">삭제<?}?>
+				<a href='<?$PHP_SELF?>?<?=$LDATA[viewlink]?>'> | 수정 <i class="fa fa-wrench"></i></a><?=check_views($LDATA[vstate])?>
+			</p><?}?>
+			<div class="roll_wrap rollcnt<?=$icont?>" <?if('rollcnt'.$icont != 'rollcnt0'){?> style='visibility: hidden;height:0;' <?}?> >
+
+				<h1>전후사진</h1>
+				<ul class="bfaf_inner">
+					<li><img src="<?=$img[0]?>" alt="<?=$vname[0]?>" /></li>
+					<li><img src="<?=$img[1]?>" alt="<?=$vname[1]?>" /></li>
+					<li><img src="<?=$img[2]?>" alt="<?=$vname[2]?>" /></li>
+					<li><img src="<?=$img[3]?>" alt="<?=$vname[3]?>" /></li>
+					<li><img src="<?=$img[4]?>" alt="<?=$vname[4]?>" /></li>
+				</ul>
+				<div class="bx-pager" class="icon5">
+				  <a data-slide-index="0" href="">정면</a>
+				  <a data-slide-index="1" href="">45도</a>
+				  <a data-slide-index="2" href="">측면</a>
+				  <a data-slide-index="3" href="">135</a>
+				  <a data-slide-index="4" href="">하방</a>
+				</div>
+				<p><?=$LDATA[title]?></p>
+			</div>
+
+			<?
+				$thum[$icont]=$img[0];
+
+			$icont++;
+			}else{
+			?>
+			<p class='non_reg'>
+			<i class="fa fa-spinner fa-spin"></i> 등록된 게시물이 없습니다.
+			<?if($AUTH[write]){?><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>"> <i class="fa fa-pencil"></i> 게시물 작성하러 가기</a><?}?>
+			</p>
+			<?}?>
+
+		<? if(is_array($LIST)) {?>
+			<div class="roll_thum">
+				<ul class="hongjji">
+				<? if($thum[0]){ ?>
+					<li class="t1"><a href="javascript:as(1);"><img class="on" src="<?=$thum[0]?>" alt="" /></a></li>
+				<?}?>
+				<? if($thum[1]){ ?>
+					<li class="t2"><a href="javascript:as(2);"><img src="<?=$thum[1]?>" alt="" /></a></li>
+				<?}?>
+				<? if($thum[2]){ ?>
+					<li class="t3"><a href="javascript:as(3);"><img src="<?=$thum[2]?>" alt="" /></a></li>
+				<?}?>
+				<? if($thum[3]){ ?>
+					<li class="t4"><a href="javascript:as(4);"><img src="<?=$thum[3]?>" alt="" /></a></li>
+				<?}?>
+				</ul>
+			</div>
+				<ul class='bbs_paging2'>
+					<li><?=$PAGEING[start]?></li>
+					<li><?=$PAGEING[pregroup]?></li>
+					<li><?=$PAGEING[nextgroup]?></li>
+					<li><?=$PAGEING[end]?></li>
+				</ul>
+				<ul class='bbs_paging'>
+					<?=$PAGEING[page]?>
+				</ul>
+			<? if($AUTH[manage]){ ?>
+			<ul class='bbs_btns'>
+				<?if($AUTH[write]){?><li><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>" class='btn_type1'>글쓰기</a></li><?}?>
+				<?if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:checkDel(document.checkform)">삭제</a></li><?}?>
+			</ul>
+			<? } ?>
+		<? } ?>
+		</div>
+		</form>

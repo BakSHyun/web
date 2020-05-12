@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#main_roll {width:640px; margin:0 auto; position:relative; overflow:hidden;}
+#main_roll .imgbox {width:100%; height:355px;}
+#main_roll .slider {width:100%; height:100%;}
+#main_roll .slider .item {float:left; width:640px;}
+#main_roll .prev {bottom:0px; background:url('../img/main/roll_prev.png') center center no-repeat; width:59px; height:59px; left:0px; cursor:pointer; position:absolute; z-index:2;}
+#main_roll .next {bottom:0px; background:url('../img/main/roll_next.png') center center no-repeat; width:59px; height:59px; right:0px; cursor:pointer; position:absolute; z-index:2;}
+
+#main_menu_wrap {width:640px;margin:0 auto;background:#fff;}
+.main_menu_box {font-size:0;overflow:hidden;}
+.main_menu_box li {float:left;}
+

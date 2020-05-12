@@ -1,0 +1,344 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='skin_css/jquery.placeholder.min.js'></script>
+<? if(preg_match('/iphone|ipod|ios|blackberry|android|windows ce|lg|mot|samsung|sonyericsson|nokia/i', $_SERVER['HTTP_USER_AGENT'])){ ?>
+<style>
+/*모바일 테이블 간격 수정*/
+.s_select {height: 60px !important; font-size:18px !important}
+input.s_text {  height:60px !important; font-size:18px !important }
+.s_area{font-size:18px !important}
+.bbs_btns li {   width: 50% !important;
+}
+</style>
+<?}?>
+<script language="JavaScript">
+$(function() { $('input, textarea').placeholder({customClass:'my-placeholder'}); });
+$(document).ready(function(){
+
+	$('.file_del_check').click(function(){
+		var fileobj = $('#'+$(this).attr('vname'));
+		if($(this).prop('checked')){ fileobj.show(); }else { fileobj.hide(); }
+
+		var delFile='';
+		$('.file_del_check').each(function(){
+			if($(this).prop('checked')){
+				delFile+=$(this).val()+'|';
+			}
+		});
+
+		$('#checkvalue').val(delFile);
+
+	});
+
+	$('.s_upload').change(function(){
+		$('#'+$(this).attr('cname')).val($(this).val());
+	});
+
+	$('#hphone2').keyup(function(){
+		if($(this).val().length == 4){
+			$('#hphone3').focus();
+		}
+	});
+
+});
+
+function checkForm1(cf) {
+
+	<? if(!$AUTH[manage] && $abmode != "modify") { ?>
+		if(!cf.agreecheck.checked){
+			alert("작성을 위해서 이용자 약관에 동의해 주시기 바랍니다.");
+			return false;
+		}
+	<? } ?>
+
+	if(cf.name.value=="") {
+		alert("이름을 입력하세요");
+		cf.name.focus();
+		return false;
+	}
+	if(cf.hphone2.value=="" || cf.hphone3.value=="") {
+		alert("연락처를 입력하세요");
+		cf.hphone2.focus();
+		return false;
+	}
+	return true;
+}
+
+</script>
+
+<form action="<?=$_SERVER[PHP_SELF]?>" method="post" enctype="multipart/form-data" name="wform" OnSubmit="return checkForm1(this)">
+	<input type="hidden" name="group" value="<?=$group?>">
+	<input type="hidden" name="code" value="<?=$code?>">
+	<input type="hidden" name="category" value="<?=$category?>">
+	<input type="hidden" name="sno" value="<?=$sno?>">
+	<input type="hidden" name="abmode" value="<?=$abmodef?>">
+	<input type="hidden" name="no" value="<?=$no?>">
+	<input type="hidden" name="field" value="<?=$field?>">
+	<input type="hidden" name="search" value="<?=$search?>">
+	<input type="hidden" name="checkvalue" id='checkvalue' value="">
+	<input type="hidden" name="bsort" value="<?=$bsort?>">
+	<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+	<input type="hidden" name="vstate" value="<?=$CONFIG[vstate]?>">
+	<input type="hidden" name="html" value="1">
+	<? if(preg_match('/iphone|ipod|ios|blackberry|android|windows ce|lg|mot|samsung|sonyericsson|nokia/i', $_SERVER['HTTP_USER_AGENT'])){ ?>
+	<input type="hidden" name="device" value="mobile">
+	<?
+		}else{
+		$editor=" editor='webnote' ";
+	?>
+	<input type="hidden" name="device" value="desk">
+	<? } ?>
+
+	<?
+	$linkarray = explode("&",$LINK[addpara]);
+	if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+			$linkdataarray = explode("=",$linkdata);
+	?>
+	<input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+	<?
+	}
+	?>
+
+	<? if(!$AUTH[manage] && $abmode != "modify") { ?>
+	<div class='agreement_wrap'>
+		<h2 class='board_title'>개인정보 취급방침 동의</h2>
+		<div class='agree_form'>
+			<textarea><개인정보 수집, 이용 동의 안내>
+
+		*가입필수정보
+		※ 수집 항목 : 이름, 전화번호
+		※ 수집 목적 : 예약 서비스 이행을 위한 연락
+		※ 보유 기간 : 1년(상담 목적 달성 확인시)</textarea>
+			<div class='agree_check'><input type="checkbox" name="agreecheck" value="1" tabindex='1' class='s_checkbox' checked> 위 개인정보 보호정책에 동의합니다.</div>
+		</div>
+	</div>
+	<? } ?>
+
+	<?if($AUTH[manage]) {?>
+	<div class='board_write_wrap'>
+		<h2 class='board_title'><i class="fa fa-cog fa-spin"></i> 게시물 관리</h2>
+		<ul class='board_write'>
+			<?if($AUTH[userlevel] < "1" && $BDATA[del_state]=="Y") {	?>
+			<li>
+				<div class='il'>
+					<select class='s_select' id="del_state" name='del_state'>
+						<option value="">- 삭제글 복구 - </option>
+						<option value="Y" <?if($BDATA[del_state]=="Y") echo "selected";?>>삭제된 상태</option>
+						<option value="" <?if($BDATA[del_state]=="") echo "selected";?>>삭제 복구</option>
+					</select>
+				</div>
+			</li>
+			<?}else {?>
+				<input type="hidden" id="del_state" name="del_state"  value="<?=$BDATA[del_state]?>" />
+			<?}?>
+			<li>
+				<div class='il'>
+					<ul class='double_wrap'>
+						<li>
+							<label id="vstate" for="vstate">게시물 승인/비승인</label>
+							<select class='s_select' id="vstate" name='vstate'>
+								<option value="1" <?if($BDATA[vstate]!="") echo "selected";?>>- 승인여부 - </option>
+								<option value="1" <?if($BDATA[vstate]=="1") echo "selected";?>>게시물 승인</option>
+								<option value="0" <?if($BDATA[vstate]=="0") echo "selected";?>>게시물 비승인</option>
+							</select>
+						</li>
+						<li>
+							<label id="wmode" for="wmode">공지설정</label>
+							<select class='s_select' id="wmode" name='wmode'>
+								<option value="0" <?if($BDATA[wmode]!="") echo "selected";?>>- 공지설정 - </option>
+								<option value="1" <?if($BDATA[wmode]=="1") echo "selected";?>>설정</option>
+								<option value="0" <?if($BDATA[wmode]=="0") echo "selected";?>>미설정</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<?}?>
+
+	<div class='board_write_wrap'>
+		<h2 class='board_title'><i class="fa fa-pencil-square-o"></i> 게시물 작성</h2>
+		<ul class='board_write'>
+			<? if ($SECRET_TYPE =="1") {?>
+			<li>
+				<div class='il'>
+					<label id="secret" for="secret">비밀글</label>
+					<select class='s_select' id="secret" name='secret'>
+						<option value="0" <? if($BDATA[secret] == "0" || $BDATA[secret] == "") { echo "selected"; } ?>>- 상담글 공개 여부 -</option>
+						<option value="1" <? if($BDATA[secret] == "1") { echo "selected"; } ?>>비공개</option>
+					</select>
+				</div>
+			</li>
+			<?}else if ($SECRET_TYPE =="0"){?>
+			<input type="hidden" name="secret" value="0">
+			<?}else if ($SECRET_TYPE =="2"){?>
+			<input type="hidden" name="secret" value="1">
+			<?}?>
+			<? if($CATE_NUM > 0){ for($i=1; $i<=$CATE_NUM; $i++){ $cate = "cate".$i; ?>
+			<li>
+				<div class='il'>
+					<label id="cate<?=$i?>_input" for="cate<?=$i?>_input"><?=${"CATE".$i."_NAME"}?></label>
+					<select class='s_select' id="cate<?=$i?>_input" name='cate<?=$i?>_input'>
+						<option value=""><?=${"CATE".$i."_NAME"}?></option>
+						<? foreach(${"CATE".$i."_ITEM"} as $cvalue) { ?>
+						<option value="<?=$cvalue?>" <? if($BDATA[$cate] == $cvalue) { echo "selected"; } ?>><?=$cvalue?></option>
+						<? } ?>
+					</select>
+				</div>
+			</li>
+			<? } } ?>
+			<li>
+				<div class='il'>
+					<label id="title" for="title">제목</label>
+					<input type="text" id="title" name="title" maxlength="150" class="s_text" value="<?=$BDATA[title]?>">
+				</div>
+			</li>
+			<li>
+				<div class='il'>
+					<label id="name" for="name">이름</label>
+					<input type="text" id="name" name="name" maxlength="50" class="s_text" value="<?=$BDATA[name]?>">
+				</div>
+			</li>
+			<?if($LOGIN_USER) {?>
+			<input type="hidden" name="passwd" value="<?=rand(1000000000, 9999999999)?>">
+			<?}else{?>
+			<li>
+				<div class='il'>
+					<label id="passwd" for="passwd">비밀번호</label>
+					<input type="text" id="passwd" name="passwd" maxlength="10" class="s_text" value="<?=$BDATA[passwd]?>">
+					<span><i class="fa fa-lock"></i> 4자 이상 작성하세요.</span>
+				</div>
+			</li>
+			<?}?>
+			<li>
+				<div class='il'>
+					<label id="hphone1" for="hphone1">휴대전화</label>
+					<div class='cell_wrap'>
+						<select class='s_select' id="hphone1" name='hphone1'>
+							<option value='010'>010</option>
+							<option value='011'>011</option>
+							<option value='016'>016</option>
+							<option value='017'>017</option>
+							<option value='018'>018</option>
+							<option value='019'>019</option>
+						</select>
+						<ul>
+							<li><input type='text' id="hphone2" name='hphone2' maxlength="4" class='s_text' value="<?=$BDATA[hphone2]?>"></li>
+							<li><input type='text' id="hphone3" name='hphone3' maxlength="4" class='s_text' value="<?=$BDATA[hphone3]?>"></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class='il'>
+					<label id="category_input" for="category_input">처리결과</label>
+					<div class="cell_wrap radio_m" style="padding:0px !important;font-size: 13px !important;">
+
+					<strong>통화 여부</strong> : <input type="radio" id="" name="etc1" value="부재"  <? if($BDATA[etc1]=="부재" || $BDATA[etc1]==""){ echo "checked";	}?>/>부재  <input type="radio" id="" name="etc1" value="통화완료"  <? if($BDATA[etc1]=="통화완료" ){ echo "checked";	}?>/>통화완료
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+					<strong>예약 여부</strong> : <input type="radio" id="" name="etc2" value="예약"  <? if($BDATA[etc2]=="예약" || $BDATA[etc2]==""){ echo "checked";	}?>/>예약  <input type="radio" id="" name="etc2" value="미예약"  <? if($BDATA[etc2]=="미예약" ){ echo "checked";	}?>/>미예약
+
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+					<strong>기타 메모</strong> : <input type="radio" id="" name="etc3" value="미예약사유"  <? if($BDATA[etc3]=="미예약사유" || $BDATA[etc2]==""){ echo "checked";	}?>/>미예약사유  <input type="radio" id="" name="etc3" value="메일전송" <? if($BDATA[etc3]=="메일전송" ){ echo "checked";	}?>/>메일전송 <input type="radio" id="" name="etc3" value="불량"  <? if($BDATA[etc3]=="불량" ){ echo "checked";	}?>/>불량 &nbsp;&nbsp;&nbsp;
+					</div>
+				</div>
+			</li>
+			<?if($CATE_STATE) {?>
+			<li>
+				<div class='il'>
+					<label id="category_input" for="category_input">처리구분</label>
+					<select class='s_select' id="category_input" name='category_input'>
+						<option value="">처리구분</option>
+						<?if(is_array($CALIST)) while(list($KEY, $CADATA)=each($CALIST)) {?>
+						<option value="<?=$CADATA[no]?>" <?if($CADATA[no]==$BDATA[category]) echo "selected";?>><?=$CADATA[cname]?></option>
+						<?}?>
+					</select>
+				</div>
+			</li>
+			<?}?>
+			<?
+			switch($cate1){
+				case '온라인예약' :
+					$placeholder='예약을 원하시는 날짜와 시간 그리고 기타 문의사항을 남겨주세요.';
+					break;
+				case '비용문의' :
+					$placeholder='비용 상담을 원하시는 진료 항목을 남겨주세요.';
+					break;
+				default  :
+					$placeholder='내용을 입력하세요';
+					break;
+			}
+
+			if($KIND_MODE == "counsel" && $BDATA[wmode] != "1" && $AUTH[rewrite] && $abmode == "modify") { ?>
+			<li>
+				<div class='il'>
+					<label id="contents" for="contents">내용</label>
+					<textarea name="contents" id="contents" class="s_area" <?=$editor?> style='height:200px;'><?=$BDATA[contents]?></textarea>
+				</div>
+			</li>
+			<li>
+				<div class='il'>
+					<label id="recontents" for="recontents">답변</label>
+					<textarea name="recontents" id="recontents" class="s_area" <?=$editor?> style='height:200px;'><?=$BDATA[recontents]?></textarea>
+				</div>
+			</li>
+			<? } else { ?>
+			<li>
+				<div class='il'>
+					<label id="contents" for="contents">내용</label>
+					<textarea name="contents" id="contents" class='s_area' <?=$editor?> style='height:200px;'><?=$BDATA[contents]?></textarea>
+				</div>
+			</li>
+			<? } ?>
+
+		</ul>
+
+	</div>
+
+	<?if($FILE_STATE) {?>
+	<div class='board_write_wrap'>
+		<h2 class='board_title'><i class="fa fa-file-text"></i> 파일 첨부</h2>
+		<div class='file_box_wrap'>
+			<?if($abmode=="modify") {?>
+			<div class='file_list'>
+				<?
+				$d=1;
+				if(is_array($FLIST)) while(list($KEY, $FDATA)=each($FLIST)) {?>
+				<ul>
+					<li><i class="fa fa-paperclip"></i> <?=$FDATA[name]?> [<?=$FDATA[sizestr]?>]</li>
+					<!--<li>(download:<?=$FDATA[count]?>)</li>-->
+					<li><input type="checkbox" name="$FDATA[vname]" class='s_checkbox file_del_check' vname="display_<?=$FDATA[vname]?>"  value="<?=$FDATA[no]?>"> <?=$d?>번 파일 삭제</li>
+				</ul>
+				<? $d++; } }?>
+			</div>
+			<div class='file_add'>
+			<?
+			for($i=1;$i<=$FILE_NUM;$i++) {
+			if(!$FILE_ADD) {
+				$display_file = "";
+				if(is_array($FLIST)) {
+					reset($FLIST);
+					while(list($KEY, $FDATA)=each($FLIST)) {
+						if($FDATA[vname] == "file".$i) $display_file = "none";
+					}
+				}
+			}
+			?>
+			<div id="display_file<?=$i?>" style='display:<?=$display_file?>'>
+				<label id="file<?=$i?>" for="file<?=$i?>">파일 <?=$i?></label>
+				<input type='text' class='s_text' id='file_check<?=$i?>' disabled><div class="btn_type2"><div class='btn_inner'><span>업로드</span><input type='file' name='file<?=$i?>' cname='file_check<?=$i?>' class='s_upload'></div></div>
+			</div>
+			<?}?>
+			</div>
+		</div>
+	</div>
+	<?}?>
+
+
+	<ul class='bbs_btns'>
+		<li><a href="<?=$LINK[slist]?>" class='btn_type1 type2'>목록</a></li><?if($AUTH[write]){?><li><input type='submit' class='btn_type1' value='글쓰기'></li><?}?>
+	</ul>
+
+</form>
+<!-- 게시물 코멘트 출력 -->
+<?if($COMM_STATE) $bcommentobj->bprint();?>

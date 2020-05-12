@@ -1,0 +1,283 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css">
+<script>
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		}
+		else {
+			objCheck.checked='on';
+		}
+	}
+	else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		}
+		else {
+			objCheck.checked='';
+		}
+	}
+}
+
+//게시판 내용 복사
+function checkCopy(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('복사할 게시물을 선택하세요');
+		return;
+	}
+	checkCopycon(cform,checkvalue);
+}
+
+function checkCopycon(cform,checkvalue) {
+	if(confirm('정말로 복사하시겠습니까?')) {
+		cform.abmode.value = 'copy';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 내용 복사
+
+//게시판 이동
+function checkChange(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('이동 할 게시물을 선택하세요');
+		return;
+	}
+	checkChangecon(cform,checkvalue);
+}
+
+function checkChangecon(cform,checkvalue) {
+	if(confirm('정말로 이동하시겠습니까?')) {
+		cform.abmode.value = 'change';
+		cform.checkvalue.value = checkvalue;
+
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 이동 끝
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.abmode.value = 'deleteseldb';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+function logincheck() {
+	alert('로그인을 하셔야 작성하실수 있습니다.');
+	login();
+}
+
+function catesearch(catenum, val)
+{
+	var cateval;
+	if(catenum == "1")
+		cateval = "cate1="+val+"&cate2=<?=$cate2?>&cate3=<?=$cate3?>";
+	else if(catenum == "2")
+		cateval = "cate1=<?=$cate1?>&cate2="+val+"&cate3=<?=$cate3?>";
+	else if(catenum == "3")
+		cateval = "cate1=<?=$cate1?>&cate2=<?=$cate2?>&cate3="+val;
+	location.href = "<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$category?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>&"+cateval;
+}
+
+/* MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) */
+<?if($AUTH[userlevel] < "1") {
+	?>
+	function del_complete(){
+		if(confirm('숨겨진 삭제 데이터를 완전히 삭제하시겠습니까?')) {
+			checkform.abmode.value = "del_completedb";
+			checkform.submit();
+		}
+		else {
+			return;
+		}
+	}
+	<?}
+?>
+</script>
+<?
+	function check_notice($wmodes){ if($wmodes){ return "<span class='notice'><i class='fa fa-bullhorn'></i></span>"; } }
+	function check_views($views){ if($views == '0'){ return " | <span class='del_state'>비승인</span>";  } }
+	function check_dels($dels){ if($dels == 'Y'){ return "<span class='del_state'><i class='fa fa-trash'></i></span>";  } }
+?>
+
+<? if($code=='media02'){ ?>
+<ul class='tab_type1 tab_func mb_link'>
+	<li class='off'><a href='/06_community/community3_3_1.php'>방송보도</a></li>
+	<li class='selects'><a>보도자료</a></li>
+</ul>
+<? } ?>
+
+<div id='bbs_list_wrap'>
+<form action="<?=$PHP_SELF?>" method="post" name="checkform" style="margin:0">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="sel" value="">
+
+	<ul class='bbs_list_wrap'>
+		<? if($AUTH[manage]){ ?><li class='del_trash'><a href="javascript:del_complete()"><i class="fa fa-times"></i> 삭제된 게시물 완전히 삭제하기 (복구 불가능)</a></li><? } ?>
+		<? if(is_array($LIST)) foreach ($LIST as $LDATA) {
+				$row1 = mysql_fetch_array(mysql_query("SELECT rname FROM amboard_basic_file WHERE fno = '$LDATA[no]' and vname='file1' "));
+				$img1 = $row1[0];
+				if(!$img1){
+					$img1="skin_images/board_logo.jpg";
+				}
+		?>
+		<li><a <?if($LDATA[code]=='notice01' && $cate1=='이벤트' && $LDATA[etc3]!='1'){?>onclick='alert("종료된 이벤트입니다.");'<?}else{?>href='<?$PHP_SELF?>?<?=$LDATA[viewlink]?>'<?}?>>
+			<p class='thumb'><img src='/mpboard/upload/<?=$img1?>' alt='퍼스트 치과'></p>
+			<? if($cate1=='이벤트'){?>
+			<p class='titles'>
+				<strong><?=$LDATA[title]?></strong>
+				<?=$LDATA[etc1]?> ~ <?=$LDATA[etc2]?>
+				<span class='btn_type1 type2'>이벤트 보기 <i class="fa fa-angle-right"></i></span>
+			</p>
+			<p class='event_status'>
+				<?if($LDATA[etc3]=='1'){?>
+				<img src='skin_images/ev_on.png' alt='이벤트 진행중'><br><br>
+				진행중인<br>이벤트입니다.
+				<?}else{?>
+				<img src='skin_images/ev_off.png' alt='이벤트 종료'><br><br>
+				이벤트가<br>종료되었습니다.
+				<?}?>
+			</p>
+			<?}else{?>
+			<p class='titles'>
+				<strong><?=$LDATA[title]?></strong>
+				<?=$LDATA[wdate]?>
+				<span class='btn_type1 type2'>자세히 보기 <i class="fa fa-angle-right"></i></span>
+			</p>
+			<?}?>
+		</a>
+		<?if($AUTH[userlevel] <= 2) {?><p class='manage'>
+			<? if($LDATA[del_state]){ ?>이미 삭제된 글입니다<?}else{?><input type="checkbox" name="check" class='s_checkbox' value="<?=$LDATA[no]?>">삭제<?}?>
+			<a href='<?$PHP_SELF?>?<?=$LDATA[viewlink]?>'> | 수정 <i class="fa fa-wrench"></i></a><?=check_views($LDATA[vstate])?>
+		</p><?}?>
+		</li>
+		<? }else{ ?>
+		<li>
+			<p class='non_reg'>
+			<i class="fa fa-spinner fa-spin"></i> 등록된 게시물이 없습니다.
+			<?if($AUTH[write]){?><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>"> <i class="fa fa-pencil"></i> 게시물 작성하러 가기</a><?}?>
+			</p>
+		</li>
+		<? } ?>
+	</ul>
+
+</form>
+
+<?if($AUTH[delete]) {?>
+<ul class='bbs_btns2'>
+	<li><a class='btn_type1 type3' Onclick="javascript:checkCopy(document.checkform)">게시판 복사</a></li><li><a class='btn_type1 type3' Onclick="javascript:checkChange(document.checkform)">게시판 이동</a></li><?if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:checkDel(document.checkform)">삭제</a></li><?}?>
+</ul>
+<?}?>
+
+<ul class='bbs_btns'>
+	<li><a href="<?=$LINK[slist]?>" class='btn_type1 type2'>목록</a></li><?if($AUTH[write]){?><li><a href="<?=$LINK[write]?>&cate1=<?=$cate1?>" class='btn_type1'>글쓰기</a></li><?}?>
+</ul>
+
+<ul class='bbs_paging2'>
+	<li><?=$PAGEING[start]?></li>
+	<li><?=$PAGEING[pregroup]?></li>
+	<li><?=$PAGEING[nextgroup]?></li>
+	<li><?=$PAGEING[end]?></li>
+</ul>
+
+<ul class='bbs_paging'>
+	<?=$PAGEING[page]?>
+</ul>
+
+<form name="sform" action="<?=$PHP_SELF?>" method="post" id='sform'>
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="abmode" value="list">
+<input type="hidden" name="bsort" value="<?=$bsort?>">
+<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+<div class='bbs_search'><ul>
+	<li class='search_box1'>
+		<select name="field" class="search_select">
+			<option value="all" <?if($field=="all") echo "selected"?>>전체</option>
+			<option value="title" <?if($field=="title") echo "selected"?>>제목</option>
+			<option value="contents" <?if($field=="contents") echo "selected"?>>내용</option>
+			<option value="name" <?if($field=="name") echo "selected"?>>글쓴이</option>
+		</select>
+	</li>
+	<li class='search_box2'><input name="search" type="text" class="search_input" value='<?=$search?>'/><a class='btn_type2' onclick="document.getElementById('sform').submit(); return false;"><i class='fa fa-search'></i> 검색</a></li>
+</ul></div>
+</form>
+
+</div>

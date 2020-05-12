@@ -1,0 +1,21 @@
+<?if(is_array($LIST)) foreach ($LIST as $LDATA) {?>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="85" valign="top"><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><img src="<?=$LDATA[addimgfile]?>" width="85" height="85" border="0" /></a></td>
+		<td width="13" valign="top">&nbsp;</td>
+		<td valign="top">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="ti02"><strong><?=$LDATA[linktitle]?></strong></td>
+				</tr>
+				<tr>
+					<td height="10"></td>
+				</tr>
+				<tr>
+					<td><?=$LDATA[linkcontents]?></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<?}?>

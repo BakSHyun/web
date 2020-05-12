@@ -1,0 +1,216 @@
+<link href="/./mpboard/skin/txt_res_event_type2_mobile/skin_css/input.css" rel="stylesheet" type="text/css" />
+
+<script>
+function popup(check, page, name, w, h, scroll) {
+	var win= null;
+	var winl = (screen.width-w)/2;
+	var wint = (screen.height-h)/3;
+	var settings = '';
+	if ( check == 'modal') {
+		settings ='dialogHeight: '+h+'px;';
+		settings +='dialogWidth: '+w+'px;';
+		settings +='dialogTop: '+wint+'px;';
+		settings +='dialogLeft: '+winl+'px;';
+		settings +='scrollbars: '+scroll+';';
+		settings +='resizable: no;';
+		settings +='status: no; help: no';
+		showModalDialog(page,name,settings);
+	}
+	else {
+		settings ='height='+h+',';
+		settings +='width='+w+',';
+		settings +='top='+wint+',';
+		settings +='left='+winl+',';
+		settings +='scrollbars='+scroll+',';
+		settings +='resizable=no,';
+		settings +='status=no';
+		win=window.open(page,name,settings);
+		if(parseInt(navigator.appVersion) >= 4) win.window.focus();
+	}
+}
+</script>
+
+<script language="javascript">
+//이미지 로딩에러시 이미지object 자체 안보이게 하기
+function imgError(obj) {
+	obj.style.display='none';
+}
+
+//이미지 폭이 특정 값 이상일때 폭 조정
+function imgFix(obj) {
+	var maxW = 800;  //조절한 특정 이미지 폭 값
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		obj.style.width = maxW;
+		obj.style.height = img.height * (maxW/img.width);
+		obj.style.cursor = 'url(images/magnify.cur),pointer';
+	}
+}
+function imgChkClick(obj) {
+	var maxW = 800;
+	var img = document.createElement("img");
+	img.src = obj.src;
+	if(img.width > maxW) {
+		picview(img.src,img.width,img.height);
+	}
+}
+
+//이미지 새 창에서 보기
+function picview(src,w,h) {
+
+	var iw = screen.width - 16;
+	var ih = screen.height - 68;
+	var s = 0;
+	var scroll = '';
+	if(w > iw) {
+		w = iw;
+		s += 1;
+	}
+	if(h > ih) {
+		h = ih;
+		s += 1;
+		if(w < iw) w += 20;
+	}
+	if(s > 0 ) {
+		scroll = ",scrollbars=1";
+	}
+	var opt_mo = "top=5,left=5,width="+w+",status=no,height="+h+",resizable=1"+scroll;
+	NFW = window.open("","newWin",opt_mo);
+	NFW.focus();
+	var string = "<html>" +
+	"<head><title>Photo</title></head>" +
+	"<body topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>" +
+	"<a href='javascript:window.close()'><img src='" + src + "' border=0></a>" +
+	"</body></html>";
+	NFW.document.open();
+	NFW.document.write(string);
+	NFW.document.close();
+}
+</script>
+
+<?
+function format_rte($str) {
+	$search = array('@<script[^>]*?>.*?</script>@si',  //<script>태그없애기
+	'@onload=(.*?)@si',  //<img 태그내에 삽입된 불필요한 속성 없애기
+	'@onmouseover=(.*?)@si',
+	'@onclick=(.*?)@si',
+	'@onmousedown=(.*?)@si',
+	'@onmouseout=(.*?)@si'
+	);
+	$str = preg_replace($search,'', $str);
+	$str = eregi_replace("<IMG","<img border=\"0\" onLoad=\"imgFix(this)\" onClick=\"imgChkClick(this)\" onError=\"imgError(this)\"", $str);
+
+	return $str;
+
+}
+
+
+?>
+
+<div class='bbs_view'>
+
+	<div class='view_top_wrap'>
+		<div class='view_title' style="font-size:40px;text-align: center;">
+			<?=$BDATA[title]?><br />
+			<span style="font-size:20px">기간 : <?=$BDATA[etc2]?> ~ <?=$BDATA[etc3]?></span>
+		</div>
+		<!-- <div class='date_auth'><?//=substr($BDATA[wdate],0,10)?> 기간 : <?=$BDATA[etc2]?> ~ <?=$BDATA[etc3]?> <br/ > <span><?=$BDATA[name]?>님이 작성하신 글입니다.</span></div> -->
+	</div>
+
+	<div class='bbs_conts'>
+		<div>
+	<? if($KIND_MODE != "counsel" || ($KIND_MODE == "counsel" && $BDATA[wmode] == "1")) {
+			$maxwidth = 720;	// 이미지의 최대 넓이
+			if($IMG_STATE) if(is_array($FLIST)) {
+					reset($FLIST);
+				while(list($KEY, $FDATA)=each($FLIST)) {
+					if($FDATA[width] > $maxwidth) $width = $maxwidth;
+					else $width = $FDATA[width];
+
+					$filepathinfo = pathinfo($FDATA[name]);
+					if(!strcasecmp($filepathinfo[extension], "avi") || !strcasecmp($filepathinfo[extension], "asf") || !strcasecmp($filepathinfo[extension], "mpg") || !strcasecmp($filepathinfo[extension], "mpeg") || !strcasecmp($filepathinfo[extension], "wmv")) {
+					?>
+					<embed src="/<?=$INDIR?>/mpboard/upload/<?=$FDATA[rname]?>"  border=0></embed><br>
+					<br>
+					<?
+						}else{
+							if(($code <> "customer02_04a"  && $code <> "star01" ) || $FDATA[vname] =="file2"){ //echo $FDATA[vname];
+					?>
+					<div align="center"><a style="cursor:hand" onClick="popupImageView('<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>','<?=$BDATA[title]?>')"><img src="/<?=$INDIR?>/mpboard/upload/<?=$FDATA[rname]?>" <?if ($width > 0 ){?>width="<?=$width?>" <?}?>></a></div><br><br>
+					<? }
+					}
+				}
+			}
+			$contents = format_rte($BDATA[contents]);
+			echo $contents;
+		} else {
+			$maxwidth = 600;	// 이미지의 최대 넓이
+			if($IMG_STATE) if(is_array($FLIST)) {
+				reset($FLIST);
+				while(list($KEY, $FDATA)=each($FLIST)) {
+					if($FDATA[width] > $maxwidth) $width = $maxwidth;
+					else $width = $FDATA[width];
+
+					$filepathinfo = pathinfo($FDATA[name]);
+					if(!strcasecmp($filepathinfo[extension], "avi") || !strcasecmp($filepathinfo[extension], "asf") || !strcasecmp($filepathinfo[extension], "mpg") || !strcasecmp($filepathinfo[extension], "mpeg") || !strcasecmp($filepathinfo[extension], "wmv")) {
+
+					?>
+					<embed src="/<?=$INDIR?>/mpboard/upload/<?=$FDATA[rname]?>" width="300" height="280" border=0></embed><br>
+					<br>
+					<? }else{ ?>
+					<a style="cursor:hand" onClick="popupImageView('<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>','<?=$BDATA[title]?>')"><img src="<?=$FDATA[viewfile]?>&group=<?=$group?>&code=<?=$code?>" width="<?=$width?>"></a><br><br>
+					<? }
+				}
+			}
+			$contents = format_rte($BDATA[contents]);
+			echo $contents;
+		} ?>
+		</div>
+
+		<? include "../inc/_pro.com.php"; ?>
+
+		<? if($BDATA[recontents]){?>
+		<div class='answer_wrap'>
+		<div style='text-align:left;margin-bottom:20px;'><img src="/./mpboard/skin/txt_res_event_type2_mobile/skin_images/ti.gif" border="0" /></div>
+		<? if($BDATA[recontents] != "") { $recontents = format_rte($BDATA[recontents]); echo "<p>".$recontents."</p>"; } ?>
+		</div>
+		<?}?>
+	</div>
+
+
+	<?
+	if(is_array($FLIST)) { if ($DOWNLOAD_STATE =="1") {
+		echo "<div class='file_list'>";
+		reset($FLIST);
+		while(list($KEY, $FDATA)=each($FLIST)) {
+	?>
+		<ul>
+			<li><i class="fa fa-paperclip"></i> <?=$FDATA[name]?> [<?=$FDATA[sizestr]?>]</li>
+			<!--<li>(download:<?=$FDATA[count]?>)</li>-->
+			<li></li>
+		</ul>
+	<? } echo "</div>"; } } ?>
+
+	<ul class='bbs_btns3'>
+		<? if($AUTH[rewrite]) { if($KIND_MODE == "counsel") { if($BDATA[wmode] != "1") { ?>
+		<li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boardmodifypasswd')">답변</a></li>
+		<? } }else {?>
+		<li><a class='btn_type1 type3' href='<?=$LINK[reply]?>'>댓글</a></li>
+		<? } } ?>
+		<? if($AUTH[modify]){
+				if(!(($KIND_MODE == "counsel" && $BDATA[wmode] != "1") && $AUTH[manage])) { ?>
+		<li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boardmodifypasswd')">수정</a></li>
+		<? }
+		}?>
+		<? if($AUTH[delete]){?><li><a class='btn_type1 type3' Onclick="javascript:board_pass_view('boarddelpasswd')">삭제</a></li><?}?>
+		<li><a class='btn_type1 type3' href='<?=$LINK[slist]?>'>목록</a></li>
+	</ul>
+
+</div>
+
+<!-- 게시물 코멘트 출력 -->
+<?if($COMM_STATE) $bcommentobj->bprint();?>
+
+<!-- 게시물 점수주기 출력 -->
+<?if($POINT_STATE) $bpointobj->bprint();?>

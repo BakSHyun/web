@@ -1,0 +1,5 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+
+<li><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[title]?> <?=$LDATA[newimg]?></a><span><?=$LDATA[wdate]?></span></li>
+
+<? }?>

@@ -1,0 +1,464 @@
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="skin_css/input.css" rel="stylesheet" type="text/css">
+<script>
+function allCheck(cform){
+	var objCheck;
+	objCheck=cform.check;
+	if (cform.allch.checked) {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='on';
+			}
+		}
+		else {
+			objCheck.checked='on';
+		}
+	}
+	else {
+		if(objCheck.length) {
+			for(i=0;i<objCheck.length;i++){
+				objCheck[i].checked='';
+			}
+		}
+		else {
+			objCheck.checked='';
+		}
+	}
+}
+
+//게시판 내용 복사
+function checkCopy(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('복사할 게시물을 선택하세요');
+		return;
+	}
+	checkCopycon(cform,checkvalue);
+}
+
+function checkCopycon(cform,checkvalue) {
+	if(confirm('정말로 복사하시겠습니까?')) {
+		cform.abmode.value = 'copy';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 내용 복사
+
+//게시판 이동
+function checkChange(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('이동 할 게시물을 선택하세요');
+		return;
+	}
+	checkChangecon(cform,checkvalue);
+}
+
+function checkChangecon(cform,checkvalue) {
+	if(confirm('정말로 이동하시겠습니까?')) {
+		cform.abmode.value = 'change';
+		cform.checkvalue.value = checkvalue;
+
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+//게시판 이동 끝
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	if(!checkvalue) {
+		alert('삭제할 게시물을 선택하세요');
+		return;
+	}
+	checkDelcon(cform,checkvalue);
+}
+
+function checkDelcon(cform,checkvalue) {
+	if(confirm('정말로 삭제하시겠습니까?')) {
+		cform.abmode.value = 'deleteseldb';
+		cform.checkvalue.value = checkvalue;
+		cform.submit();
+	}
+	else {
+		return;
+	}
+}
+
+function logincheck() {
+	alert('로그인을 하셔야 작성하실수 있습니다.');
+	login();
+}
+
+function catesearch(catenum, val)
+{
+	var cateval;
+	if(catenum == "1")
+		cateval = "cate1="+val+"&cate2=<?=$cate2?>&cate3=<?=$cate3?>";
+	else if(catenum == "2")
+		cateval = "cate1=<?=$cate1?>&cate2="+val+"&cate3=<?=$cate3?>";
+	else if(catenum == "3")
+		cateval = "cate1=<?=$cate1?>&cate2=<?=$cate2?>&cate3="+val;
+	location.href = "<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$category?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>&"+cateval;
+}
+
+/* MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) */
+<?if($AUTH[userlevel] < "1") {
+	?>
+	function del_complete(){
+		if(confirm('숨겨진 삭제 데이터를 완전히 삭제하시겠습니까?')) {
+			checkform.abmode.value = "del_completedb";
+			checkform.submit();
+		}
+		else {
+			return;
+		}
+	}
+	<?}
+?>
+</script>
+</head>
+
+<body>
+<table width="100%" border="0" class="type2">
+	<tr>
+		<td class="basic_color">
+			<!-- MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) -->
+			<?if($AUTH[userlevel] < "1") {	?>
+			<b><a href="javascript:del_complete()"><font  color="red">삭제글정리</font></a></b>
+			<?}?>
+			<!-- MEDIPIX 최고관리자 삭제글 완전삭제 추가 -pooh (08.05.16) -->
+			<?if($RSS_STATE) {?><a href="<?=$rsslink?>" target="_blank"><img src="skin_images/rss.gif" border="0" align="absmiddle"></a><?}?>
+		</td>
+		<td align="right" class="basic_color">
+			<?
+			if($CATE_STATE) {
+			?>
+			<!--
+                진료과목 :
+                <select name="category" class="type2" onChange="javascript:location.href=this.options[this.selectedIndex].value">
+                <option value="<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>">전체</option>
+                <?if(is_array($CALIST)) while(list($KEY, $CADATA)=each($CALIST)) {?>
+                <option value="<?=$PHP_SELF?>?sno=<?=$sno?>&group=<?=$group?>&code=<?=$code?>&category=<?=$CADATA[no]?>&abmode=list&bsort=<?=$bsort?>&bfsort=<?=$bfsort?>" <?if($category==$CADATA[no]) echo "selected";?>><?=$CADATA[cname]?></option>
+                <?}?>
+                </select>
+                -->
+			<?
+			}
+			?>
+			&nbsp;
+			<!-- MEDIPIX 분류 설정 (08.05.15) -->
+			<?
+			if($CATE_NUM > 0)
+			{
+				for($i=1; $i<=$CATE_NUM; $i++)
+				{
+			?>
+			<?=${"CATE".$i."_NAME"}?> :
+			<select name="cate<?=$i?>" class="type2" onChange="catesearch('<?=$i?>', this.options[this.selectedIndex].value)">
+			<option value="">전체</option>
+			<?
+					foreach(${"CATE".$i."_ITEM"} as $cvalue)
+					{
+			?>
+			<option value="<?=$cvalue?>" <? if(${"cate".$i} == $cvalue) { echo "selected"; } ?>><?=$cvalue?></option>
+			<?
+					}
+			?>
+			</select>
+			&nbsp;
+			<?
+				}
+			}
+			?>
+			<!-- MEDIPIX 분류 설정 (08.05.15) -->
+			페이지 : <?=$PAGEING[now]?>
+		</td>
+	</tr>
+</table>
+<form action="<?=$PHP_SELF?>" method="post" name="checkform" style="margin:0">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" value="">
+<input type="hidden" name="sel" value="">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+	<tr>
+
+		<td class="type2" align="center">
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+
+
+				<tr>
+					<!-- 메디픽스 리스트 항목 (08.04.16) -->
+					<?if($AUTH[userlevel] <= 2) {?>
+					<td width="30" height="39" align="center" background="./skin_images/title_bg.gif">
+						<input type="checkbox" name=allch onClick="allCheck(checkform);">
+					</td>
+					<?}?>
+					<?if($LIST_NO ==1){?>
+					<td width="40" height="39" align="center" background="./skin_images/title_bg.gif"><img src="skin_images/t_no.gif"></td>
+					<?}?>
+					<td width="120" height="39" align="center" background="./skin_images/title_bg.gif" ><font color="ffffff"><strong>카테고리</strong></font></td>
+					<?if($LIST_FILE_STATE) {?>
+					<td width="56" height="39" align="center" background="./skin_images/title_bg.gif" ><img src="skin_images/tit_subject.jpg"></td>
+					<?}?>
+					<? if($code == "commu01" || $code == "commu03") { ?>
+					<td width="60" height="39" align="center" background="./skin_images/title_bg.gif"><img src="skin_images/board_list_tit13.gif"></td>
+					<? } ?>
+					<?if($LIST_TITLE == 1){?>
+					<td height="39" align="center" background="./skin_images/title_bg.gif"><img src="skin_images/tit_subject.jpg"></td>
+					<?}?>
+					<?if($LIST_WRITER == 1){?>
+					<td width="100" height="39" align="center" background="./skin_images/title_bg.gif"><img src="skin_images/tit_name.jpg"></td>
+					<? if($code == 'gate8' && $AUTH[userlevel] <= 2){?>
+					<td width="100" height="39" align="center" background="./skin_images/title_bg.gif"><font style='font:bold 12px "돋움";color:#fff;'>연락처</font></td>
+					<? } ?>
+					<?}?>
+
+					<!-- 처리현황 -->
+					<? if($LIST_RECOM == 1 ) {?>
+					<? if($KIND_MODE == "counsel") { ?>
+
+					<td width="60" height="39" align="center" background="./skin_images/title_bg.gif"><img src="skin_images/t_result.gif"></td>
+					<? } ?>
+					<? } ?>
+					<!-- 처리현황 -->
+
+					<!-- 공개여부 -->
+					<? if($LIST_OPEN == 1) { ?>
+					<? if($KIND_MODE == "counsel") { ?>
+					<? if($code != "counsel03") { ?>
+					<td width="50" height="39" align="center" bordercolor="#363636" background="./skin_images/title_bg.gif" ><img src="skin_images/t_secret.gif"></td>
+					<? } ?>
+					<? } ?>
+					<? } ?>
+					<!-- 공개여부 -->
+
+
+					<?if($LIST_DATE == 1){?>
+					<td width="70" height="39" align="center" background="./skin_images/title_bg.gif" ><img src="skin_images/tit_date.jpg" border='0'></td>
+					<?}?>
+
+					<?if($POINT_LISTVIEW) {?>
+					<td width="67" height="39" align="center" bordercolor="#363636" background="./skin_images/title_bg.gif" ><img src="skin_images/t_point.gif"></td>
+					<?}?>
+
+					<?if($LIST_HIT == 1) {?>
+					<td width="80" height="39" align="center" bordercolor="#363636" background="./skin_images/title_bg.gif" ><img src="skin_images/board_list_tit06.gif"></td>
+					<?}?>
+				</tr>
+				<?
+				if(is_array($LIST)) foreach ($LIST as $LDATA) {
+						if($LDATA[result] == "답변완료") $LDATA[result] = "<img src='skin_images/icon_yes.gif'>";
+						else $LDATA[result] = "<img src='skin_images/icon_no.gif'>";
+						if($LDATA[category] == "치아교정") $LDATA[category_icon] = "<img src='skin_images/icon_clinic01.gif'>";
+						else if($LDATA[category] == "임플란트") $LDATA[category_icon] = "<img src='skin_images/icon_clinic02.gif'>";
+						else if($LDATA[category] == "심미보철") $LDATA[category_icon] = "<img src='skin_images/icon_clinic03.gif'>";
+						else if($LDATA[category] == "치아미백") $LDATA[category_icon] = "<img src='skin_images/icon_clinic04.gif'>";
+						else if($LDATA[category] == "기타") $LDATA[category_icon] = "<img src='skin_images/icon_clinic05.gif'>";
+				?>
+				<tr class="type" onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#F5F5F5'">
+					<?if($AUTH[userlevel] <= 2) {?>
+					<td align="center"><input type="checkbox" name="check" value="<?=$LDATA[no]?>"></td>
+					<?}?>
+					<?if($LIST_NO ==1){?>
+					<td height="32" align="center"><?=$LDATA[listno]?></td>
+					<? } ?>
+
+					<?if($LIST_FILE_STATE) {?>
+					<td align="center"><?=$LDATA[fileicon]?></td>
+					<?}?>
+					<? if($code == "commu01" || $code == "commu03") { ?>
+					<td align="center"><?=$LDATA[category_icon]?></td>
+					<? } ?>
+					<td align="center"><strong><?=$LDATA[category]?></strong></td>
+					<?if($LIST_TITLE == 1){?>
+					<td style="padding-left:10">
+						<? if($code == "vphoto01" || $code == "photo01" || $code == "library01") { ?>
+						<table width="100%" cellspacing="0" cellpadding="4">
+							<tr>
+								<td width="170"><a href="<?=$PHP_SELF."?".$LDATA[viewlink]?>"><img src="<?=$LDATA[addimgfile]?>" width="170" height="136" border="0"></a></td>
+								<td valign="top" style="padding-top:10px">
+									<table width="100%" cellspacing="0" cellpadding="0">
+
+										<tr>
+											<td><?=$LDATA[vstate_str]?><?=$LDATA[linktitle]?> <?if($LDATA[commentcount]){?>(<?=$LDATA[commentcount]?>)<?}?></td>
+										</td>
+									</tr>
+
+									<tr><td height="5"></td></tr>
+									<tr>
+										<td><?=$LDATA[list_contents]?></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<? } else { ?>
+					<!-- <b>[<?=$LDATA[category]?>]</b> --><?=$LDATA[vstate_str]?>
+					<? if($LDATA[no]== $no){ ?>
+					<strong><font class='link_slt'>┗ <?=$LDATA[linktitle]?></font></strong>
+					<? }else{ ?>
+					<strong><font color="#3b3b3b"><?=$LDATA[linktitle]?></font></strong>
+					<? } ?>
+					<? if($code=="gate8"){ echo "&nbsp;&nbsp;"; }?> <?if($LDATA[commentcount]){?>(<?=$LDATA[commentcount]?>)<?}?>
+					<? } ?>
+				</td>
+				<? } ?>
+				<?if($LIST_WRITER == 1){?>
+				<td align="center"><?=$LDATA[name]?></td>
+				<? if($code == 'gate8' && $AUTH[userlevel] <= 2){?>
+				<td align="center"><?=$LDATA[hphone1]?>-<?=$LDATA[hphone2]?>-<?=$LDATA[hphone3]?></td>
+				<? } ?>
+				<?  } ?>
+
+				<!-- 처리현황 -->
+				<? if($LIST_RECOM == 1 ) {?>
+				<? if($KIND_MODE == "counsel") { ?>
+
+				<td align="center"><?=$LDATA[result]?></td>
+				<? } ?>
+				<!-- 처리현황 -->
+				<? } ?>
+
+				<!-- 공개여부 -->
+				<? if($LIST_OPEN == 1) {?>
+				<? if($KIND_MODE == "counsel") { ?>
+				<? if($code != "counsel03") { ?>
+				<td align="center"><?=$LDATA[vsecret]?></td>
+				<? } ?>
+				<? } ?>
+				<? } ?>
+				<!-- 공개여부 -->
+				<?if($LIST_DATE == 1){?>
+				<td align="center"><?=$LDATA[wdate]?></td>
+				<? } ?>
+
+				<?if($POINT_LISTVIEW) {?>
+				<td height="47" align="center">10</td>
+				<?}?>
+				<?if($LIST_HIT == 1) {?>
+				<td align="center"><?=$LDATA[viewcount]?></td>
+				<? } ?>
+			</tr>
+			<?}?>
+		</table>
+		<ul class='bbs_paging'><!-- 페이징  -->
+			<li><?=$PAGEING[start]?></li>
+			<li><?=$PAGEING[pregroup]?></li>
+			<li><?=$PAGEING[pre]?></li>
+			<?=$PAGEING[page]?>
+			<li><?=$PAGEING[next]?></li>
+			<li><?=$PAGEING[nextgroup]?> </li>
+			<li><?=$PAGEING[end]?></li>
+		</ul>
+	</td>
+</tr>
+</form>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr bgcolor="efefef" id="search_tr" style="display:<?=$search_tb_view?>">
+	<td width="200" height="35" align="left">
+		<table width="60%"  border="0" cellspacing="0" cellpadding="0">
+			<form name="sform" action="<?=$PHP_SELF?>" method="post" style="border:0; margin:0;">
+			<input type="hidden" name="group" value="<?=$group?>">
+			<input type="hidden" name="code" value="<?=$code?>">
+			<input type="hidden" name="category" value="<?=$category?>">
+			<input type="hidden" name="abmode" value="list">
+			<input type="hidden" name="bsort" value="<?=$bsort?>">
+			<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+			<tr>
+				<td width="82" style="padding:0 5 0 5">
+					<select NAME="field" class="input">
+					<option value="all" <?if($field=="all") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;전 체&nbsp;&nbsp; </option>
+					<option value="title" <?if($field=="title") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;제 목&nbsp;&nbsp; </option>
+					<option value="name" <?if($field=="name") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;글쓴이&nbsp;&nbsp; </option>
+					<option value="contents" <?if($field=="contents") echo "selected"?>>&nbsp;&nbsp;&nbsp;&nbsp;글내용&nbsp;&nbsp; </option>
+					</select>
+				</td>
+				<td width="130"><input type="text"  name="search" class="input" value="<?=$search?>"></td>
+				<td width="332" align="left" style="padding-left:5">
+					<input name="image" type="image" src="skin_images/btn_search.gif">
+				</td>
+			</tr>
+			</form>
+		</table>
+	</td>
+	<td height="35" align="right" >
+		<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+			<td align="right" style="padding-right:5">
+				<?if($AUTH[manage]) {?>
+				<!-- htmlvalue = "<?=$PHP_SELF?>?asumode=<?=$asumode?>&sno=<?=$sno?>&checkvalue=" + checkvalue + "&" + para;  -->
+				<?if($AUTH[delete]){?><img src="skin_images/btn_del.gif" border="0" style="cursor:hand" Onclick="javascript:checkDel(document.checkform)"><?}?>
+				<?}?>
+				<a href="<?=$LINK[slist]?>"><img src="skin_images/btn_list.gif" border="0"></a>
+				<?if($AUTH[write]){?><a href="<?=$LINK[write]?>"><img src="skin_images/btn_write.gif" border="0"></a><?} else if ($code =="counsel01"){?><a href="javascript:logincheck();"><img src="skin_images/btn_write.gif" border="0"></a><?}?>
+			</td>
+		</tr>
+	</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<link href="skin_css/hw_css.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+$(document).ready(function(){
+
+	$(".file_del_check").click(function(){
+		var fileobj = $("#"+$(this).attr("vname"));
+		//alert("#"+$(this).attr("vname"));
+		if($(this).prop("checked")){ fileobj.show(); }else { fileobj.hide(); }
+
+		var delFile="";
+		$(".file_del_check").each(function(){
+			if($(this).prop("checked")){
+				delFile+=$(this).val()+"|";
+			}
+		});
+
+		$("#checkvalue").val(delFile);
+
+	});
+
+	$(".s_upload").change(function(){
+		$("#"+$(this).attr("cname")).val($(this).val());
+	});
+
+	$("#hphone2").keyup(function(){
+		if($(this).val().length == 4){
+			$("#hphone3").focus();
+		}
+	});
+
+});
+
+function checkForm1(cf) {
+
+	<? if(!$AUTH[manage] && $abmode != "modify") { ?>
+		if(!cf.agreecheck.checked){
+			alert("작성을 위해서 이용자 약관에 동의해 주시기 바랍니다.");
+			return false;
+		}
+	<? } ?>
+
+	if(cf.title.value=="") {
+		alert("제목을 입력하세요");
+		cf.title.focus();
+		return false;
+	}
+	if(cf.name.value=="") {
+		alert("이름을 입력하세요");
+		cf.name.focus();
+		return false;
+	}
+
+	<? if($CATE_NUM > 0){ ?>
+	if(cf.cate1_input.value=="") {
+		alert("카테고리을 선택하세요");
+		cf.cate1_input.focus();
+		return false;
+	}
+	<?}?>
+
+	<?if($AUTH[manage]) {?>
+	<?}else{?>
+
+	if(cf.hphone2.value=="") {
+		alert("휴대폰 둘째자리 입력하세요");
+		cf.hphone2.focus();
+		return false;
+	}
+
+	if(cf.hphone3.value=="") {
+		alert("휴대폰 셋째자리 입력하세요");
+		cf.hphone3.focus();
+		return false;
+	}
+
+	if(cf.email.value=="") {
+		alert("이메일을 입력하세요");
+		cf.email.focus();
+		return false;
+	}
+	/*패스워드있을경우*/
+	if(!cf.passwd.value) {
+		alert("비밀번호를 입력하세요!");
+		cf.passwd.focus();
+		return false;
+	}
+	if(!checkLength(cf.passwd, 4)) {
+		alert("비밀번호는 4자 이상이어야 합니다.");
+		cf.passwd.focus();
+		return false;
+	}
+
+	/*패스워드있을경우*/
+	<?}?>
+
+
+
+	if(CKEDITOR.instances.contents.getData()=="") {
+		alert("내용을 입력하세요");
+		cf.contents.focus();
+		return false;
+	}
+	return true;
+}
+//비밀번호 개수제한
+function checkLength (theField, Length){
+	if (theField.value.length < Length  )	{
+		theField.select();
+		return(false);
+	}
+	return(true);
+}
+
+</script>
+<?
+if($SSL_PORT_NUM){ //ssl 포트번호가 있을경우 ssl주소로 변경하여 db저장하도록
+	$action_url = "https://".$_SERVER["HTTP_HOST"].":".$SSL_PORT_NUM.$_SERVER[PHP_SELF];
+} else{
+	$action_url = $_SERVER[PHP_SELF];
+}
+?>
+<form action="<?=$action_url?>" method="post" enctype="multipart/form-data" name="wform" OnSubmit="return checkForm1(this)">
+<input type="hidden" name="group" value="<?=$group?>">
+<input type="hidden" name="code" value="<?=$code?>">
+<input type="hidden" name="category" value="<?=$category?>">
+<input type="hidden" name="sno" value="<?=$sno?>">
+<input type="hidden" name="abmode" value="<?=$abmodef?>">
+<input type="hidden" name="no" value="<?=$no?>">
+<input type="hidden" name="field" value="<?=$field?>">
+<input type="hidden" name="search" value="<?=$search?>">
+<input type="hidden" name="checkvalue" id="checkvalue" value="">
+<input type="hidden" name="bsort" value="<?=$bsort?>">
+<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+<input type="hidden" name="vstate" value="<?=$CONFIG[vstate]?>">
+<input type="hidden" name="device" value="desk">
+<input type="hidden" name="admin_id_check" value="<?=$BDATA[admin_id]?>">
+<?
+global $EDITMODE;
+if($EDITMODE=="webedit"){
+?>
+	<input type="hidden" name="html" value="1">
+<?}else{?>
+	<input type="hidden" name="html" value="0">
+<?}?>
+<div class="media_gallery2_wrap">
+	<?if($AUTH[manage]) {?>
+	<div class="media_gallery2_post_care_wrap">
+		<h2>게시물 설정관리</h2>
+		<div class="media_gallery2_post_box">
+			<table border="0" cellpadding="0" cellspacing="0" class="media_gallery2_post_table">
+				<colgroup>
+					<col width="40%">
+					<col width="*">
+				</colgroup>
+				<tr>
+					<th>게시물 승인/비승인</th>
+					<td>
+						<select class="media_gallery2_sel_type sel_type1" id="vstate" name="vstate">
+							<option value="1" <?if($BDATA[vstate]!="") echo "selected";?>>- 승인여부 - </option>
+							<option value="1" <?if($BDATA[vstate]=="1") echo "selected";?>>게시물 승인</option>
+							<option value="0" <?if($BDATA[vstate]=="0") echo "selected";?>>게시물 비승인</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>공지사항 설정</th>
+					<td>
+						<select class="media_gallery2_sel_type sel_type1" id="wmode" name="wmode">
+							<option value="0" <?if($BDATA[wmode]!="") echo "selected";?>>- 공지설정 - </option>
+							<option value="1" <?if($BDATA[wmode]=="1") echo "selected";?>>설정</option>
+							<option value="0" <?if($BDATA[wmode]=="0") echo "selected";?>>미설정</option>
+						</select>
+					</td>
+				</tr>
+			<?if($AUTH[userlevel] < "1" && $BDATA[del_state]=="Y") {	?>
+				<tr>
+					<th>삭제글</th>
+					<td>
+						<select class="media_gallery2_sel_type sel_type1" id="del_state" name="del_state">
+							<option >- 삭제글 여부 -</option>
+							<option value="Y" <?if($BDATA[del_state]=="Y") echo "selected";?>>삭제된 상태</option>
+							<option value="" <?if($BDATA[del_state]=="") echo "selected";?>>삭제 복구</option>
+						</select>
+					</td>
+				</tr>
+				<?}else {?>
+				<tr class="media_gallery2_none">
+					<th>
+					</th>
+					<td>
+						<input type="hidden" id="del_state" name="del_state"  value="<?=$BDATA[del_state]?>" />
+					</td>
+				</tr>
+				<?}?>
+			</table>
+		</div>
+	</div>
+	<?}?>
+
+	<?
+	$required = "<span>(　<strong>*</strong>)</span>";
+	?>
+	<? if(!$AUTH[manage] && $abmode != "modify") { ?>
+	<div class="media_gallery2_post_privacy_wrap">
+		<?php include_once "../member/privacy_post_terms.php";?>
+	</div>
+	<?}?>
+
+	<div class="media_gallery2_post_write_wrap">
+		<table class="media_gallery2_post_write_table">
+			<colgroup>
+				<col width="30%">
+				<col width="*">
+			</colgroup>
+			<? if ($SECRET_TYPE =="1") {?>
+				<tr>
+					<th>공개여부</th>
+					<td>
+						<select class="media_gallery2_sel_type sel_type2" id="secret" name="secret">
+							<option >- 상담글 공개 여부 -</option>
+							<option value="0" <? if($BDATA[secret] == "0" || $BDATA[secret] == "") { echo "selected"; } ?>>공개</option>
+							<option value="1" <? if($BDATA[secret] == "1") { echo "selected"; } ?>>비공개</option>
+						</select>
+					</td>
+				</tr>
+			<?}else if ($SECRET_TYPE =="0"){?>
+				<tr class="media_gallery2_none">
+					<th>
+					</th>
+					<td>
+						<input type="hidden" name="secret" value="0">
+					</td>
+				</tr>
+			<?}else if ($SECRET_TYPE =="2"){?>
+				<tr class="media_gallery2_none">
+					<th>
+					</th>
+					<td>
+						<input type="hidden" name="secret" value="1">
+					</td>
+				</tr>
+			<?}?>
+			<? if($CATE_NUM > 0){ ?>
+			<tr>
+				<th><?=$required?>카테고리</th>
+				<td>
+					<?for($i=1; $i<=$CATE_NUM; $i++){ $cate = "cate".$i; ?>
+					<select class="media_gallery2_sel_type sel_type1" id="cate<?=$i?>_input" name="cate<?=$i?>_input">
+						<option value=""><?=${"CATE".$i."_NAME"}?></option>
+						<? foreach(${"CATE".$i."_ITEM"} as $cvalue) { ?>
+						<option value="<?=$cvalue?>" <? if($BDATA[$cate] == $cvalue) { echo "selected"; } ?>><?=$cvalue?></option>
+						<? } ?>
+					</select>
+					<? } ?>
+				</td>
+			</tr>
+			<? } ?>
+			<tr>
+				<th><?=$required?>이름</th>
+				<td>
+					<input type="text" id="name" name="name" maxlength="20" class="media_gallery2-text media_gallery2-name" value="<?=$BDATA[name]?>">
+				</td>
+			</tr>
+			<?if($LOGIN_USER) {?>
+			<tr class="media_gallery2_none">
+				<th>
+				</th>
+				<td>
+				<input type="hidden" name="passwd" value="<?=rand(1000000000, 9999999999)?>">
+				</td>
+			</tr>
+			<?}else{?>
+			<tr>
+				<th><?=$required?>비밀번호</th>
+				<td>
+					<input type="password" id="passwd" name="passwd" class="media_gallery2-text media_gallery2-passwd" value="<?=$BDATA[passwd]?>">
+				</td>
+			</tr>
+			<?}?>
+			<!-- <tr>
+				<th><?=$required?>비밀번호</th>
+				<td>
+					<input type="text" id="passwd" name="passwd" class="media_gallery2-text media_gallery2-passwd" value="<?=$BDATA[passwd]?>">
+				</td>
+			</tr> -->
+			<tr>
+				<th><?=$required?>연락처</th>
+				<td>
+					<select class="media_gallery2_sel_type sel_type3" id="hphone1" name="hphone1">
+						<option value="010">010</option>
+						<option value="011">011</option>
+						<option value="016">016</option>
+						<option value="017">017</option>
+						<option value="018">018</option>
+						<option value="019">019</option>
+					</select>
+					<input type="text" id="hphone2" name="hphone2" maxlength="4" class="media_gallery2-text media_gallery2-hp-sec" value="<?=$BDATA[hphone2]?>">
+					<input type="text" id="hphone3" name="hphone3" maxlength="4" class="media_gallery2-text media_gallery2-hp-sec" value="<?=$BDATA[hphone3]?>">
+				</td>
+			</tr>
+			<!-- <tr>
+				<th><?=$required?>연락처</th>
+				<td>
+					<input type="text" id="hp_all" name="hp_all" maxlength="11" class="media_gallery2-text media_gallery2-hp-all" value="<?=$BDATA[hp_all]?>">
+					<span class="input_explain">연락처 입력시 (- 제외)</span>
+				</td>
+			</tr> -->
+			<tr>
+				<th><?=$required?>이메일</th>
+				<td>
+					<input type="text" id="email" name="email" maxlength="30" class="media_gallery2-text media_gallery2-email" value="<?=$BDATA[email]?>">
+				</td>
+			</tr>
+			<tr>
+				<th><?=$required?>제목</th>
+				<td>
+					<input type="text" id="title" name="title" maxlength="150" class="media_gallery2-text media_gallery2-subject" value="<?=$BDATA[title]?>">
+				</td>
+			</tr>
+			<tr>
+				<th><?=$required?>영상주소</th>
+				<td>
+					<input name="etc3" id="etc3" type="text" class="media_gallery2-text media_gallery2-subject" maxlength="150" value="<?=$BDATA[etc3]?>">
+				</td>
+			</tr>
+			<?if($KIND_MODE == "counsel" && $BDATA[wmode] != "1" && $AUTH[rewrite] && $abmode == "modify") { ?>
+			<tr>
+				<th><?=$required?>내용</th>
+				<td>
+					<textarea name="contents" id="contents" class="ckeditor media_gallery2-text media_gallery2-contents" >
+
+					수술 전 평소에 어떤점이 불편하셨나요?
+					<br />
+					<br />
+					<br />
+					<br />
+					수술 후 크게 달라진 점은 무엇인가요?(ex : 안경을 벗은 점, 편안해진 일상, 새로운 목표 등)
+					<br />
+					<br />
+					<br />
+					<br />
+					스마일안과에서 진료 및 수술 과정 중 어떤점이 좋았나요?(ex : 1:1 전담 상담, 상세한 수술 설명 등)
+					<br />
+					<br />
+					<br />
+					<br />
+					수술을 고민하고 계신 분들께 응원의 한마디!
+					<br />
+					<br />
+					<br />
+					<br />
+
+					<?=$BDATA[contents]?>
+
+					</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><?=$required?>답변</th>
+				<td>
+					<textarea name="recontents" id="recontents" class="ckeditor media_gallery2-text media_gallery2-contents" ><?=$BDATA[recontents]?></textarea>
+				</td>
+			</tr>
+			<script>
+				/* 자동답변 체크이벤트 */
+				$(document).ready(function() {
+					$("#conselect").click(function() {
+						if ($(this).is(":checked")) {
+							var hongjji = CKEDITOR.instances.recontents.getData();
+
+							CKEDITOR.instances.recontents.setData(hongjji+$("#conselect_txt").text());
+							//CKEDITOR.instances.recontents.getData();
+
+						}
+					});
+				});
+			</script>
+			<? } else { ?>
+			<tr>
+				<th><?=$required?>내용</th>
+				<td>
+					<textarea name="contents" id="contents" class="ckeditor media_gallery2-text media_gallery2-contents" ><?=$BDATA[contents]?></textarea>
+				</td>
+			</tr>
+			<? } ?>
+
+			<? if($abmode == "modify" &&  $AUTH[manage] && $date_edit == "1") {?>
+			<tr>
+				<th>날짜변경</th>
+				<td>
+					<input type="text" id="wdate1" name="wdate1" maxlength="10" class="media_gallery2-text media_gallery2-date" value="<?=$BDATA[wdate]?>">
+					<span class="input_explain">ex) 2019-01-01</span>
+					<input type="hidden" name="date_edit" value="<?=$date_edit?>">
+				</td>
+			</tr>
+			<tr>
+				<th>조회수</th>
+				<td>
+					<input type="text" id="view" name="view" maxlength="10" class="media_gallery2-text media_gallery2-date" value="<?=$BDATA[view]?>">
+				</td>
+			</tr>
+			<?}?>
+
+
+
+		<?if($FILE_STATE) {?>
+			<?if($abmode=="modify") {?>
+			<?
+			$d=1;
+			if(is_array($FLIST)) while(list($KEY, $FDATA)=each($FLIST)) {?>
+			<tr>
+				<th><span>#첨부파일 <?=$d;?></th>
+				<td>
+					<span class="media_gallery2_file_name"><?=$FDATA[name]?> [<?=$FDATA[sizestr]?>]</span>
+					<!--<li>(download:<?=$FDATA[count]?>)</li>-->
+					<span class="media_gallery2_file_deltxt_wrap">
+						<label for="media_gallery2_file_chkbx<?=$d?>" class="media_gallery2_file_deltxt">
+							<input type="checkbox" name="$FDATA[vname]" id="media_gallery2_file_chkbx<?=$d?>" class="media_gallery2_file_chkbx file_del_check" vname="display_<?=$FDATA[vname]?>"  value="<?=$FDATA[no]?>"> <?=$d?>번 파일 삭제
+						</label>
+					</span>
+				</td>
+			</tr>
+			<? $d++; } }?>
+			<?
+			for($i=1;$i<=$FILE_NUM;$i++) {
+			if(!$FILE_ADD) {
+				$display_file = "";
+				if(is_array($FLIST)) {
+					reset($FLIST);
+					while(list($KEY, $FDATA)=each($FLIST)) {
+						if($FDATA[vname] == "file".$i) $display_file = "none";
+					}
+				}
+			}
+			?>
+			<tr id="display_file<?=$i?>" style="display:<?=$display_file?>">
+				<th><span>#첨부파일 <?=$i?></th>
+				<td>
+					<div class="media_gallery2_file_wrap">
+						<input type="text" id="file_check<?=$i?>" class="media_gallery2-text media_gallery2-file" readonly="readonly">
+						<div class="btns">
+							<input type="button" value="찾아보기..." class="media_gallery2-file-btn">
+							<input type="file" name="file<?=$i?>" cname="file_check<?=$i?>" class="media_gallery2-file-hidden" onchange="javascript:document.getElementById('file_check<?=$i?>').value = this.value;">
+						</div>
+					</div>
+
+				</td>
+			</tr>
+			<?}?>
+		<?}?>
+		</table>
+	</div>
+
+	<div class="media_gallery2_btn_wrap">
+		<a href="<?=$LINK[slist]?>">목록</a>
+		<input type="submit" value="등록">
+	</div>
+
+</div>
+</form>
+

@@ -1,0 +1,20 @@
+<?
+$domain = $_SERVER["PHP_SELF"];
+$bn=basename($_SERVER["PHP_SELF"]);
+$query_string = ($_SERVER["QUERY_STRING"] == ""?"":"?".$_SERVER["QUERY_STRING"]);
+$arr_browser = array("iPhone", "iPod", "IEMobile", "Mobile", "lgtelecom", "PPC");
+for($iindexi = 0; $indexi < count($arr_browser); $indexi++) {
+	if(strpos($_SERVER['HTTP_USER_AGENT'], $arr_browser[$indexi]) == true) {
+		if(strpos($domain,"04_clinic") !== false){
+			header("Location: /m/05_retina/retina3.php?".$_SERVER["QUERY_STRING"]);
+			exit;
+		}else if($bn == "intro9.php"){
+			header("Location: /m/01_intro/intro5.php?".$_SERVER["QUERY_STRING"]);
+			exit;
+		}else{
+			header("Location: /m/$_SERVER[PHP_SELF]?".$_SERVER["QUERY_STRING"]);
+			exit;
+		}
+	}
+}
+?>

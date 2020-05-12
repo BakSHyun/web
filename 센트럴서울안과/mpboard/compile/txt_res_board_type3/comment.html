@@ -1,0 +1,91 @@
+<script type='text/javascript' src='/./mpboard/skin/txt_res_board_type3/skin_css/jquery.placeholder.min.js'></script>
+<script language="JavaScript">
+$(function() { $('input, textarea').placeholder({customClass:'my-placeholder'}); });
+function commentformcheck(obj) {
+	if(obj.name.value=="") {
+		alert("이름을 입력하세요");
+		obj.name.focus();
+		return false;
+	}
+	if(obj.passwd.value=="") {
+		alert("비밀번호를 입력하세요");
+		obj.passwd.focus();
+		return false;
+	}
+	if(obj.comment.value=="") {
+		alert("내용을 입력하세요");
+		obj.comment.focus();
+		return false;
+	}
+}
+
+</script>
+
+<div class='bbs_comm_wrap'>
+
+	<!--덧글 작성-->
+	<?if($AUTH[comment]){?>
+	<form name="commentform" method="post" action="<?=$PHP_SELF?>" style="border:0; margin:0;" Onsubmit="return commentformcheck(this);">
+		<input type="hidden" name="no" value="<?=$no?>">
+		<input type="hidden" name="cno" value="<?=$cno?>">
+		<input type="hidden" name="group" value="<?=$group?>">
+		<input type="hidden" name="code" value="<?=$code?>">
+		<input type="hidden" name="sno" value="<?=$sno?>">
+		<input type="hidden" name="category" value="<?=$category?>">
+		<input type="hidden" name="abmode" value="<?=$acmode?>">
+		<input type="hidden" name="bsort" value="<?=$bsort?>">
+		<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+		<?
+		$linkarray = explode("&",$LINK[addpara]);
+		if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+			$linkdataarray = explode("=",$linkdata);
+		?>
+		<input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+		<? } ?>
+		<ul class='board_write type2'>
+			<li>
+				<div class='il'>
+					<label id="name" for="name">이름</label>
+					<input type="text" id="name" name="name" maxlength="10" placeholder="작성자" class="s_text" value="<?=$CMDATA[name]?>">
+				</div>
+			</li>
+			<?if($LOGIN_USER) {?>
+			<input type="hidden" name="passwd" value="<?=rand(1000000000, 9999999999)?>">
+			<?}else{?>
+			<li>
+				<div class='il'>
+					<label id="passwd" for="passwd">비밀번호</label>
+					<input type="text" id="passwd" name="passwd" maxlength="10" placeholder="비밀번호" class="s_text" value="<?=$CMDATA[passwd]?>">
+					<span><i class="fa fa-lock"></i> 6~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</span>
+				</div>
+			</li>
+			<?}?>
+			<li>
+				<div class='il'>
+					<label id="comment" for="comment">내용</label>
+					<textarea name="comment" id="comment" class='s_area' placeholder="댓글을 입력해 주세요" style='height:80px !important;'><?=$CMDATA[comment]?></textarea>
+				</div>
+			</li>
+			<li><div class='il'><input type='submit' class='btn_type1 type4' value='덧글쓰기'></div></li>
+		</ul>
+	</form>
+	<?}?>
+	<!--덧글 작성-->
+
+	<!--덧글 리스트-->
+	<?if(is_array($CLIST)){?>
+	<div class='bbs_comm_list'>
+	  <?while(list($KEY, $LDATA)=each($CLIST)) {?>
+	  <div class='comm_list_box'>
+		<div class='comm_info'>
+			<strong><?=$LDATA[name]?></strong> <em><?=$LDATA[ip]?></em><em>|</em><em><?=$LDATA[wdate_full]?></em>
+			<span><a Onclick="javascript:comment_pass_view('commentmodifypasswd', '<?=$LDATA[no]?>','<?=$LDATA[userid]?>')"><i class="fa fa-wrench"></i></a> <a Onclick="javascript:comment_pass_view('commentdelpasswd', '<?=$LDATA[no]?>','<?=$LDATA[userid]?>')"><i class="fa fa-trash"></i></a></span>
+		</div>
+		<div class='comm_memo'><?=$LDATA[comment]?></div>
+	  </div>
+	  <?}?>
+	</div>
+	<?}?>
+	<!--덧글 리스트-->
+
+</div>

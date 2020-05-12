@@ -1,0 +1,129 @@
+<?
+##############################################################################
+#
+#	코멘트 쓰기 폼
+#
+##############################################################################
+?>
+<a name="commentwriteform">
+<script>
+function commentformcheck(obj) {
+	if(obj.name.value=="") {
+		alert("이름을 입력하세요");
+		obj.name.focus();
+		return false;
+	}
+	if(obj.passwd.value=="") {
+		alert("비밀번호를 입력하세요");
+		obj.passwd.focus();
+		return false;
+	}
+	if(obj.comment.value=="") {
+		alert("내용을 입력하세요");
+		obj.comment.focus();
+		return false;
+	}
+}
+
+</script>
+
+	<?if($AUTH[comment]){?>
+	<table width="100%" border="0" cellpadding="0" bgcolor="f5f5f5">
+	  		<form name="commentform" method="post" action="<?=$PHP_SELF?>" style="border:0; margin:0;" Onsubmit="return commentformcheck(this);">
+	  <tr>
+	    <td align="center" valign="middle" bgcolor="#FFFFFF">	    
+		<input type="hidden" name="no" value="<?=$no?>">
+		<input type="hidden" name="cno" value="<?=$cno?>">
+		<input type="hidden" name="group" value="<?=$group?>">
+		<input type="hidden" name="code" value="<?=$code?>">
+		<input type="hidden" name="sno" value="<?=$sno?>">
+		<input type="hidden" name="category" value="<?=$category?>">
+		<input type="hidden" name="abmode" value="<?=$acmode?>">
+		<input type="hidden" name="bsort" value="<?=$bsort?>">
+		<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+		<?
+		$linkarray = explode("&",$LINK[addpara]);
+		if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+			$linkdataarray = explode("=",$linkdata);
+		?>
+		<input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+		<?	
+		}
+		?>
+		<table width="98%" border="0" cellspacing="3" cellpadding="2">
+	        <tr>
+	          <td><?if($LOGIN_USER) {?>
+	            <table width="96%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="130"><img src="skin_images/write_name.gif">&nbsp;&nbsp; 
+                    <input name="name" type="text" class="input" id="name" size="12" value="<?=$CMDATA[name]?>"></td>
+	                  <td >
+	                    <input type="hidden" name="passwd" value="<?=rand(1000000000, 9999999999)?>">
+                    </td>
+                  </tr>
+                </table>
+			    <?}else{?>
+	            <table width="96%" border="0" cellspacing="0" cellpadding="0">
+	              <tr>
+	                <td width="130"><img src="skin_images/write_name.gif" width="26" height="8" />&nbsp;&nbsp;
+                    <input name="name" type="text" class="input" id="name" size="12" value="<?=$CMDATA[name]?>"></td>
+                    <td width="160"><img src="skin_images/write_passwd.gif" width="51" height="8" />&nbsp;&nbsp; 
+                    <input name="passwd" type="password" class="input" id="passwd" size="12" value="<?=$CMDATA[passwd]?>"></td>
+                  </tr>
+                </table>
+			    <?}?>
+	            
+              </td></tr>
+	        <tr>
+	          <td><table width="96%" border="0" cellspacing="0" cellpadding="0">
+	              <tr>
+	                <td><textarea name="comment" style="width:98%" rows="3" class="input" id="comment"><?=$CMDATA[comment]?></textarea></td>
+	                <td width="41"><input type="image" src="skin_images/view_t_go.gif"></td>
+	              </tr>
+	          </table></td>
+	        </tr>
+	      </table>
+	 
+	    
+		</td>
+	  </tr>
+	       </form>
+</table>
+	<?}?>
+<br>
+
+<?
+##############################################################################
+#
+#	코멘트 리스트
+#
+##############################################################################
+?>
+<?if(is_array($CLIST)){?>
+
+	<table width="101%" border="0" cellpadding="0" cellspacing="1" bgcolor="FAFAFA">
+	  <tr>
+	    <td align="center" bgcolor="#FFFFFF">
+	     <table width="100%" border="0" cellpadding="4" cellspacing="0" bordercolor="CCCCCC">
+	      <?while(list($KEY, $LDATA)=each($CLIST)) {?>
+	      <tr>
+	        <td bgcolor="FAFAFA" class="type2">
+	         <table width="98%" border="0" cellspacing="0" cellpadding="0">
+	          <tr>
+	            <td width="147" class="type2"><strong><?=$LDATA[name]?></strong></td>
+	            <td width="268" class="type2">IP : <?=$LDATA[ip]?> &nbsp;&nbsp;</td>
+	            <td width="332" class="type2">작성일 : <?=$LDATA[wdate]?> </td>
+	            <td width="68"><img src="skin_images/btn_re_modi.gif" style="cursor:hand" Onclick="javascript:comment_pass_view('commentmodifypasswd', '<?=$LDATA[no]?>','<?=$LDATA[userid]?>')"></td>
+	            <td width="58"><img src="skin_images/btn_re_del.gif" style="cursor:hand" Onclick="javascript:comment_pass_view('commentdelpasswd', '<?=$LDATA[no]?>','<?=$LDATA[userid]?>')"></td>
+	          </tr>
+	        </table> </td>
+	      </tr>
+	      <tr>
+	        <td class="type2"><?=$LDATA[comment]?>  </td>
+	      </tr>
+	      <?}?>
+	    </table>
+	    </td>
+	  </tr>
+</table>
+<?}?>

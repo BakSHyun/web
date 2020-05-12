@@ -1,0 +1,139 @@
+<link href="skin_css/input.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='skin_css/jquery.placeholder.min.js'></script>
+<? if(preg_match('/iphone|ipod|ios|blackberry|android|windows ce|lg|mot|samsung|sonyericsson|nokia/i', $_SERVER['HTTP_USER_AGENT'])){ ?>
+<style>
+/*모바일 테이블 간격 수정*/
+.s_select {height: 60px !important; font-size:18px !important}
+input.s_text {  height:60px !important; font-size:18px !important }
+.s_area{font-size:18px !important}
+.bbs_btns li {   width: 50% !important;
+}
+</style>
+<?}?>
+<script language="JavaScript">
+$(function() { $('input, textarea').placeholder({customClass:'my-placeholder'}); });
+$(document).ready(function(){
+
+	$('.file_del_check').click(function(){
+		var fileobj = $('#'+$(this).attr('vname'));
+		if($(this).prop('checked')){ fileobj.show(); }else { fileobj.hide(); }
+
+		var delFile='';
+		$('.file_del_check').each(function(){
+			if($(this).prop('checked')){
+				delFile+=$(this).val()+'|';
+			}
+		});
+
+		$('#checkvalue').val(delFile);
+
+	});
+
+	$('.s_upload').change(function(){
+		$('#'+$(this).attr('cname')).val($(this).val());
+	});
+
+	$('#hphone2').keyup(function(){
+		if($(this).val().length == 4){
+			$('#hphone3').focus();
+		}
+	});
+
+});
+
+function checkForm1(cf) {
+
+	<? if(!$AUTH[manage] && $abmode != "modify") { ?>
+//		if(!cf.agreecheck.checked){
+//			alert("작성을 위해서 이용자 약관에 동의해 주시기 바랍니다.");
+//			return false;
+		}
+	<? } ?>
+
+	if(cf.name.value=="") {
+		alert("이름을 입력하세요");
+		cf.name.focus();
+		return false;
+	}
+
+	if(cf.email.value=="") {
+		alert("이메일을 입력하세요");
+		cf.email.focus();
+		return false;
+	}
+
+	return true;
+}
+
+</script>
+
+<form action="<?=$_SERVER[PHP_SELF]?>" method="post" enctype="multipart/form-data" name="wform" OnSubmit="return checkForm1(this)">
+	<input type="hidden" name="group" value="<?=$group?>">
+	<input type="hidden" name="code" value="<?=$code?>">
+	<input type="hidden" name="category" value="<?=$category?>">
+	<input type="hidden" name="sno" value="<?=$sno?>">
+	<input type="hidden" name="abmode" value="<?=$abmodef?>">
+	<input type="hidden" name="no" value="<?=$no?>">
+	<input type="hidden" name="title" value="입사지원 입니다">
+	<input type="hidden" name="field" value="<?=$field?>">
+	<input type="hidden" name="search" value="<?=$search?>">
+	<input type="hidden" name="checkvalue" id='checkvalue' value="">
+	<input type="hidden" name="bsort" value="<?=$bsort?>">
+	<input type="hidden" name="bfsort" value="<?=$bfsort?>">
+	<input type="hidden" name="vstate" value="<?=$CONFIG[vstate]?>">
+	<input type="hidden" name="html" value="1">
+	<? if(preg_match('/iphone|ipod|ios|blackberry|android|windows ce|lg|mot|samsung|sonyericsson|nokia/i', $_SERVER['HTTP_USER_AGENT'])){ ?>
+	<input type="hidden" name="device" value="mobile">
+	<?
+		}else{
+		$editor=" editor='webnote' ";
+	?>
+	<input type="hidden" name="device" value="desk">
+	<? } ?>
+
+	<?
+	$linkarray = explode("&",$LINK[addpara]);
+	if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+			$linkdataarray = explode("=",$linkdata);
+	?>
+	<input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+	<?
+	}
+	?>
+
+	<div class="sub_cnt">
+		<img src="../img/board/recruit_01.jpg" alt="채용안내" style="margin-top: -40px;" />
+		<div class="recruit">
+			<div class="recruit_gray">
+				<h1><span class="h1">지원하기 </span><span class="h2">원하시는 지원 분야를 선택해서 접수해 주시면<br/>서류 심사를 거쳐 연락 드리겠습니다.</span></h1>
+				<table>
+					<tr>
+						<th>이름</th>
+						<td><input type="text" name="name" placeholder="이름을 입력하세요" value="<?=$_SESSION['username']?>" /></td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td><input type="text" name="email" placeholder="이메일을 입력하세요" value="<?=$_SESSION['useremail']?>" /></td>
+					</tr>
+					<tr>
+						<th>지원부서</th>
+						<td>
+							<select name="etc1" id="">
+								<option value="">지원부서를 선택하세요</option>
+								<option value="고객팀">고객팀</option>
+								<option value="간호팀">간호팀</option>
+								<option value="검안팀">검안팀</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>이력서업로드</th>
+						<td><input type="file"  name="file1"  /> <br/><span class="" style="color:#7993bf;font-size:15px; ">최대 업로드 가능한 파일은 2MB입니다.</span> </td>
+					</tr>
+				</table>
+				<center><input type="image" src="../img/board/recruit_02.jpg" /></center>
+			</div>
+
+		</div>
+	</div>
+</form>

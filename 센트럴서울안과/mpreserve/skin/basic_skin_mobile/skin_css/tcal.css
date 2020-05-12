@@ -1,0 +1,69 @@
+/* input box in default state */ 
+.tcalInput {
+	border:1px solid #fff;
+	background: url('/mpreserve/skin/basic_skin/skin_images/cal.gif') 100% 50% no-repeat #fafafa;
+	padding-left: 15px;
+	cursor: pointer;
+}
+#tcal {visibility:visible;}
+
+#tcalControls {
+	border-collapse: collapse;
+	border: 0;
+	width: 100%;
+}
+#tcalControls td {
+	border-collapse: collapse;
+	border: 0;
+	padding: 0;
+	width: 45px;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	height:45px;
+}
+#tcalControls th {
+	border-collapse: collapse;
+	border: 0;
+	padding: 0;
+	height:35px;
+	font:bold 18px/35px "dotum";
+	text-align: center;
+	white-space: nowrap;
+}
+#tcalPrevYear { background-image: url('/mpreserve/skin/basic_skin/skin_images/prev_year.gif');    background-size: 16px; }
+#tcalPrevMonth { background-image: url('/mpreserve/skin/basic_skin/skin_images/prev_mon.gif');    background-size: 8px; }
+#tcalNextMonth { background-image: url('/mpreserve/skin/basic_skin/skin_images/next_mon.gif');     background-size: 8px;}
+#tcalNextYear { background-image: url('/mpreserve/skin/basic_skin/skin_images/next_year.gif');     background-size: 16px;}
+
+/* table containing week days header and calendar grid */
+#tcalGrid {
+	border-collapse: collapse;
+	width: 100%;
+}
+#tcalGrid th {
+	border-collapse: collapse;
+	padding: 3px 0;
+	height:29px;
+	text-align: center;
+	font:normal 16px/29px "dotum";
+	color:#fff;
+	background:#333;
+}
+#tcalGrid td {
+	border: 0;
+	height:48px;
+	border-collapse: collapse;
+	padding: 2px 0;
+	text-align: center;
+	font-family: Tahoma, Geneva, sans-serif;
+	width: 14%;
+	font-size: 16px;
+	cursor: pointer;
+}		
+#tcalGrid td.tcalOtherMonth { color: silver; }
+#tcalGrid td.tcalSun { background-color: #f482a8;color:#e1e1e1;}
+#tcalGrid td.tcalSat { background-color: #b1bef9;color:#e1e1e1;}
+#tcalGrid td.tcalToday { border: 1px solid #444; }
+#tcalGrid td.tcalSelected { background-color: #18247a;color:#fff;font-weight:bold; }		
+#tcalGrid td.tcalBefore { color: #e1e1e1; }		

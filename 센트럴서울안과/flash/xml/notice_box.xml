@@ -1,0 +1,20 @@
+<notice>
+<dep TEXT_URL1='공지사항' LINK_URL='../07_community/community01.php'>
+<ROW  TEXT_URL1="테스트" TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community01.php?group=basic&code=community01&abmode=view&no=18" NEW="0" />
+</dep>
+
+<dep TEXT_URL1='닥터칼럼' LINK_URL='../07_community/community03.php'>
+<ROW  TEXT_URL1="시야 검사지 보니까 검은 점이 하나 있는데 선생님은 정상이라고 하네요..시야 검사" TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community03.php?group=basic&code=community03&abmode=view&no=34" NEW="0" />
+<ROW  TEXT_URL1="정상인도 시야 검사에서 이상 소견이 나올 수 있나요?시야 검사" TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community03.php?group=basic&code=community03&abmode=view&no=33" NEW="0" />
+</dep>
+
+<dep TEXT_URL1='온라인상담' TEXT_URL2='여러분의 궁금증을 해결해드릴께요' LINK_URL='../06_counsel/counsel02.php'>
+</dep>
+
+<dep TEXT_URL1='닥터칼럼' TEXT_URL2='센트럴서울안과의 컬럼입니다.' LINK_URL='../07_community/community03.php'>
+<ROW  TEXT_URL1="시야 검사지 보니까 검은 점이 하나 있는데 선생님은 정상이라고 하네요..시야 검사" TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community03.php?group=basic&code=community03&abmode=view&no=34" NEW="0" />
+<ROW  TEXT_URL1="정상인도 시야 검사에서 이상 소견이 나올 수 있나요?시야 검사" TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community03.php?group=basic&code=community03&abmode=view&no=33" NEW="0" />
+<ROW  TEXT_URL1="아이가 녹내장 수술을 두 번이나 받고 나서 충혈이 안 없어져요." TEXT_URL2="11.11.25 1"  LINK_URL="../07_community/community03.php?group=basic&code=community03&abmode=view&no=32" NEW="0" />
+</dep>
+
+</notice>

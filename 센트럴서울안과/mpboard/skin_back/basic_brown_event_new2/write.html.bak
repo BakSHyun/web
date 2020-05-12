@@ -1,0 +1,582 @@
+<?
+//MEDIPIX 사이트정보 를 읽어오기위하여 추가(08.04.21)
+include $_SERVER[DOCUMENT_ROOT]."/admin/inc/siteinfo.php";
+//MEDIPIX 사이트정보 를 읽어오기위하여 추가(08.04.21)
+//echo $SITE_INFO[title];
+?>
+
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+<link href="skin_css/input.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+
+function checkForm(cf) {
+
+alert("111");
+	/* MEDIPIX 작성시 약관을 게시판 관리자가 아닌 모두로 수정 (08.05.02) */
+	<?
+	if(!$AUTH[manage] && $abmode != "modify") {
+	?>
+	if(!cf.agree[0].checked){
+		alert("작성을 위해서 이용자 약관에 동의해 주시기 바랍니다.");
+		return false;
+	}
+	<?
+	}
+	?>
+	/* MEDIPIX 작성시 약관을 게시판 관리자가 아닌 모두로 수정 (08.05.02) */
+	
+	if(cf.title.value=="") {
+		alert("제목을 입력하세요");
+		cf.title.focus();
+		return false;
+	}
+
+	if(cf.name.value=="") {
+		alert("이름을 입력하세요");
+		cf.name.focus();
+		return false;
+	}
+
+	if(cf.passwd.value=="") {
+		alert("비밀번호를 입력하세요");
+		cf.passwd.focus();
+		return false;
+	}
+// 인증코드 작성 확인 스크립트 08.11.27 추가
+	<?if($abmode=="write" && $CONFIG[auth_code_board_state] && $AUTH[userid] == "") {?>
+	if(cf.auth_code.value=="") {
+		alert("인증코드를 입력해 주세요");
+		cf.auth_code.focus();
+		return false;
+	}
+	<?}?>
+// 인증코드 작성 확인 스크립트 08.11.27 추가
+
+	/* 필터 관련 스크립트 삽입 08.12.02 */
+	<?if(is_array($FLIST)){	?>checkDel(cf);	<?}?>
+	dbgo.innerHTML="";
+	tmpurl='/<?=$INDIR?>/mpboard/write_filter.php?';
+	tmpurl+='title='+cf.title.value;
+	tmpurl+='&contents='+cf.contents.value;
+	tmpurl+='&name='+cf.name.value;
+	getHTMLContents(tmpurl,'dbgo');
+	timechkman=setInterval(filter_timechk,500) ;
+	return false;
+
+
+	/* 필터 관련 스크립트 삽입 08.12.02*/
+	// 메디픽스 내용이 없을경우를 체크 08.07.03 -pooh
+	<?
+	if($CONFIG[editmode]=="webedit") {
+		?>
+		if(edit_obja['eobj'].getHTML() == "") {
+			alert("내용을 입력하세요");
+			return false;
+		}
+		<?}
+	else {
+		?>
+		if(cf.contents.value=="") {
+			alert("내용을 입력하세요");
+			cf.contents.focus();
+			return false;
+		}
+		<?
+	}
+?>
+// 메디픽스 내용이 없을경우를 체크 08.07.03 -pooh
+
+
+	<?if(is_array($FLIST)){
+		?>checkDel(cf);
+		<?}
+	?>
+
+	return true;
+
+}
+
+<?if($AUTH[userlevel] < "1") {	// MEDIPIX 최고관리자의 경우 삭제글을 복구시킬수있도록작업 (08.05.16)
+?>
+function del_repair(){
+	if (confirm("삭제글을 복구하시겠습니까?")){
+		wform.del_state.checked=false;
+	}else{
+		wform.del_state.checked=true;
+	}
+}
+<?}?>
+
+function checkDel(cform) {
+	checkvalue="";
+	objCheck=cform.check;
+	if(objCheck.length) {
+		for (var i=0 ; i < objCheck.length;i++){
+			if (objCheck[i].checked==true){
+				checkvalue = checkvalue + objCheck[i].value + "|";
+			}
+		}
+	}
+	else {
+		if (objCheck.checked==true){
+			checkvalue = checkvalue + objCheck.value + "|";
+		}
+	}
+	
+	//alert checkvalue;
+	cform.checkvalue.value = checkvalue;
+}
+</script>
+</head>
+
+<body>
+
+<table width="100%" height="100%"  border="0" cellpadding="0" cellspacing="0">
+<tr>
+        <td align="center" valign="top">
+                <form action="<?=$PHP_SELF?>" method="post" enctype="multipart/form-data" name="wform" OnSubmit="return checkForm(this)">
+                <input type="hidden" name="group" value="<?=$group?>">
+                <input type="hidden" name="code" value="<?=$code?>">
+                <input type="hidden" name="category" value="<?=$category?>">
+                <input type="hidden" name="sno" value="<?=$sno?>">
+                <input type="hidden" name="abmode" value="<?=$abmodef?>">
+                <input type="hidden" name="no" value="<?=$no?>">
+                <input type="hidden" name="field" value="<?=$field?>">
+                <input type="hidden" name="search" value="<?=$search?>">
+                <input type="hidden" name="checkvalue" value="">
+                <input type="hidden" name="bsort" value="<?=$bsort?>">
+                <input type="hidden" name="bfsort" value="<?=$bfsort?>">
+                <input type="hidden" name="vstate" value="<?=$CONFIG[vstate]?>">
+                <?
+                $linkarray = explode("&",$LINK[addpara]);
+                if(is_array($linkarray)) foreach ($linkarray as $linkdata) {
+                		$linkdataarray = explode("=",$linkdata);
+                ?>
+                <input type="hidden" name="<?=$linkdataarray[0]?>" value="<?=$linkdataarray[1]?>">
+                <?
+                }
+                ?>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+        <!-- MEDIPIX 작성시 약관이 게시판 관리자가 아닌 모두 나올수 있도록 수정 / 디자인 수정 (08.05.02) -->
+        <? if(!$AUTH[manage] && $abmode != "modify") { ?>
+				<tr>
+					<td align="center" colspan="4">
+						<table width="100%" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>
+									<div style="height:200px; overflow:auto" class="pinfo">
+									개인정보취급방침> - 개인정보취급방침> - 온라인문의 및 상담 관련부분 수집하는 개인정보의 항목<br>
+									회사는 회원가입, 상담, 서비스 신청 등등을 위해 아래와 같은 개인정보를 수집하고 있습니다.<br>
+									<br>
+									ο 수집항목 : 이름 , 생년월일 , 성별 , 로그인ID , 비밀번호 , 비밀번호 질문과 답변 , 자택 전화번호 , 자택 주소 , 휴대전화번호 , 이메일 , 직업 , 회사명 , 부서 , 직책 , 회사전화번호, 주민등록번호 , 학력 , 신체정보 , 서비스 이용기록 , 접속 로그 , 쿠키 , 접속 IP 정보<br>
+									<br>
+									ο 개인정보 수집방법 : 홈페이지(http://<?=$SITE_INFO[url]?>) , 온라인을 통한 회원가입<br>
+									<br>
+									개인정보의 수집 및 이용목적<br>
+									회사는 수집한 개인정보를 다음의 목적을 위해 활용합니다.<br>
+									<br>
+									ο 서비스 제공에 관한 계약 이행 및 서비스 제공<br>
+									정보제공 , 물품배송 또는 청구지 등 발송 , 요금추심<br>
+									
+									ο 회원 관리<br>
+									회원제 서비스 이용에 따른 본인확인 , 개인 식별 , 불량회원의 부정 이용 방지와 비인가 사용 방지 , 가입 의사 확인 , 연령확인 , 만14세 미만 아동 개인정보 수집 시 법정 대리인 동의여부 확인 , 불만처리 등 민원처리 , 고지사항 전달<br>
+									<br>
+									ο 마케팅 및 광고에 활용<br>
+									신규 서비스(제품) 개발 및 특화 , 이벤트 등 광고성 정보 전달 , 인구통계학적 특성에 따른 서비스 제공 및 광고 게재 , 접속 빈도 파악 또는 회원의 서비스 이용에 대한 통계<br>
+									<br>
+									개인정보의 보유 및 이용기간<br>
+									원칙적으로, 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 단, 관계법령의 규정에 의하여 보존할 필요가 있는 경우 회사는 아래와 같이 관계법령에서 정한 일정한 기간 동안 회원정보를 보관합니다.<br>
+									<br>
+									보존 항목 : 예약 및 상담<br>
+									보존 근거 : 회사내부방침<br>
+									보존 기간 : 회원탈퇴시까지
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td height="10"></td>
+							</tr>
+							<tr>
+								<td align="center" class="basic_color">
+									<input type="radio" name="agree" value="1"> 동의함&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="agree" value="0"> 동의안함
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td height="20" colspan="2"></td>
+				</tr>
+				<? } ?>
+				<!-- MEDIPIX 작성시 약관이 게시판 관리자가 아닌 모두 나올수 있도록 수정 / 디자인 수정 (08.05.02) -->
+				
+                <tr>
+                        <td height="1" colspan="2" bgcolor="E2DED2"></td>
+                </tr>
+                <tr>
+                        <td class="t">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="basic_color">
+                                <!-- 카테고리 분류 출력 -->
+                                <?if($CATE_STATE) {?>
+<tr>
+                                        <td width="111" align="center" bgcolor="d4d0be"><!--<img src="skin_images/write_catag.gif" />-->지점</td>
+                            <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                      <select name="category_input" class="type">
+                                                <option value="">선택</option>
+                                                <?if(is_array($CALIST)) while(list($KEY, $CADATA)=each($CALIST)) {?>
+                                                <option value="<?=$CADATA[no]?>" <?if($CADATA[no]==$BDATA[category]) echo "selected";?>><?=$CADATA[cname]?></option>
+                                                <?}?>
+                              </select>
+&nbsp;                  </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}?>
+                                <!-- MEDIPIX 분류 추가 (08.05.09) -->
+                                <?
+                                if($CATE_NUM > 0)
+                                {
+                                	for($i=1; $i<=$CATE_NUM; $i++)
+                                	{
+                                		$cate = "cate".$i;
+                                ?>
+                                <tr>
+                                        <td align="center" bgcolor="d4d0be"><?=${"CATE".$i."_NAME"}?></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                      <select name="cate<?=$i?>_input" class="type">
+                                                <option value="">선택</option>
+                                                <? foreach(${"CATE".$i."_ITEM"} as $cvalue) { ?>
+                                                <option value="<?=$cvalue?>" <? if($BDATA[$cate] == $cvalue) { echo "selected"; } ?>><?=$cvalue?></option>
+                                                <? } ?>
+                                          </select>                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?
+                                	}
+                                }
+                                ?>
+                                <!-- MEDIPIX 분류 추가 (08.05.09) -->
+                                 <?if($AUTH[manage]) {?>
+                                <tr>
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_set.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input type="checkbox" name="wmode" value="1" <?if($BDATA[wmode]=="1") echo "checked";?>> 공지 , <input type="radio" name="vstate" value="1" <?if($BDATA[vstate]=="1") echo "checked";?>>승인 / <input type="radio" name="vstate" value="0" <?if($BDATA[vstate]=="0") echo "checked";?>>비승인&nbsp;&nbsp;&nbsp;<?if($AUTH[userlevel] < "1" && $BDATA[del_state]=="Y") {	// MEDIPIX 최고관리자의 경우 삭제글을 복구시킬수있도록작업 (08.05.16)?><input type="checkbox" name="del_state" value="Y" <?if($BDATA[del_state]=="Y") echo "checked";?> OnClick="del_repair();"><font  color="red">삭제글</font>(복구시 체크해제)<?}else {?><input type="hidden" id="del_state" name="del_state"  value="<?=$BDATA[del_state]?>" /><?}?>                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}?>
+                                <tr background="">
+                                        <td width="111" align="center" bgcolor="d4d0be"><img src="skin_images/write_title.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input name="title" type="text" class="input" size="60" value="<?=$BDATA[title]?>" />                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_name.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input name="name" type="text" class="input" size="10" value="<?=$BDATA[name]?>" />                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr> 
+                               <?if($LOGIN_USER) {?>
+                                <input type="hidden" name="passwd" value="<?=rand(1000000000, 9999999999)?>">
+                                <?}else{?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_passwd.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input name="passwd" type="password" class="input" size="10" value="<?=$BDATA[passwd]?>">                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}?>
+                                <!-- 연락처 -->
+                                <? if($KIND_MODE == "counsel") { ?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_tel.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                    <input name="hphone1" type="text" class="input" size="3" value="<?=$BDATA[hphone1]?>" />
+                                                -
+                                                <input name="hphone2" type="text" class="input" size="4" value="<?=$BDATA[hphone2]?>" />
+                                                -
+                                                <input name="hphone3" type="text" class="input" size="4" value="<?=$BDATA[hphone3]?>" />                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <? } ?>
+                                <!-- 연락처 -->
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_mail.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                    <input type="text" name="email1" size="12" class="input" value="<?=$BDATA[email1]?>" style="ime-mode:disabled" />
+                                                @
+                                                <input type="text" name="email2" size="15" class="input" value="<?=$BDATA[email2]?>" style="ime-mode:disabled" />
+                                                <SELECT OnChange='javascript:wform.email2.value=this.value;' name="email3" class="input">
+                                                <OPTION value="">직접입력</OPTION>
+                                                <OPTION value="hanmail.net" <?if($BDATA[email2] == "hanmail.net") echo "selected";?>>hanmail.net</OPTION>
+                                                <OPTION value="yahoo.co.kr" <?if($BDATA[email2] == "yahoo.co.kr") echo "selected";?>>yahoo.co.kr</OPTION>
+                                                <OPTION value="lycos.co.kr" <?if($BDATA[email2] == "lycos.co.kr") echo "selected";?>>lycos.co.kr</OPTION>
+                                                <OPTION value="korea.com" <?if($BDATA[email2] == "korea.com") echo "selected";?>>korea.com</OPTION>
+                                                <OPTION value="hanafos.com" <?if($BDATA[email2] == "hanafos.com") echo "selected";?>>hanafos.com</OPTION>
+                                                <OPTION value="empal.com" <?if($BDATA[email2] == "empal.com") echo "selected";?>>empal.com</OPTION>
+                                                <OPTION value="dreamwiz.com" <?if($BDATA[email2] == "dreamwiz.com") echo "selected";?>>dreamwiz.com</OPTION>
+                                                <OPTION value="naver.com" <?if($BDATA[email2] == "naver.com") echo "selected";?>>naver.com</OPTION>
+                                                <OPTION value="hotmail.com" <?if($BDATA[email2] == "hotmail.com") echo "selected";?>>hotmail.com</OPTION>
+                                                <OPTION value="hanmir.com" <?if($BDATA[email2] == "hanmir.com") echo "selected";?>>hanmir.com</OPTION>
+                                                <OPTION value="netian.com" <?if($BDATA[email2] == "netian.com") echo "selected";?>>netian.com</OPTION>
+                                                <OPTION value="freechal.com" <?if($BDATA[email2] == "freechal.com") echo "selected";?>>freechal.com</OPTION>
+                                                <OPTION value="chollian.net" <?if($BDATA[email2] == "chollian.net") echo "selected";?>>chollian.net</OPTION>
+                                                <OPTION value="hitel.net" <?if($BDATA[email2] == "hitel.net") echo "selected";?>>hitel.net</OPTION>
+                                                <OPTION value="paran.com" <?if($BDATA[email2] == "paran.com") echo "selected";?>>paran.com</OPTION>
+                                                </SELECT>                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <!--
+                                <tr background="">
+                                        <td align="center" bgcolor="F9F9F9"><img src="skin_images/write_homepage.gif"></td>
+                                        <td height="31">
+                                                &nbsp;&nbsp;
+                                                <input type="text" name="homepage" size="50" class="input" value="<?=$BDATA[homepage]?>">
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td height="1" colspan="2" bgcolor="E2DED2"></td>
+                                </tr>
+                                -->
+                                <?if(is_array($ADDFIELD)) while(list($KEY, $CADATA)=each($ADDFIELD)) {?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be">&nbsp;<?=$CADATA[ftitle]?></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input name="<?=$CADATA[fname]?>" type="<?=$CADATA[ftype]?>" class="<?=$CADATA[fclass]?>" size="<?=$CADATA[size]?>" value="<?=$ADDFIELDVALUE[$CADATA[fname]]?>">                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}?>
+                                <!-- 메디픽스 공개/비공개설정 추가 (08.04.21) -->
+                                <? if ($SECRET_TYPE =="1") {?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_secret.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                          <input type="radio" name="secret" value="0" <? if($BDATA[secret] == "0" || $BDATA[secret] == "") { echo "checked"; } ?> /> 공개
+                                                <input type="radio" name="secret" value="1" <? if($BDATA[secret] == "1") { echo "checked"; } ?> /> 비공개                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}else if ($SECRET_TYPE =="0"){?>
+                                <input type="hidden" name="secret" value="0" />
+                                <?}else if ($SECRET_TYPE =="2"){?>
+                                <input type="hidden" name="secret" value="1" />
+                                <?}?>
+                                <!-- 메디픽스 공개/비공개설정 추가 (08.04.21) -->
+                                <!-- 메디픽스 sms발송여부선택  (08.05.15) -->
+				<?if(($KIND_MODE == "counsel" && $BDATA[wmode] != "1") && $AUTH[manage] && $abmode == "modify") {?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><!-- <img src="skin_images/write_html.gif" /> -->SMS발송여부</td>
+                                        <td height="31" bgcolor="eae8db">
+						<? if ($SMS_USE =="1"){?>
+                                                &nbsp;&nbsp;
+                                                [
+                                    <input type="checkbox" name="sms_send" value="1"  />
+                                                <font size="" color="BLUE"><b>SMS발송</b></font> ]	
+						<?}?>
+						&nbsp;&nbsp;
+                                                [
+                                                <input type="checkbox" name="mail_send" value="1"  />
+                                                <font size="" color="BLUE"><b>답변메일발송</b></font> ]                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+				<?}?>
+                                <!-- 메디픽스 sms발송여부선택  (08.05.15) -->
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_html.gif" /></td>
+                                        <td height="31" bgcolor="eae8db">
+                                                &nbsp;&nbsp;
+                                                [
+                                    <input type="checkbox" name="html" value="1" <?=$BDATA[htmlchecked]?> />
+                                                html태그사용 ]                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+								<!--인증 코드 추가 08.11.27 -->
+								<?if($abmode=="write" && $CONFIG[auth_code_board_state] && $AUTH[userid] == "") { // 권한에따라서 나타나도록 추가 08.12.11?>
+                                 <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><!-- <img src="skin_images/write_html.gif" /> -->인증코드</td>
+                                        <td height="31" bgcolor="eae8db">
+                                                 <? require_once $_SERVER['DOCUMENT_ROOT']."/".$INDIR."/amsolution/auth_code.php";?>                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+								<? } ?>
+								<!--인증 코드 추가 08.11.27 -->
+								<!-- 날짜,조회수 변경 가능 추가 08.12.05-->
+								<? if($abmode == "modify" &&  $AUTH[manage] && $date_edit == '1') {?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><!-- <img src="skin_images/write_tel.gif" /> -->날짜/조회수</td>
+                                        <td height="31" bgcolor="eae8db">
+                                              &nbsp;&nbsp; 날짜 : &nbsp;&nbsp;
+                                     <input name="wdate1" type="text" class="input" size="20" value="<?=$BDATA[wdate]?>" />
+                                               조회수 : &nbsp;&nbsp;
+                                                <input name="view" type="text" class="input" size="4" value="<?=$BDATA[view]?>" />
+                                                <input type="hidden" name="date_edit" value="<?=$date_edit?>">										</td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                               <? } ?>
+							   <!-- 날짜,조회수 변경 가능 추가 08.12.05-->
+								  <tr background="">
+                                        <td align="center" valign="top" bgcolor="d4d0be" style="padding-top:10"><img src="skin_images/write_cont.gif" /></td>
+                                        <td bgcolor="eae8db" style="padding:10">
+                                                <? if($KIND_MODE == "counsel" && $BDATA[wmode] != "1" && $AUTH[rewrite] && $abmode == "modify") { ?>
+                                      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                <tr>
+                                                        <td bgcolor="eae8db"><textarea name="contents" style="width:98%" rows="20" class="input2" ><?=$BDATA[contents]?></textarea></td>
+                                                </tr>
+                                                <tr><td height="10" bgcolor="eae8db"></td>
+                                                </tr>
+                                                <tr><td height="1" bgcolor="#E2DED2"></td></tr>
+                                                <tr><td height="10" bgcolor="eae8db"></td>
+                                                </tr>
+                                                <tr>
+                                                        <td bgcolor="eae8db"><textarea name="recontents" style="width:98%" rows="20" class="input2"><?=$BDATA[recontents]?></textarea></td>
+                                                </tr>
+                                          </table>
+                                                <? } else { ?>
+                                                <textarea name="contents" style="width:98%" rows="20" class="input2" ><?=$BDATA[contents]?>
+                                                </textarea>
+                                                <!--<textarea name="recontents" style="display:none" rows="20" class="input3"><?=$BDATA[recontents]?></textarea>-->
+                                                <? } ?>                                        </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+
+                                <!-- 업로드 되어 있는 파일 수정/삭제 -->
+                                <?if($FILE_STATE) {?>
+                                <?if($abmode=="modify") {?>
+                                <tr background="">
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/view_t_file.gif" /></td>
+                      <td height="31" background="" >
+                                                <script>
+                                                function fileFieldCheck(obj) {
+                                                	<?if(!$FILE_ADD) {
+                                                		?>
+                                                		fileobj = document.getElementById(obj.vname);
+                                                		if(obj.checked == true) {
+                                                			fileobj.style.display = "";
+                                                		}
+                                                		else {
+                                                			fileobj.style.display = "none";
+                                                		}
+                                                		<?}
+                                                	?>
+                                                }
+                                                </script>
+                                                <table width="100%"  border="0" cellpadding="0" cellspacing="0" class="type" b>
+                                                <?if(is_array($FLIST)) while(list($KEY, $FDATA)=each($FLIST)) {?>
+                              <tr>
+                                                        <td height="20"><?=$FDATA[name]?></td>
+                                                        <td width="100">[<?=$FDATA[sizestr]?>]</td>
+                                                        <td width="100">(download:<?=$FDATA[count]?>)</td>
+                                                        <td width="100">삭제 : <input type="checkbox" name="check" vname="display_<?=$FDATA[vname]?>" value="<?=$FDATA[no]?>" Onclick="fileFieldCheck(this)" /></td>
+                                                </tr>
+                                                <?}?>
+                                                </table>                                  </td>
+                                </tr>
+                                <tr bgcolor="c3c0ae">
+                                        <td height="1" colspan="2"></td>
+                                </tr>
+                                <?}?>
+                                <tr height="5">
+                                        <td align="center" bgcolor="c3c0ae"></td>
+                                  <td></td>
+                                </tr>
+                                <!-- 파일 업로드 필드 출력 -->
+                                <tr>
+                                        <td align="center" bgcolor="d4d0be"><img src="skin_images/write_file.gif" /></td>
+                      <td height="31"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                        <script>
+                                                function showimgtext(num) {
+                                                	tobj = document.getElementById('opt2'+num);
+                                                	tobj.style.display="";
+                                                }
+                                                </script>
+                        <?for($i=1;$i<=$FILE_NUM;$i++) {?>
+                        <tr>
+                          <td height="20">&nbsp;
+                              <?
+                                                                if(!$FILE_ADD) {
+                                                                	$display_file = "";
+                                                                	if(is_array($FLIST)) {
+                                                                		reset($FLIST);
+                                                                		while(list($KEY, $FDATA)=each($FLIST)) {
+                                                                			if($FDATA[vname] == "file".$i) $display_file = "none";
+                                                                		}
+                                                                	}
+                                                                }
+                                                                ?>
+                              <input name="file<?=$i?>" id="display_file<?=$i?>" type="file" style="width:94%;display:<?=$display_file?>" class="input">                          </td>
+                        </tr>
+                        <?}?>
+                      </table></td>
+                                </tr>
+                                <tr height="5">
+                                        <td></td>
+                                        <td></td>
+                                </tr>
+                                <tr>
+                                        <td height="1" colspan="2" bgcolor="E2DED2"></td>
+                                </tr>
+                                <?}?>
+                                </table>
+                  </td>
+                </tr>
+                <tr>
+                        <Td height="15"></Td>
+                </tr>
+                <tr bgcolor="d0ceb9">
+                        <Td height="35" align="right" style="padding-right:5">
+                                <input type="image" src="skin_images/btn_write.gif" />
+                                <? if($KIND_MODE != "reserve" && $KIND_MODE != "inquire" ) { //  메디픽스 신청이나 예약의경우 목록버튼이 보이지 않도록 추가 (08.04.30) ?>
+					<a href="<?=$LINK[slist]?>"><img src="skin_images/btn_list.gif" border="0" /></a>
+				<?}?>
+                        </Td>
+                </tr>
+                </table>
+                </form>
+        </td>
+</tr>
+</table>
+</body>
+</html>

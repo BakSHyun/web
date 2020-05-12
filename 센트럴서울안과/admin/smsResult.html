@@ -1,0 +1,35 @@
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<?
+require_once "../admin/inc/config.php";
+/*************************************************************************
+ *작성일 : 2006-09-19
+ *기  능 : 통큰아이에서 제공하는 SMS XML 웹서비스를 호출
+ *작성자 : 김지훈 (dev@tongkni.co.kr)
+ *************************************************************************/
+include_once('../admin/sms/nusoap_tong.php');
+
+/******고객님 접속 정보************/
+$sms_id=$adm_sql[adm_sms_id];            //고객님께서 부여 받으신 sms_id
+$sms_pwd=$adm_sql[adm_sms_pw];       //고객님께서 부여 받으신 sms_pwd
+/**********************************/
+
+$canclemode = "1";                //예약 취소 모드 1: 사용자정의값에 의한 삭제.  현제는 무조건 1을 넣어주시면 됩니다.
+//구축 테스트 주소와 일반 웹서비스 선택
+if (substr($sms_id,0,3) == "bt_"){
+	$webService = "http://webservice.tongkni.co.kr/sms.3.bt/ServiceSMS_bt.asmx?WSDL";
+}
+else{
+	$webService = "http://webservice.tongkni.co.kr/sms.3/ServiceSMS.asmx?WSDL";
+}
+
+$sms = new SMS($webService); //SMS 객체 생성
+
+/*잔여량을 가져올 경우*/
+$result=$sms->GetRemainCount($sms_id,$sms_pwd);	$funcMode = 1;
+echo $result;
+?>
+<script type="text/javascript">
+<!--
+window.parent.smsForm.smsResult.value = '<?=trim($result)?>';
+//-->
+</script>

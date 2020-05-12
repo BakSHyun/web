@@ -1,0 +1,8 @@
+<? if(is_array($LIST)) foreach ($LIST as $LDATA) { ?>
+	<div class="slide">
+		<img width="430" height="117" src="<?=$LDATA[addimgfile1]?>">
+		<p style="height:22px;overflow: hidden;" class="board01_tit"><a href="<?=$LDATA[boardurl]?>?<?=$LDATA[viewlink]?>"><?=$LDATA[title]?></a></p>
+		<p style="height:44px;" class="board01_txt"><?=$LDATA[cutcontents]?>...</p>
+	</div>
+
+<? }?>
