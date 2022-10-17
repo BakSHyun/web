@@ -13,10 +13,10 @@
 $AMDIR = "./admin";
 $INDIR = ".";
 $DROOT = $_SERVER["DOCUMENT_ROOT"];						// 시스템루트경로
-$DB_HOST = "d195.mismh.co.kr";					// DB 서버 URL
-$DB_USER = "cseyedb";					// DB 계정 아이디
-$DB_PW = "cseye1234";						// DB 계정 비밀번호
-$DB_NAME = "cseyedb";					// DB 계정 DB 명
+$DB_HOST = SERVER_NAME;					// DB 서버 URL
+$DB_USER = DB_USER_NAME;					// DB 계정 아이디
+$DB_PW = DB_PASSWORD;						// DB 계정 비밀번호
+$DB_NAME = DB_NAME;					// DB 계정 DB 명
 
 function ftp_root($DROOT) {
 	$droot_array = explode ("/", $DROOT);
